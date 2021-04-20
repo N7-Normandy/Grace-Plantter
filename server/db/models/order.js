@@ -5,7 +5,7 @@ const db = require('../db');
 const Order = db.define('order', {
   plantsBought: {
     // copied from user.cart, if that doesn't work this won't either
-    type: Sequelize.JSON,
+    type: Sequelize.Array(Sequelize.JSONB),
     defaultValue: [],
     get() {
       return JSON.parse(this.getDataValue('cart'));
