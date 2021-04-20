@@ -6,6 +6,8 @@ const User = require('./models/user');
 
 const Order = require('./models/order');
 
+const Plant = require('./models/plant')
+
 //associations could go here!
 
 module.exports = {
@@ -13,5 +15,6 @@ module.exports = {
   models: {
     User,
     Order,
+    Plant
   },
 };
