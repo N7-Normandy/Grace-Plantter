@@ -27,13 +27,14 @@ const User = db.define('user', {
     type: Sequelize.STRING,
   },
   cart: {
-    type: Sequelize.ARRAY(Sequelize.JSONB),
+    type: Sequelize.ARRAY(Sequelize.JSON),
     get() {
       return JSON.parse(this.getDataValue('cart'));
     },
     set(val) {
       return this.setDataValue('cart', JSON.stringify(val));
     },
+    defaultValue: [],
   },
 });
 
