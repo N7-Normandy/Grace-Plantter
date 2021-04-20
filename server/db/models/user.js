@@ -27,7 +27,7 @@ const User = db.define('user', {
     type: Sequelize.STRING,
   },
   cart: {
-    type: Sequelize.ARRAY(Sequelize.JSON),
+    type: Sequelize.JSON,
     get() {
       return JSON.parse(this.getDataValue('cart'));
     },
