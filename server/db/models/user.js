@@ -34,7 +34,7 @@ const User = db.define('user', {
     type: Sequelize.STRING,
   },
   cart: {
-    type: Sequelize.Array(Sequelize.JSONB),
+    type: Sequelize.ARRAY(Sequelize.JSONB),
     defaultValue: [],
   },
 });
