@@ -40,6 +40,17 @@ const User = db.define('user', {
 });
 
 /*
+
+cart: [
+  {
+    plant: plant.id,
+    quantity: 7
+  }
+]
+
+*/
+
+/*
 in case we run into issues with the JSON later
     get() {
       return JSON.parse(this.getDataValue('cart'));
