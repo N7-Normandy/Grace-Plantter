@@ -1,8 +1,10 @@
+/* eslint-disable react/jsx-filename-extension */
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
 import Home from './components/home';
+import Account from './components/account';
 import { me } from './store';
 
 /**
@@ -17,10 +19,11 @@ class Routes extends Component {
     const { isLoggedIn } = this.props;
 
     return (
-      <div>
+      <div id="main">
         {isLoggedIn ? (
           <Switch>
             <Route path="/home" component={Home} />
+            <Route path="/account" component={Account} />
             <Redirect to="/home" />
           </Switch>
         ) : (
