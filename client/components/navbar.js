@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { logout } from '../store';
 
 const Navbar = ({ handleClick, isLoggedIn, cart }) => (
-  <header>
+  <header className="flex-row">
     <h1>Grace Plantter</h1>
     <nav>
       <Link to="/home">Home</Link>
@@ -19,14 +19,13 @@ const Navbar = ({ handleClick, isLoggedIn, cart }) => (
           </a>
         </>
       ) : (
-        <div>
+        <>
           {/* The navbar will show these links before you log in */}
           <Link to="/login">Login</Link>
           <Link to="/signup">Sign Up</Link>
-        </div>
+        </>
       )}
     </nav>
-    <hr />
   </header>
 );
 
