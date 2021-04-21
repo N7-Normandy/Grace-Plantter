@@ -1,4 +1,3 @@
-
 * {
   box-sizing: border-box;
 }
@@ -28,7 +27,7 @@ form div {
 }
 
 .card {
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
   width: 20%;
   text-align: center;
@@ -36,7 +35,7 @@ form div {
 }
 
 .card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 .container {
@@ -46,7 +45,7 @@ form div {
 .plants-container {
   display: flex;
   flex-wrap: wrap;
-
+}
 /* Some universal class styling options */
 .flex-row {
   display: flex;
@@ -66,5 +65,4 @@ header {
 
 .nav-wrapper {
   align-items: flex-end;
-
 }
