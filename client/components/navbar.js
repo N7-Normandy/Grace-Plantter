@@ -1,20 +1,23 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import {logout} from '../store'
+/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable react/prop-types */
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { logout } from '../store';
 
-const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
-    <h1>FS-App-Template</h1>
+const Navbar = ({ handleClick, isLoggedIn, cart }) => (
+  <header>
+    <h1>Grace Plantter</h1>
     <nav>
+      <Link to="/home">Home</Link>
+      <Link to="/cart">Cart ({cart.length} items)</Link>
       {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
+        <>
+          <Link to="/account">Account</Link>
           <a href="#" onClick={handleClick}>
             Logout
           </a>
-        </div>
+        </>
       ) : (
         <div>
           {/* The navbar will show these links before you log in */}
@@ -24,24 +27,25 @@ const Navbar = ({handleClick, isLoggedIn}) => (
       )}
     </nav>
     <hr />
-  </div>
-)
+  </header>
+);
 
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapState = (state) => {
   return {
-    isLoggedIn: !!state.auth.id
-  }
-}
+    isLoggedIn: !!state.auth.id,
+    cart: state.cart,
+  };
+};
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
     handleClick() {
-      dispatch(logout())
-    }
-  }
-}
+      dispatch(logout());
+    },
+  };
+};
 
-export default connect(mapState, mapDispatch)(Navbar)
+export default connect(mapState, mapDispatch)(Navbar);
