@@ -1,9 +1,8 @@
 const router = require('express').Router();
-const {default: cart} = require('../../client/store/cart');
 const {
 	models: {User, Plant, Order},
 } = require('../db');
-
+//get cart
 router.get('/', async (req, res, next) => {
 	try {
 		const user = await User.byToken(req.headers.authorization);
@@ -12,7 +11,7 @@ router.get('/', async (req, res, next) => {
 		next(err);
 	}
 });
-
+//updat cart
 router.put('/', async (req, res, next) => {
 	try {
 		const user = await User.byToken(req.headers.authorization);
@@ -22,7 +21,7 @@ router.put('/', async (req, res, next) => {
 		next(err);
 	}
 });
-
+//checkout
 router.post('/', async (req, res, next) => {
 	try {
 		let accepted = true;
@@ -57,5 +56,4 @@ router.post('/', async (req, res, next) => {
 		next(err);
 	}
 });
-// checkout
 module.exports = router;
