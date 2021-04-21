@@ -26,6 +26,36 @@ async function orderSeeding() {
         { plant: { name: 'peony', price: 18.95 }, quantity: 12 },
       ],
     }),
+    Order.create({
+      plantsBought: [{ plant: { name: 'orchid', price: 120 }, quantity: 1 }],
+    }),
+    Order.create({
+      plantsBought: [
+        { plant: { name: 'orchid', price: 120 }, quantity: 2 },
+        { plant: { name: 'apple tree', price: 35.99 }, quantity: 1 },
+        { plant: { name: 'peony', price: 18.95 }, quantity: 4 },
+      ],
+    }),
+    Order.create({
+      plantsBought: [
+        { plant: { name: 'orchid', price: 120 }, quantity: 2 },
+        { plant: { name: 'peony', price: 18.95 }, quantity: 12 },
+      ],
+    }),
+    Order.create({
+      plantsBought: [{ plant: { name: 'orchid', price: 120 }, quantity: 2 }],
+    }),
+    Order.create({
+      plantsBought: [
+        { plant: { name: 'apple tree', price: 35.99 }, quantity: 5 },
+      ],
+    }),
+    Order.create({
+      plantsBought: [
+        { plant: { name: 'daisy', price: 9.99 }, quantity: 2 },
+        { plant: { name: 'peony', price: 18.95 }, quantity: 9 },
+      ],
+    }),
   ]);
   return orders;
 }
