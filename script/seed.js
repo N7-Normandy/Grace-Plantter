@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { Order },
+  models: { Order, User },
 } = require('../server/db');
 
 const totalSum = (arr) => {
@@ -64,6 +64,7 @@ async function orderSeeding() {
  * seed - this function clears the database, updates tables to
  *      match the models, and populates the database.
  */
+
 async function seed() {
   await db.sync({ force: true }); // clears db and matches models to tables
   console.log('db synced!');
@@ -72,8 +73,59 @@ async function seed() {
 
   console.log(`seeded ${orders.length} orders`);
   console.log(`seeded successfully`);
+    
+  // Creating Users
+  const users = await Promise.all ([
+    User.create ({
+      email: 'gelleri@gmail.com',
+      password: '123',
+      isAdmin: true,
+      name: 'Monica Geller',
+      shippingAddress: '90 Bedford St, New York, NY 10014',
+      billingAddress: '90 Bedford St, New York, NY 10014',
+    }),
+    User.create ({
+      email: 'green@gmail.com',
+      password: '123',
+      name: 'Rachel Green',
+      shippingAddress: '90 Bedford St, New York, NY 10014',
+      billingAddress: '90 Bedford St, New York, NY 10014',
+    }),
+    User.create ({
+      email: 'tribbiani@gmail.com',
+      password: '123',
+      name: 'Joey Tribbiani',
+      shippingAddress: '90 Bedford St, New York, NY 10014',
+      billingAddress: '90 Bedford St, New York, NY 10014',
+    }),
+    User.create ({
+      email: 'buffay@gmail.com',
+      password: '123',
+      name: 'Phoebe Buffay',
+      shippingAddress: '90 Bedford St, New York, NY 10014',
+      billingAddress: '90 Bedford St, New York, NY 10014',
+    }),
+    User.create ({
+      email: 'bing@gmail.com',
+      password: '123',
+      name: 'Chandler Bing',
+      shippingAddress: '90 Bedford St, New York, NY 10014',
+      billingAddress: '90 Bedford St, New York, NY 10014',
+    }),
+    User.create ({
+      email: 'ross@gmail.com',
+      password: '123',
+      name: 'Ross Geller',
+      shippingAddress: '90 Bedford St, New York, NY 10014',
+      billingAddress: '90 Bedford St, New York, NY 10014',
+    }),
+  ]);
+
+  console.log (`seeded ${users.length} users`);
+  console.log (`seeded successfully`);
   return {
-    orders,
+    users,
+    orders
   };
 }
 
@@ -82,6 +134,7 @@ async function seed() {
  This way we can isolate the error handling and exit trapping.
  The `seed` function is concerned only with modifying the database.
 */
+
 async function runSeed() {
   console.log('seeding...');
   try {
