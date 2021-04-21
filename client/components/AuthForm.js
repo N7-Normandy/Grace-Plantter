@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import { connect } from 'react-redux';
 import { authenticate } from '../store';
@@ -12,17 +13,27 @@ const AuthForm = (props) => {
     <div>
       <form onSubmit={handleSubmit} name={name}>
         <div>
-          <label htmlFor="username">
+          <label htmlFor="email">
             <small>Email</small>
           </label>
-          <input name="email" type="text" />
+          <input name="email" type="text" id="email" />
         </div>
         <div>
           <label htmlFor="password">
             <small>Password</small>
           </label>
-          <input name="password" type="password" />
+          <input name="password" type="password" id="password" />
         </div>
+        {name === 'signup' ? (
+          <div>
+            <label htmlFor="userName">
+              <small>Name</small>
+            </label>
+            <input name="userName" type="text" id="userName" />
+          </div>
+        ) : (
+          ''
+        )}
         <div>
           <button type="submit">{displayName}</button>
         </div>
@@ -62,7 +73,8 @@ const mapDispatch = (dispatch) => {
       const formName = evt.target.name;
       const email = evt.target.email.value;
       const password = evt.target.password.value;
-      dispatch(authenticate(email, password, formName));
+      const name = evt.target.userName.value;
+      dispatch(authenticate(email, password, name, formName));
     },
   };
 };
