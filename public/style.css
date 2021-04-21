@@ -1,21 +1,45 @@
 body {
-  font-family: sans-serif;
+	font-family: sans-serif;
 }
 
 a {
-  text-decoration: none;
+	text-decoration: none;
 }
 
 label {
-  display: block;
+	display: block;
 }
 
 nav a {
-  display: inline-block;
-  margin: 1em;
+	display: inline-block;
+	margin: 1em;
 }
 
 form div {
-  margin: 1em;
-  display: inline-block;
+	margin: 1em;
+	display: inline-block;
+}
+
+.plus-minus-input {
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+}
+
+.plus-minus-input .input-group-field {
+	text-align: center;
+	margin-left: 0.5rem;
+	margin-right: 0.5rem;
+	padding: 1rem;
+}
+
+.plus-minus-input .input-group-field::-webkit-inner-spin-button,
+.plus-minus-input .input-group-field ::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+.plus-minus-input .input-group-button .circle {
+	border-radius: 50%;
+	padding: 0.25em 0.8em;
 }
