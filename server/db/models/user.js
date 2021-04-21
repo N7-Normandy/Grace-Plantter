@@ -40,6 +40,17 @@ const User = db.define('user', {
 });
 
 /*
+
+cart: [
+  {
+    plant: plant.id,
+    quantity: 7
+  }
+]
+
+*/
+
+/*
 in case we run into issues with the JSON later
     get() {
       return JSON.parse(this.getDataValue('cart'));
@@ -95,7 +106,7 @@ User.findByToken = async function (token) {
  * hooks
  */
 const hashPassword = async (user) => {
-  //in case the password has been changed, we want to encrypt it with bcrypt
+  // in case the password has been changed, we want to encrypt it with bcrypt
   if (user.changed('password')) {
     user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
   }

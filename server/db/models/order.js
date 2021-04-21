@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable func-names */
 const Sequelize = require('sequelize');
 const db = require('../db');
@@ -8,10 +9,13 @@ const Order = db.define('order', {
     type: Sequelize.ARRAY(Sequelize.JSONB),
     defaultValue: [],
     get() {
-      return JSON.parse(this.getDataValue('cart'));
+      return this.getDataValue('plantsBought').map((item) => JSON.parse(item));
     },
     set(val) {
-      return this.setDataValue('cart', JSON.stringify(val));
+      return this.setDataValue(
+        'plantsBought',
+        val.map((item) => JSON.stringify(item))
+      );
     },
   },
   totalPrice: {
@@ -20,6 +24,13 @@ const Order = db.define('order', {
   paymentType: {
     type: Sequelize.STRING,
   },
+});
+
+Order.beforeCreate((order) => {
+  const total = order.plantsBought.reduce((acc, curr) => {
+    return acc + curr.plant.price * curr.quantity;
+  }, 0);
+  order.totalPrice = total;
 });
 
 module.exports = Order;

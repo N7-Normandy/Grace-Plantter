@@ -1,15 +1,79 @@
 'use strict';
 
-const {db, models: {User}} = require ('../server/db');
+const {
+  db,
+  models: { Order, User },
+} = require('../server/db');
+
+const totalSum = (arr) => {
+  return arr.reduce((acc, item) => acc + item.plant.price, 0);
+};
+
+async function orderSeeding() {
+  const orders = await Promise.all([
+    Order.create({
+      plantsBought: [{ plant: { name: 'orchid', price: 120 }, quantity: 2 }],
+    }),
+    Order.create({
+      plantsBought: [
+        { plant: { name: 'orchid', price: 120 }, quantity: 2 },
+        { plant: { name: 'apple tree', price: 35.99 }, quantity: 1 },
+      ],
+    }),
+    Order.create({
+      plantsBought: [
+        { plant: { name: 'orchid', price: 120 }, quantity: 2 },
+        { plant: { name: 'peony', price: 18.95 }, quantity: 12 },
+      ],
+    }),
+    Order.create({
+      plantsBought: [{ plant: { name: 'orchid', price: 120 }, quantity: 1 }],
+    }),
+    Order.create({
+      plantsBought: [
+        { plant: { name: 'orchid', price: 120 }, quantity: 2 },
+        { plant: { name: 'apple tree', price: 35.99 }, quantity: 1 },
+        { plant: { name: 'peony', price: 18.95 }, quantity: 4 },
+      ],
+    }),
+    Order.create({
+      plantsBought: [
+        { plant: { name: 'orchid', price: 120 }, quantity: 2 },
+        { plant: { name: 'peony', price: 18.95 }, quantity: 12 },
+      ],
+    }),
+    Order.create({
+      plantsBought: [{ plant: { name: 'orchid', price: 120 }, quantity: 2 }],
+    }),
+    Order.create({
+      plantsBought: [
+        { plant: { name: 'apple tree', price: 35.99 }, quantity: 5 },
+      ],
+    }),
+    Order.create({
+      plantsBought: [
+        { plant: { name: 'daisy', price: 9.99 }, quantity: 2 },
+        { plant: { name: 'peony', price: 18.95 }, quantity: 9 },
+      ],
+    }),
+  ]);
+  return orders;
+}
 
 /**
  * seed - this function clears the database, updates tables to
  *      match the models, and populates the database.
  */
-async function seed () {
-  await db.sync ({force: true}); // clears db and matches models to tables
-  console.log ('db synced!');
 
+async function seed() {
+  await db.sync({ force: true }); // clears db and matches models to tables
+  console.log('db synced!');
+
+  const orders = await orderSeeding();
+
+  console.log(`seeded ${orders.length} orders`);
+  console.log(`seeded successfully`);
+    
   // Creating Users
   const users = await Promise.all ([
     User.create ({
@@ -61,6 +125,7 @@ async function seed () {
   console.log (`seeded successfully`);
   return {
     users,
+    orders
   };
 }
 
@@ -69,17 +134,18 @@ async function seed () {
  This way we can isolate the error handling and exit trapping.
  The `seed` function is concerned only with modifying the database.
 */
-async function runSeed () {
-  console.log ('seeding...');
+
+async function runSeed() {
+  console.log('seeding...');
   try {
-    await seed ();
+    await seed();
   } catch (err) {
-    console.error (err);
+    console.error(err);
     process.exitCode = 1;
   } finally {
-    console.log ('closing db connection');
-    await db.close ();
-    console.log ('db connection closed');
+    console.log('closing db connection');
+    await db.close();
+    console.log('db connection closed');
   }
 }
 
@@ -89,7 +155,7 @@ async function runSeed () {
   any errors that might occur inside of `seed`.
 */
 if (module === require.main) {
-  runSeed ();
+  runSeed();
 }
 
 // we export the seed function for testing purposes (see `./seed.spec.js`)
