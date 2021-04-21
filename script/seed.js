@@ -246,10 +246,6 @@ async function seed() {
     }),
   ]);
 
-  // console.log(`seeded ${users.length} users`);
-  console.log(`seeded ${plants.length} plants`);
-  console.log(`seeded successfully`);
-
   const orders = await orderSeeding();
 
   console.log(`seeded ${orders.length} orders`);

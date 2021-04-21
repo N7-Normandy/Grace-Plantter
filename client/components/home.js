@@ -1,26 +1,34 @@
-import React from 'react'
-import {connect} from 'react-redux'
+import React from 'react';
+import {connect} from 'react-redux';
+import Plant from './Plant';
+import {fetchPlants} from '../store/plants';
 
-/**
- * COMPONENT
- */
-export const Home = props => {
-  const {username} = props
+class Home extends React.Component {
 
-  return (
-    <div>
-      <h3>Welcome, {username}</h3>
-    </div>
-  )
-}
+  componentDidMount() {
+    this.props.getPlants();
+  }
 
-/**
- * CONTAINER
- */
-const mapState = state => {
-  return {
-    username: state.auth.username
+  render() {
+    const {plants} = this.props;
+    return (
+      <div className="plants-container">
+        {/* <h3>Welcome, {username}</h3> */}
+        {plants.map (plant => (
+          <Plant imageURL={plant.imageURL} name={plant.name}/>
+        ))}
+      </div>
+    );
   }
 }
 
-export default connect(mapState)(Home)
+
+const mapStateToProps = state => ({
+  plants: state.plants,
+})
+
+const mapDispatchToProps = dispatch => ({
+  getPlants: () => dispatch(fetchPlants())
+})
+
+export default connect (mapStateToProps, mapDispatchToProps) (Home);
