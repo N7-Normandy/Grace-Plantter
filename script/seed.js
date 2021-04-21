@@ -251,14 +251,11 @@ async function seed() {
 	console.log(`seeded ${plants.length} users`);
 	console.log(`seeded successfully`);
 
-  await db.sync({ force: true }); // clears db and matches models to tables
-  console.log('db synced!');
-
   const orders = await orderSeeding();
 
   console.log(`seeded ${orders.length} orders`);
   console.log(`seeded successfully`);
-    
+
   // Creating Users
   const users = await Promise.all ([
     User.create ({
