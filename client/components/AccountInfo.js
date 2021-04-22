@@ -35,8 +35,14 @@ class AccountInfo extends React.Component {
 }
 
 const mapState = (state) => ({
+  id: state.auth.id,
   userEmail: state.auth.email,
   shipAddress: state.auth.shippingAddress,
+  recentOrder: {},
+});
+
+const mapDispatch = (dispatch) => ({
+  getRecentOrder: (userId) => dispatch(fetchRecentOrder(userId)),
 });
 
 export default connect(mapState)(AccountInfo);
