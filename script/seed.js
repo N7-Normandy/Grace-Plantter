@@ -237,7 +237,7 @@ async function seed() {
     await Plant.create({
       name: 'Yellow Desert Gems Garden',
       species: 'Succulent',
-      price: 40.0,
+      price: 40.99,
       imageURL:
         'https://images.thdstatic.com/productImages/96ffc2d1-48eb-45d7-8a56-fa3059c1e14d/svn/costa-farms-succulents-6desgemyelglobw-64_100.jpg',
       description:
