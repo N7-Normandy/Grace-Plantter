@@ -8,15 +8,6 @@ const Order = db.define('order', {
     // copied from user.cart, if that doesn't work this won't either
     type: Sequelize.ARRAY(Sequelize.JSONB),
     defaultValue: [],
-    get() {
-      return this.getDataValue('plantsBought').map((item) => JSON.parse(item));
-    },
-    set(val) {
-      return this.setDataValue(
-        'plantsBought',
-        val.map((item) => JSON.stringify(item))
-      );
-    },
   },
   totalPrice: {
     type: Sequelize.FLOAT(2),
@@ -36,30 +27,23 @@ Order.beforeCreate((order) => {
 module.exports = Order;
 
 /*
-Pseudo Code illustrating one possible version that cart and plantsBought might differ
+Order should look like:
 
-In users:
-cart = [
-  {
-    plant: plantId,
-    quantity: 5
-  },
-  {
-    plant: otherPlantId,
-    quantity: 2
-  }
-]
-
-in the order:
-plantsBought = [
-  {
-    plant: {Plant instance}
-    quantity: 5
-  },
-  {
-    plant: {otherPlant instance},
-    quantity: 2
-  }
-]
+{
+  plantsBought: [
+    {
+      plant: {
+        id: 12,
+        name: 'blue orchid',
+        ...
+      },
+      quantity: 12
+    },
+    {},
+    {}
+  ],
+  totalPrice: 123,
+  paymentType: 'Stripe'
+}
 
 */
