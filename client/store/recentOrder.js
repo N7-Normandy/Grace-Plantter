@@ -16,7 +16,7 @@ export function fetchRecentOrder(userId) {
   return async (dispatch) => {
     try {
       const { data: order } = await axios.get(
-        `/user/${userId}/orders/filter?limit=1&order=createdAt+ASC`
+        `/users/${userId}/orders/filter?limit=1&order=createdAt+ASC`
       );
       dispatch(setRecent(order));
     } catch (error) {
