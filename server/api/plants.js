@@ -30,3 +30,13 @@ router.put('/:plantId', async (req, res, next) => {
     next(error);
   }
 });
+
+// /API/PLANTS
+router.get('/', async (req, res, next) => {
+  try {
+    const plants = await Plant.findAll();
+    res.json(plants);
+  } catch (err) {
+    next(err);
+  }
+});
