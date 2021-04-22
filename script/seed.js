@@ -8,49 +8,30 @@ const {
 async function orderSeeding() {
   const orders = await Promise.all([
     Order.create({
-      plantsBought: [{ plant: { name: 'orchid', price: 120 }, quantity: 2 }],
+
     }),
     Order.create({
-      plantsBought: [
-        { plant: { name: 'orchid', price: 120 }, quantity: 2 },
-        { plant: { name: 'apple tree', price: 35.99 }, quantity: 1 },
-      ],
+
     }),
     Order.create({
-      plantsBought: [
-        { plant: { name: 'orchid', price: 120 }, quantity: 2 },
-        { plant: { name: 'peony', price: 18.95 }, quantity: 12 },
-      ],
+
     }),
     Order.create({
-      plantsBought: [{ plant: { name: 'orchid', price: 120 }, quantity: 1 }],
+
     }),
     Order.create({
-      plantsBought: [
-        { plant: { name: 'orchid', price: 120 }, quantity: 2 },
-        { plant: { name: 'apple tree', price: 35.99 }, quantity: 1 },
-        { plant: { name: 'peony', price: 18.95 }, quantity: 4 },
-      ],
+
     }),
     Order.create({
-      plantsBought: [
-        { plant: { name: 'orchid', price: 120 }, quantity: 2 },
-        { plant: { name: 'peony', price: 18.95 }, quantity: 12 },
-      ],
+
     }),
     Order.create({
-      plantsBought: [{ plant: { name: 'orchid', price: 120 }, quantity: 2 }],
     }),
     Order.create({
-      plantsBought: [
-        { plant: { name: 'apple tree', price: 35.99 }, quantity: 5 },
-      ],
+
     }),
     Order.create({
-      plantsBought: [
-        { plant: { name: 'daisy', price: 9.99 }, quantity: 2 },
-        { plant: { name: 'peony', price: 18.95 }, quantity: 9 },
-      ],
+
     }),
   ]);
   return orders;
@@ -76,6 +57,7 @@ async function seed() {
       description:
         '2 Gal. Summer Crush Hydrangea Plant with Raspberry Red or Neon Purple Blooms',
       quantity: 5,
+      active:false
     }),
 
     await Plant.create({
@@ -267,22 +249,6 @@ async function seed() {
       name: 'Rachel Green',
       shippingAddress: '90 Bedford St, New York, NY 10014',
       billingAddress: '90 Bedford St, New York, NY 10014',
-      cart: [
-        {
-          plant: {
-            name: 'orchid',
-            price: 12,
-          },
-          quantity: 12,
-        },
-        {
-          plant: {
-            name: 'gardenia',
-            price: 32,
-          },
-          quantity: 1,
-        },
-      ],
     }),
     User.create({
       email: 'tribbiani@gmail.com',
@@ -316,6 +282,9 @@ async function seed() {
 
   console.log(`seeded ${users.length} users`);
   console.log(`seeded successfully`);
+
+
+
   return {
     users,
     orders,

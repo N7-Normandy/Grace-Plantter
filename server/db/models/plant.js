@@ -34,6 +34,10 @@ const Plant = db.define('plant', {
       min: 0,
     },
   },
+  active: {
+		type: Sequelize.BOOLEAN,
+		defaultValue: true
+	}
 });
 
 module.exports = Plant;
