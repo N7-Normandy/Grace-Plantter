@@ -1,4 +1,5 @@
 body {
+	background-color: rgba(216, 170, 214, 0.486);
 	font-family: sans-serif;
 }
 
@@ -19,7 +20,27 @@ form div {
 	margin: 1em;
 	display: inline-block;
 }
-
+img {
+	height: 15rem;
+	width: 15rem;
+	margin: 5rem;
+}
+.card-body {
+	display: flex;
+	flex-direction: row;
+	align-content: stretch;
+	justify-content: flex-start;
+	align-items: center;
+}
+.information {
+	display: flex;
+	flex-direction: column;
+}
+#checkout {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
 .plus-minus-input {
 	-webkit-align-items: center;
 	-ms-flex-align: center;
