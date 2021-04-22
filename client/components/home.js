@@ -11,11 +11,12 @@ class Home extends React.Component {
 
   render() {
     const {plants} = this.props;
+    console.log(this.props.plants);
     return (
       <div className="plants-container">
         {/* <h3>Welcome, {username}</h3> */}
         {plants.map (plant => (
-          <Plant imageURL={plant.imageURL} name={plant.name}/>
+          <Plant key={plant.id} plant={plant}/>
         ))}
       </div>
     );
