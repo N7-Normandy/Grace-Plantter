@@ -31,6 +31,7 @@ router.post('/', async (req, res, next) => {
 router.get('/:id/orders/filter', async (req, res, next) => {
   try {
     const { limit, order } = req.query;
+    const { id } = req.params;
     let limitNum = Infinity;
     let orderStatement = [];
     if (limit) {
@@ -44,8 +45,12 @@ router.get('/:id/orders/filter', async (req, res, next) => {
     const userOrder = Order.findAll({
       limit: +limitNum,
       order: orderStatement,
-      where: {},
+      where: {
+        userId: id,
+      },
     });
+
+    res.json(userOrder);
   } catch (error) {
     next(error);
   }
