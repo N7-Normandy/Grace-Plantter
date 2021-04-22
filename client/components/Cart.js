@@ -42,7 +42,7 @@ export class Cart extends Component {
 	handleChange(e, index) {
 		this.state.cart[index].quantity = Number(e.target.value);
 		this.setState({cart: this.state.cart});
-		this.updateCart(this.state.cart);
+		this.props.updateCart(this.state.cart);
 	}
 	handleCheckout(e) {
 		e.preventDefault();
