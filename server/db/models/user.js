@@ -33,32 +33,7 @@ const User = db.define('user', {
   billingAddress: {
     type: Sequelize.STRING,
   },
-  cart: {
-    type: Sequelize.ARRAY(Sequelize.JSONB),
-    defaultValue: [],
-  },
 });
-
-/*
-
-cart: [
-  {
-    plant: plant.id,
-    quantity: 7
-  }
-]
-
-*/
-
-/*
-in case we run into issues with the JSON later
-    get() {
-      return JSON.parse(this.getDataValue('cart'));
-    },
-    set(val) {
-      return this.setDataValue('cart', JSON.stringify(val));
-    },
-*/
 
 module.exports = User;
 
