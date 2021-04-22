@@ -21,20 +21,20 @@ const checkoutCart = cart => ({
 //Thunk creators
 export const fetchCart = () => {
 	return async dispatch => {
-		const {data: userCart} = await axios.get('/cart');
+		const {data: userCart} = await axios.get('/api/cart');
 		console.log(userCart);
 		dispatch(getCart(userCart));
 	};
 };
 export const getUpdateCart = cart => {
 	return async dispatch => {
-		const {data: userCart} = await axios.put('/cart', cart);
+		const {data: userCart} = await axios.put('/api/cart', cart);
 		dispatch(updateCart(userCart));
 	};
 };
 export const getCheckoutCart = cart => {
 	return async dispatch => {
-		const {data: order} = await axios.post('/cart', cart);
+		const {data: order} = await axios.post('/api/cart', cart);
 		dispatch(checkoutCart(order));
 	};
 };

@@ -3,7 +3,7 @@ const {
 	models: {User, Plant, Order},
 } = require('../db');
 //get cart
-const myCart = [
+let myCart = [
 	{
 		plant: {
 			id: 1,
@@ -41,9 +41,11 @@ router.get('/', async (req, res, next) => {
 //updat cart
 router.put('/', async (req, res, next) => {
 	try {
-		const user = await User.byToken(req.headers.authorization);
-		user = await user.update({cart: req.body});
-		res.json(user.cart);
+		myCart = req.body;
+		res.json(myCart);
+		// const user = await User.byToken(req.headers.authorization);
+		// user = await user.update({cart: req.body});
+		// res.json(user.cart);
 	} catch (err) {
 		next(err);
 	}

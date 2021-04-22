@@ -34,6 +34,7 @@ export class Cart extends Component {
 		this.handleCheckout = this.handleCheckout.bind(this);
 	}
 	componentDidMount() {
+		console.log(this.state.cart);
 		this.props.fetchCart(); // how will they pass in user id?
 		// this.setState({
 		// 	cart: this.props.cart,
@@ -57,6 +58,7 @@ export class Cart extends Component {
 			<div className="card" onSubmit={handleCheckout}>
 				{this.state.cart.length > 0 ? (
 					this.state.cart.map((item, index) => {
+						console.log(item.plant.id);
 						return (
 							<div className="card-body" key={item.plant.id}>
 								<img src={item.plant.imageUrl} />
