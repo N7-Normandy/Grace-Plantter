@@ -2,6 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, Switch, Route, Redirect } from 'react-router-dom';
+import AccountInfo from './AccountInfo';
 
 const Account = ({ userName }) => (
   <div id="user-account">
@@ -14,7 +15,7 @@ const Account = ({ userName }) => (
       </nav>
     </div>
     <Switch>
-      <Route path="/account/info" />
+      <Route path="/account/info" component={AccountInfo} />
       <Route path="/account/past-orders" />
       <Route path="/account/edit" />
       <Redirect to="/account/info" />
