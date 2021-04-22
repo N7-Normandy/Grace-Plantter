@@ -74,6 +74,11 @@ User.prototype.generateToken = function () {
   return jwt.sign({ id: this.id }, process.env.JWT);
 };
 
+User.prototype.addToCart = function (item) {
+  this.cart.push(item);
+  return this;
+};
+
 /**
  * classMethods
  */

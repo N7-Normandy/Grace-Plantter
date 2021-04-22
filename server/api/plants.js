@@ -14,9 +14,18 @@ router.get('/:plantId', async (req, res, next) => {
   }
 });
 
-// POST /api/plants/:plantId
-router.post('/:plantId', async (req, res, next) => {
+// PUT /api/plants/:plantId
+router.put('/:plantId', async (req, res, next) => {
   try {
+    const user = await User.findByPk(5);
+    if (user) {
+      await user.addToCart(req.body);
+      res.send(await user.update(user));
+      //   let cart = user.cart;
+      //   cart.push(req.body);
+      //   await user.update(user);
+      //   res.send(user);
+    }
   } catch (error) {
     next(error);
   }

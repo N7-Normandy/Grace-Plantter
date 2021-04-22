@@ -31,7 +31,7 @@ class SinglePlant extends React.Component {
       plant: this.props.plant,
       quantity: this.state.purchaseQty,
     };
-    console.log(items);
+    console.log(JSON.stringify(items));
   }
 
   render() {
