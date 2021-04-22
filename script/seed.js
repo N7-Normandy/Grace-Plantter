@@ -267,6 +267,22 @@ async function seed() {
       name: 'Rachel Green',
       shippingAddress: '90 Bedford St, New York, NY 10014',
       billingAddress: '90 Bedford St, New York, NY 10014',
+      cart: [
+        {
+          plant: {
+            name: 'orchid',
+            price: 12,
+          },
+          quantity: 12,
+        },
+        {
+          plant: {
+            name: 'gardenia',
+            price: 32,
+          },
+          quantity: 1,
+        },
+      ],
     }),
     User.create({
       email: 'tribbiani@gmail.com',
