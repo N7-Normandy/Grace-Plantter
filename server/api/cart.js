@@ -38,7 +38,9 @@ router.get('/', async (req, res, next) => {
 		next(err);
 	}
 });
-//updat cart
+//update cart
+// see empty
+//remove something from myCart
 router.put('/', async (req, res, next) => {
 	try {
 		myCart = req.body;
@@ -54,19 +56,19 @@ router.put('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
 	try {
 		let accepted = true;
-		const user = await User.byToken(req.headers.authorization);
+		// const user = await User.byToken(req.headers.authorization);
 		//check if quantity is available
-		cart = user.cart;
+		let cart = myCart;
 		for (let index = 0; index < cart.length; index++) {
 			//search through every plant
-			const plant = await Plant.findByPk(cart[index].id);
+			const plant = await Plant.findByPk(cart[index].plant.id);
 			//if cart has more than databse, accepted = false
-			if (cart[index].quantity > plant.quantity) {
+			if (cart[index].plant.quantity > plant.quantity) {
 				accepted = false;
 				break;
 			} else {
 				// reduce plant number in db
-				const newQuantity = plant.quantity - cart[index].quantity;
+				const newQuantity = plant.quantity - cart[index].plant.quantity;
 				await plant.update({quantity: newQuantity});
 			}
 		}
@@ -75,7 +77,7 @@ router.post('/', async (req, res, next) => {
 			await user.update({cart: []});
 			res.json(
 				await Order.create({
-					plantsBought: user.cart,
+					plantsBought: cart,
 					totalPrice: req.body.totalPrice,
 					paymentType: req.body.paymentType,
 				})

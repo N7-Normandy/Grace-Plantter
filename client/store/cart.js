@@ -22,7 +22,6 @@ const checkoutCart = cart => ({
 export const fetchCart = () => {
 	return async dispatch => {
 		const {data: userCart} = await axios.get('/api/cart');
-		console.log(userCart);
 		dispatch(getCart(userCart));
 	};
 };
@@ -45,8 +44,9 @@ export default (state = [], action) => {
 		case GET_CART:
 			return action.cart;
 		case UPDATE_CART:
-			return state.map(project => {
-				return project.id === action.project.id ? action.project : project;
+			return state.map(cart => {
+				console.log(cart);
+				return cart.id === action.cart.id ? action.cart : cart;
 			});
 		case CHECKOUT_CART:
 			return action.cart;

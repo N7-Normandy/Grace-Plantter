@@ -1,59 +1,57 @@
 'use strict';
 
 const {
-  db,
-  models: { Order, User, Plant },
+	db,
+	models: {Order, User, Plant},
 } = require('../server/db');
 
 async function orderSeeding() {
-  const orders = await Promise.all([
-    Order.create({
-      plantsBought: [{ plant: { name: 'orchid', price: 120 }, quantity: 2 }],
-    }),
-    Order.create({
-      plantsBought: [
-        { plant: { name: 'orchid', price: 120 }, quantity: 2 },
-        { plant: { name: 'apple tree', price: 35.99 }, quantity: 1 },
-      ],
-    }),
-    Order.create({
-      plantsBought: [
-        { plant: { name: 'orchid', price: 120 }, quantity: 2 },
-        { plant: { name: 'peony', price: 18.95 }, quantity: 12 },
-      ],
-    }),
-    Order.create({
-      plantsBought: [{ plant: { name: 'orchid', price: 120 }, quantity: 1 }],
-    }),
-    Order.create({
-      plantsBought: [
-        { plant: { name: 'orchid', price: 120 }, quantity: 2 },
-        { plant: { name: 'apple tree', price: 35.99 }, quantity: 1 },
-        { plant: { name: 'peony', price: 18.95 }, quantity: 4 },
-      ],
-    }),
-    Order.create({
-      plantsBought: [
-        { plant: { name: 'orchid', price: 120 }, quantity: 2 },
-        { plant: { name: 'peony', price: 18.95 }, quantity: 12 },
-      ],
-    }),
-    Order.create({
-      plantsBought: [{ plant: { name: 'orchid', price: 120 }, quantity: 2 }],
-    }),
-    Order.create({
-      plantsBought: [
-        { plant: { name: 'apple tree', price: 35.99 }, quantity: 5 },
-      ],
-    }),
-    Order.create({
-      plantsBought: [
-        { plant: { name: 'daisy', price: 9.99 }, quantity: 2 },
-        { plant: { name: 'peony', price: 18.95 }, quantity: 9 },
-      ],
-    }),
-  ]);
-  return orders;
+	const orders = await Promise.all([
+		Order.create({
+			plantsBought: [{plant: {name: 'orchid', price: 120}, quantity: 2}],
+		}),
+		Order.create({
+			plantsBought: [
+				{plant: {name: 'orchid', price: 120}, quantity: 2},
+				{plant: {name: 'apple tree', price: 35.99}, quantity: 1},
+			],
+		}),
+		Order.create({
+			plantsBought: [
+				{plant: {name: 'orchid', price: 120}, quantity: 2},
+				{plant: {name: 'peony', price: 18.95}, quantity: 12},
+			],
+		}),
+		Order.create({
+			plantsBought: [{plant: {name: 'orchid', price: 120}, quantity: 1}],
+		}),
+		Order.create({
+			plantsBought: [
+				{plant: {name: 'orchid', price: 120}, quantity: 2},
+				{plant: {name: 'apple tree', price: 35.99}, quantity: 1},
+				{plant: {name: 'peony', price: 18.95}, quantity: 4},
+			],
+		}),
+		Order.create({
+			plantsBought: [
+				{plant: {name: 'orchid', price: 120}, quantity: 2},
+				{plant: {name: 'peony', price: 18.95}, quantity: 12},
+			],
+		}),
+		Order.create({
+			plantsBought: [{plant: {name: 'orchid', price: 120}, quantity: 2}],
+		}),
+		Order.create({
+			plantsBought: [{plant: {name: 'apple tree', price: 35.99}, quantity: 5}],
+		}),
+		Order.create({
+			plantsBought: [
+				{plant: {name: 'daisy', price: 9.99}, quantity: 2},
+				{plant: {name: 'peony', price: 18.95}, quantity: 9},
+			],
+		}),
+	]);
+	return orders;
 }
 
 /**
@@ -62,7 +60,6 @@ async function orderSeeding() {
  */
 
 async function seed() {
-
 	await db.sync({force: true}); // clears db and matches models to tables
 	console.log('db synced!');
 
@@ -251,68 +248,71 @@ async function seed() {
 	console.log(`seeded ${plants.length} users`);
 	console.log(`seeded successfully`);
 
-  await db.sync({ force: true }); // clears db and matches models to tables
-  console.log('db synced!');
+	await db.sync({force: true}); // clears db and matches models to tables
+	console.log('db synced!');
 
-  const orders = await orderSeeding();
+	const orders = await orderSeeding();
 
-  console.log(`seeded ${orders.length} orders`);
-  console.log(`seeded successfully`);
-    
-  // Creating Users
-  const users = await Promise.all ([
-    User.create ({
-      email: 'gelleri@gmail.com',
-      password: '123',
-      isAdmin: true,
-      name: 'Monica Geller',
-      shippingAddress: '90 Bedford St, New York, NY 10014',
-      billingAddress: '90 Bedford St, New York, NY 10014',
-    }),
-    User.create ({
-      email: 'green@gmail.com',
-      password: '123',
-      name: 'Rachel Green',
-      shippingAddress: '90 Bedford St, New York, NY 10014',
-      billingAddress: '90 Bedford St, New York, NY 10014',
-    }),
-    User.create ({
-      email: 'tribbiani@gmail.com',
-      password: '123',
-      name: 'Joey Tribbiani',
-      shippingAddress: '90 Bedford St, New York, NY 10014',
-      billingAddress: '90 Bedford St, New York, NY 10014',
-    }),
-    User.create ({
-      email: 'buffay@gmail.com',
-      password: '123',
-      name: 'Phoebe Buffay',
-      shippingAddress: '90 Bedford St, New York, NY 10014',
-      billingAddress: '90 Bedford St, New York, NY 10014',
-    }),
-    User.create ({
-      email: 'bing@gmail.com',
-      password: '123',
-      name: 'Chandler Bing',
-      shippingAddress: '90 Bedford St, New York, NY 10014',
-      billingAddress: '90 Bedford St, New York, NY 10014',
-    }),
-    User.create ({
-      email: 'ross@gmail.com',
-      password: '123',
-      name: 'Ross Geller',
-      shippingAddress: '90 Bedford St, New York, NY 10014',
-      billingAddress: '90 Bedford St, New York, NY 10014',
-    }),
-  ]);
+	console.log(`seeded ${orders.length} orders`);
+	console.log(`seeded successfully`);
 
-  console.log (`seeded ${users.length} users`);
-  console.log (`seeded successfully`);
-  return {
-    users,
-    orders,
-    plants
-  };
+	// Creating Users
+	const users = await Promise.all([
+		User.create({
+			email: 'gelleri@gmail.com',
+			password: '123',
+			isAdmin: true,
+			name: 'Monica Geller',
+			shippingAddress: '90 Bedford St, New York, NY 10014',
+			billingAddress: '90 Bedford St, New York, NY 10014',
+		}),
+		User.create({
+			email: 'green@gmail.com',
+			password: '123',
+			name: 'Rachel Green',
+			shippingAddress: '90 Bedford St, New York, NY 10014',
+			billingAddress: '90 Bedford St, New York, NY 10014',
+		}),
+		User.create({
+			email: 'tribbiani@gmail.com',
+			password: '123',
+			name: 'Joey Tribbiani',
+			shippingAddress: '90 Bedford St, New York, NY 10014',
+			billingAddress: '90 Bedford St, New York, NY 10014',
+		}),
+		User.create({
+			email: 'buffay@gmail.com',
+			password: '123',
+			name: 'Phoebe Buffay',
+			shippingAddress: '90 Bedford St, New York, NY 10014',
+			billingAddress: '90 Bedford St, New York, NY 10014',
+		}),
+		User.create({
+			email: 'bing@gmail.com',
+			password: '123',
+			name: 'Chandler Bing',
+			shippingAddress: '90 Bedford St, New York, NY 10014',
+			billingAddress: '90 Bedford St, New York, NY 10014',
+		}),
+		User.create({
+			email: 'ross@gmail.com',
+			password: '123',
+			name: 'Ross Geller',
+			shippingAddress: '90 Bedford St, New York, NY 10014',
+			billingAddress: '90 Bedford St, New York, NY 10014',
+		}),
+	]);
+
+	console.log(`seeded ${users.length} users`);
+	console.log(`seeded successfully`);
+
+	console.log(users[0].__proto__);
+
+	return {
+		users,
+		orders,
+		plants,
+	};
 }
 
 /*
@@ -322,7 +322,6 @@ async function seed() {
 */
 
 async function runSeed() {
-
 	console.log('seeding...');
 	try {
 		await seed();

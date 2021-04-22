@@ -1,64 +1,49 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {fetchCart, getUpdateCart, getCheckoutCart} from '../store/cart';
-
-const myCart = [
-	{
-		plant: {
-			id: 1,
-			name: 'Orchid',
-			price: 120,
-			imageUrl:
-				'https://images.thdstatic.com/productImages/e154a248-ac84-46bf-a1a9-65724e122958/svn/endless-summer-bushes-14750-64_400.jpg',
-		},
-		quantity: 2,
-	},
-	{
-		plant: {
-			id: 2,
-			name: 'Peony',
-			price: 18.95,
-			imageUrl:
-				' https://images.thdstatic.com/productImages/b33f34d0-8f91-4e49-a1d8-2eaab0012500/svn/proven-winners-bushes-14766-64_100.jpg',
-		},
-		quantity: 12,
-	},
-];
+import {
+	fetchCart,
+	getUpdateCart,
+	getCheckoutCart,
+	getRemove,
+} from '../store/cart';
 
 export class Cart extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {cart: myCart, totalPrice: 0, paymentType: 'card'};
+		this.state = {cart: [], totalPrice: 0, paymentType: 'card'};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleCheckout = this.handleCheckout.bind(this);
+		this.handleRemove = this.handleRemove.bind(this);
 	}
-	componentDidMount() {
-		console.log(this.state.cart);
-		this.props.fetchCart(); // how will they pass in user id?
-		// this.setState({
-		// 	cart: this.props.cart,
-		// });
+	async componentDidMount() {
+		await this.props.fetchCart(); // how will they pass in user id?
+		this.setState({
+			cart: this.props.cart,
+		});
 	}
-	handleChange(e, index) {
+	async handleChange(e, index) {
 		this.state.cart[index].quantity = Number(e.target.value);
 		this.setState({cart: this.state.cart});
-		this.props.updateCart(this.state.cart);
+		await this.props.updateCart(this.state.cart);
 	}
 	handleCheckout(e) {
 		e.preventDefault();
 		this.props.checkout(this.state.cart, {
 			totalPrice: this.state.totalPrice,
-			paymentType: this.state.paymentType,
 		});
 	}
+	handleRemove(e, plantId) {
+		//remove the index of plant from from our state
+		// call updateCart
+		// this.props.remove(plantId);
+	}
 	render() {
-		const {handleCheckout, handleChange} = this;
+		const {handleCheckout, handleChange, handleRemove} = this;
 		return (
 			<div className="card" onSubmit={handleCheckout}>
 				{this.state.cart.length > 0 ? (
 					this.state.cart.map((item, index) => {
-						console.log(item.plant.id);
 						return (
 							<div className="card-body" key={item.plant.id}>
 								<img src={item.plant.imageUrl} />
@@ -73,6 +58,14 @@ export class Cart extends Component {
 										onChange={e => handleChange(e, index)}
 									/>
 								</div>
+								<div className="remove">
+									<button
+										type="button"
+										onClick={e => handleRemove(e, item.plant.id)}
+									>
+										Remove
+									</button>
+								</div>
 							</div>
 						);
 					})
@@ -84,8 +77,9 @@ export class Cart extends Component {
 				{this.state.cart.length > 0 ? (
 					<div id="checkout">
 						<h3 name="totalPrice">${this.state.totalPrice}</h3>
-						{/* <h3 name="paymentType">Payment Type: {this.state.paymentType}</h3> */}
-						<button type="submit"> Checkout! </button>
+						<button type="submit" onClick={handleCheckout}>
+							Checkout!
+						</button>
 					</div>
 				) : (
 					<div className="emptyCart">
@@ -103,6 +97,7 @@ const mapProps = ({cart}) => ({
 });
 const mapDispatch = dispatch => ({
 	fetchCart: () => dispatch(fetchCart()),
+	remove: plantId => dispatch(getRemove(plantId)),
 	updateCart: cart => dispatch(getUpdateCart(cart)),
 	checkout: paymentInfo => dispatch(getCheckoutCart(paymentInfo)),
 });
