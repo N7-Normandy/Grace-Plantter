@@ -49,11 +49,11 @@ export class Cart extends Component {
   render() {
     const { handleCheckout, handleChange, handleRemove } = this;
     return (
-      <div className="card" onSubmit={handleCheckout}>
+      <div className="card-checkout" onSubmit={handleCheckout}>
         {this.state.cart.length > 0 ? (
           this.state.cart.map((item, index) => {
             return (
-              <div className="card-body" key={item.plant.id}>
+              <div className="card-body-checkout" key={item.plant.id}>
                 <img className="checkoutImg" src={item.plant.imageUrl} />
                 <div className="information">
                   <Link to={`/plants/${item.plant.id}`}>{item.plant.name}</Link>
