@@ -15,10 +15,11 @@ function setRecent(order) {
 export function fetchRecentOrder(userId) {
   return async (dispatch) => {
     try {
-      const { data: order } = await axios.get(
-        `/users/${userId}/orders/filter?limit=1&order=createdAt+ASC`
+      const { data: orderArr } = await axios.get(
+        `/api/users/${userId}/orders/filter?limit=1&order=createdAt+ASC&status[not]=cart`
       );
-      dispatch(setRecent(order));
+
+      dispatch(setRecent(orderArr[0]));
     } catch (error) {
       console.error(error);
     }

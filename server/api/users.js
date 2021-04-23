@@ -1,6 +1,8 @@
 const router = require('express').Router();
+const { Op } = require('sequelize');
+
 const {
-  models: { User, Order },
+  models: { User, Order, Plant },
 } = require('../db');
 
 module.exports = router;
@@ -30,27 +32,37 @@ router.post('/', async (req, res, next) => {
 
 router.get('/:id/orders/filter', async (req, res, next) => {
   try {
-    const { limit, order } = req.query;
+    const { limit, order, status } = req.query;
     const { id } = req.params;
-    let limitNum = Infinity;
-    let orderStatement = [];
+    let limitNum = 1000; // Some ridiculous number because I need some high default
+    const orderStatement = [];
+    const whereStatement = {
+      userId: id,
+    };
     if (limit) {
       limitNum = limit;
     }
 
     if (order) {
-      orderStatement = order.split(' ');
+      orderStatement.push(order.split(' '));
     }
 
-    const userOrder = Order.findAll({
+    if (status.not) {
+      whereStatement.status = {
+        [Op.ne]: status.not,
+      };
+    }
+
+    const userOrders = await Order.findAll({
       limit: +limitNum,
       order: orderStatement,
-      where: {
-        userId: id,
+      where: whereStatement,
+      include: {
+        model: Plant,
       },
     });
 
-    res.json(userOrder);
+    res.json(userOrders);
   } catch (error) {
     next(error);
   }

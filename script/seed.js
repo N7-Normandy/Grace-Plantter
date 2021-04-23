@@ -9,7 +9,9 @@ async function orderSeeding() {
   const orders = await Promise.all([
     Order.create({}),
     Order.create({}),
-    Order.create({}),
+    Order.create({
+      status: 'shipped',
+    }),
     Order.create({}),
     Order.create({}),
     Order.create({}),
@@ -267,12 +269,15 @@ async function seed() {
   console.log(`seeded successfully`);
 
   await users[0].setOrders(orders[0]);
-  await users[1].setOrders(orders[2]);
+  await users[1].setOrders([orders[2], orders[5]]);
   await users[2].setOrders(orders[3]);
   await users[3].setOrders(orders[6]);
   await users[4].setOrders(orders[8]);
 
   await plants[0].setOrders(orders[0], { through: { quantity: 2 } });
+
+  await orders[2].setPlants(plants[3], { through: { quantity: 5 } });
+  await orders[2].addPlant(plants[12], { through: { quantity: 9 } });
 
   return {
     users,

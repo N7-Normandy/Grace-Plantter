@@ -1,14 +1,18 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import { connect } from 'react-redux';
+import Order from './Order';
+import { fetchRecentOrder } from '../store/recentOrder';
 
 class AccountInfo extends React.Component {
   componentDidMount() {
-    console.log('hi');
+    const { getRecentOrder, id } = this.props;
+    getRecentOrder(id);
   }
 
   render() {
-    const { userEmail, shipAddress } = this.props;
+    const { userEmail, shipAddress, recentOrder } = this.props;
 
     return (
       <>
@@ -28,6 +32,7 @@ class AccountInfo extends React.Component {
         </div>
         <div>
           <h3>Your Most Recent Order</h3>
+          <Order order={recentOrder} />
         </div>
       </>
     );
@@ -38,11 +43,11 @@ const mapState = (state) => ({
   id: state.auth.id,
   userEmail: state.auth.email,
   shipAddress: state.auth.shippingAddress,
-  recentOrder: {},
+  recentOrder: state.recentOrder,
 });
 
 const mapDispatch = (dispatch) => ({
   getRecentOrder: (userId) => dispatch(fetchRecentOrder(userId)),
 });
 
-export default connect(mapState)(AccountInfo);
+export default connect(mapState, mapDispatch)(AccountInfo);
