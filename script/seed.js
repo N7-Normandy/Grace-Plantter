@@ -7,51 +7,15 @@ const {
 
 async function orderSeeding() {
   const orders = await Promise.all([
-    Order.create({
-      plantsBought: [{ plant: { name: 'orchid', price: 120 }, quantity: 2 }],
-    }),
-    Order.create({
-      plantsBought: [
-        { plant: { name: 'orchid', price: 120 }, quantity: 2 },
-        { plant: { name: 'apple tree', price: 35.99 }, quantity: 1 },
-      ],
-    }),
-    Order.create({
-      plantsBought: [
-        { plant: { name: 'orchid', price: 120 }, quantity: 2 },
-        { plant: { name: 'peony', price: 18.95 }, quantity: 12 },
-      ],
-    }),
-    Order.create({
-      plantsBought: [{ plant: { name: 'orchid', price: 120 }, quantity: 1 }],
-    }),
-    Order.create({
-      plantsBought: [
-        { plant: { name: 'orchid', price: 120 }, quantity: 2 },
-        { plant: { name: 'apple tree', price: 35.99 }, quantity: 1 },
-        { plant: { name: 'peony', price: 18.95 }, quantity: 4 },
-      ],
-    }),
-    Order.create({
-      plantsBought: [
-        { plant: { name: 'orchid', price: 120 }, quantity: 2 },
-        { plant: { name: 'peony', price: 18.95 }, quantity: 12 },
-      ],
-    }),
-    Order.create({
-      plantsBought: [{ plant: { name: 'orchid', price: 120 }, quantity: 2 }],
-    }),
-    Order.create({
-      plantsBought: [
-        { plant: { name: 'apple tree', price: 35.99 }, quantity: 5 },
-      ],
-    }),
-    Order.create({
-      plantsBought: [
-        { plant: { name: 'daisy', price: 9.99 }, quantity: 2 },
-        { plant: { name: 'peony', price: 18.95 }, quantity: 9 },
-      ],
-    }),
+    Order.create({}),
+    Order.create({}),
+    Order.create({}),
+    Order.create({}),
+    Order.create({}),
+    Order.create({}),
+    Order.create({}),
+    Order.create({}),
+    Order.create({}),
   ]);
   return orders;
 }
@@ -76,6 +40,7 @@ async function seed() {
       description:
         '2 Gal. Summer Crush Hydrangea Plant with Raspberry Red or Neon Purple Blooms',
       quantity: 5,
+      active: false,
     }),
 
     await Plant.create({
@@ -237,7 +202,7 @@ async function seed() {
     await Plant.create({
       name: 'Yellow Desert Gems Garden',
       species: 'Succulent',
-      price: 40.0,
+      price: 40.99,
       imageURL:
         'https://images.thdstatic.com/productImages/96ffc2d1-48eb-45d7-8a56-fa3059c1e14d/svn/costa-farms-succulents-6desgemyelglobw-64_100.jpg',
       description:
@@ -300,6 +265,15 @@ async function seed() {
 
   console.log(`seeded ${users.length} users`);
   console.log(`seeded successfully`);
+
+  await users[0].setOrders(orders[0]);
+  await users[1].setOrders(orders[2]);
+  await users[2].setOrders(orders[3]);
+  await users[3].setOrders(orders[6]);
+  await users[4].setOrders(orders[8]);
+
+  await plants[0].setOrders(orders[0], { through: { quantity: 2 } });
+
   return {
     users,
     orders,

@@ -8,7 +8,7 @@ const {
 
 const seed = require('../../../script/seed');
 
-describe('Order mdoel', () => {
+describe('Order model', () => {
   let orders;
   beforeEach(async () => {
     orders = (await seed()).orders;

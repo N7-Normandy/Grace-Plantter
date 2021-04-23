@@ -4,62 +4,51 @@ const Sequelize = require('sequelize');
 const db = require('../db');
 
 const Order = db.define('order', {
-  plantsBought: {
-    // copied from user.cart, if that doesn't work this won't either
-    type: Sequelize.ARRAY(Sequelize.JSONB),
-    defaultValue: [],
-    get() {
-      return this.getDataValue('plantsBought').map((item) => JSON.parse(item));
-    },
-    set(val) {
-      return this.setDataValue(
-        'plantsBought',
-        val.map((item) => JSON.stringify(item))
-      );
-    },
-  },
   totalPrice: {
-    type: Sequelize.FLOAT(2),
+    type: Sequelize.INTEGER,
+    get() {
+      return this.getDataValue('totalPrice') / 100;
+    },
+    set(num) {
+      this.setDataValue('totalPrice', num * 100);
+    },
   },
   paymentType: {
     type: Sequelize.STRING,
   },
+  status: {
+    type: Sequelize.ENUM(['cart', 'purchased', 'shipped', 'refunded']),
+    defaultValue: 'cart',
+  },
 });
 
-Order.beforeCreate((order) => {
-  const total = order.plantsBought.reduce((acc, curr) => {
-    return acc + curr.plant.price * curr.quantity;
-  }, 0);
-  order.totalPrice = total;
-});
+// Order.beforeCreate((order) => {
+//   const total = order.plantsBought.reduce((acc, curr) => {
+//     return acc + curr.plant.price * curr.quantity;
+//   }, 0);
+//   order.totalPrice = total;
+// });
 
 module.exports = Order;
 
 /*
-Pseudo Code illustrating one possible version that cart and plantsBought might differ
+Order should look like:
 
-In users:
-cart = [
-  {
-    plant: plantId,
-    quantity: 5
-  },
-  {
-    plant: otherPlantId,
-    quantity: 2
-  }
-]
-
-in the order:
-plantsBought = [
-  {
-    plant: {Plant instance}
-    quantity: 5
-  },
-  {
-    plant: {otherPlant instance},
-    quantity: 2
-  }
-]
+{
+  plantsBought: [
+    {
+      plant: {
+        id: 12,
+        name: 'blue orchid',
+        ...
+      },
+      quantity: 12
+    },
+    {},
+    {}
+  ],
+  totalPrice: 123,
+  paymentType: 'Stripe'
+}
 
 */
