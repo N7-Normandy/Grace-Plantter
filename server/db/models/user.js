@@ -8,66 +8,32 @@ const axios = require('axios');
 const SALT_ROUNDS = 5;
 
 const User = db.define('user', {
-	email: {
-		type: Sequelize.STRING,
-		unique: true,
-		allowNull: false,
-		validate: {
-			isEmail: true,
-		},
-	},
-	password: {
-		type: Sequelize.STRING,
-	},
-	isAdmin: {
-		type: Sequelize.BOOLEAN,
-		defaultValue: false,
-	},
-	name: {
-		type: Sequelize.STRING,
-		allowNull: false,
-	},
-	shippingAddress: {
-		type: Sequelize.STRING,
-	},
-	billingAddress: {
-		type: Sequelize.STRING,
-	},
-	cart: {
-		type: Sequelize.ARRAY(Sequelize.JSONB),
-		defaultValue: [],
-		get() {
-			return this.getDataValue('cart').map(item => JSON.parse(item));
-		},
-		set(val) {
-			return this.setDataValue(
-				'cart',
-				val.map(item => JSON.stringify(item))
-			);
-		},
-	},
+  email: {
+    type: Sequelize.STRING,
+    unique: true,
+    allowNull: false,
+    validate: {
+      isEmail: true,
+    },
+  },
+  password: {
+    type: Sequelize.STRING,
+  },
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+  },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  shippingAddress: {
+    type: Sequelize.STRING,
+  },
+  billingAddress: {
+    type: Sequelize.STRING,
+  },
 });
-
-/*
-
-cart: [
-  {
-    plant: plant.id,
-    quantity: 7
-  }
-]
-
-*/
-
-/*
-in case we run into issues with the JSON later
-    get() {
-      return JSON.parse(this.getDataValue('cart'));
-    },
-    set(val) {
-      return this.setDataValue('cart', JSON.stringify(val));
-    },
-*/
 
 module.exports = User;
 
@@ -81,6 +47,11 @@ User.prototype.correctPassword = function (candidatePwd) {
 
 User.prototype.generateToken = function () {
 	return jwt.sign({id: this.id}, process.env.JWT);
+};
+
+User.prototype.addToCart = function (item) {
+  this.cart.push(item);
+  return this;
 };
 
 /**

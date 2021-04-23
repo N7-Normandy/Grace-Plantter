@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { LOG_OUT } from './auth';
 //Action types
 const GET_CART = 'GET_CART';
 const UPDATE_CART = 'UPDATE_CART';
@@ -55,9 +56,21 @@ export const getRemoveFromCart = id => async dispatch => {
   }
 };
 
+export const addItemsToCart = (userId, items) => {
+  return async (dispatch) => {
+    try {
+      await axios.put(`/api/users/${userId}/orders`, items);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 // Reducer
 export default (state = [], action) => {
   switch (action.type) {
+    case LOG_OUT:
+      return [];
     case GET_CART:
       return action.cart;
     case UPDATE_CART:
