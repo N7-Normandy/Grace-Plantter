@@ -1,15 +1,5 @@
 import Axios from 'axios';
 
-// ACTION TYPE
-const ADD_ITEMS = 'ADD_ITEMS';
-
-// ACTION CREATOR
-const addItems = () => {
-  return {
-    type: ADD_TO_CART,
-  };
-};
-
 // THUNK CREATOR
 export const addItemsToCart = (userId, items) => {
   return async (dispatch) => {

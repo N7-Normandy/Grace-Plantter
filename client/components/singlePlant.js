@@ -39,26 +39,38 @@ class SinglePlant extends React.Component {
     console.log('state', this.state);
     console.log('props', this.props);
     const plant = this.props.plant;
+    const description = plant.description || '';
     return (
-      <div>
-        <h2>{plant.name}</h2>
-        <div className="infoBox">
-          <img src={plant.imageURL} />
-          <p>{plant.description}</p>
+      <div className="singlePlant">
+        <div className="title">
+          <h2>{plant.name}</h2>
         </div>
-        <div className="orderBox">
-          <form id="add-to-cart-form" onSubmit={this.addToCart}>
-            <h3>Quantity:</h3>
-            {/* <button type="button">-</button> */}
-            <input
-              name="purchaseQty"
-              onChange={this.changeQuantity}
-              value={this.state.purchaseQty}
-            />
-            {/* <button type="button">+</button> */}
-            <h3>Price: ${plant.price}</h3>
-            <button type="submit">Add to Cart</button>
-          </form>
+        <div className="content">
+          <div className="infoBox">
+            <img className="singleplantImage" src={plant.imageURL} />
+            <div className="description">
+              <h3>DESCRIPTION</h3>
+              <ul>
+                {description.split('/n').map((line) => {
+                  return <li key={line}>{line}</li>;
+                })}
+              </ul>
+            </div>
+          </div>
+          <div className="orderBox">
+            <form id="add-to-cart-form" onSubmit={this.addToCart}>
+              <h3>Quantity: {plant.quantity} in stock</h3>
+              {/* <button type="button">-</button> */}
+              <input
+                name="purchaseQty"
+                onChange={this.changeQuantity}
+                value={this.state.purchaseQty}
+              />
+              {/* <button type="button">+</button> */}
+              <h3>Price: ${plant.price}</h3>
+              <button type="submit">Add to Cart</button>
+            </form>
+          </div>
         </div>
       </div>
     );

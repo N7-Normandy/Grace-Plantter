@@ -66,3 +66,35 @@ header {
 .nav-wrapper {
   align-items: flex-end;
 }
+
+.title {
+  text-align: center;
+  border: black;
+  border-style: double;
+}
+
+img.singleplantImage {
+  height: 25rem;
+  width: 25rem;
+}
+
+.description {
+  border: rgba(72, 71, 71, 0.755);
+  border-style: solid;
+  padding: 1rem;
+  padding-right: 1.5rem;
+}
+
+.orderBox {
+  border: rgba(72, 71, 71, 0.755);
+  border-style: solid;
+  padding: 1rem;
+  padding-right: 1.5rem;
+  height: 25rem;
+}
+
+.content {
+  display: flex;
+  margin: 2rem;
+  justify-content: space-evenly;
+}
