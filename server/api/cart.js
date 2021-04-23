@@ -87,4 +87,18 @@ router.post('/', async (req, res, next) => {
 		next(err);
 	}
 });
+
+router.put('/remove', async (req, res, next) => {
+	try {
+		const id = req.body.id
+		myCart = myCart.filter(item => {
+			return id !== item.plant.id;
+		})
+		console.log("sending response back", myCart)
+		res.json(myCart);
+	} catch (err) {
+		next(err);
+	}
+});
+
 module.exports = router;
