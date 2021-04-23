@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { LOG_OUT } from './auth';
 
 // Action Types
 const SET_ORDERS = 'SET_ORDERS';
@@ -29,6 +30,8 @@ export function fetchUserOrders(userId) {
 // Reducer
 export default function (state = [], action) {
   switch (action.type) {
+    case LOG_OUT:
+      return [];
     case SET_ORDERS:
       return action.orders;
     default:

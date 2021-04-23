@@ -25,7 +25,7 @@ class AccountInfo extends React.Component {
               </tr>
               <tr>
                 <td>Shipping Address</td>
-                <td>{shipAddress ? shipAddress : 'No address on file'}</td>
+                <td>{shipAddress || 'No address on file'}</td>
               </tr>
             </tbody>
           </table>
