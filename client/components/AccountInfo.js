@@ -2,6 +2,7 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Order from './Order';
 import { fetchRecentOrder } from '../store/recentOrder';
 
@@ -32,7 +33,11 @@ class AccountInfo extends React.Component {
         </div>
         <div>
           <h3>Your Most Recent Order</h3>
-          <Order order={recentOrder} />
+          {recentOrder.id ? (
+            <Order order={recentOrder} />
+          ) : (
+            <Link to="/home">Start shopping!</Link>
+          )}
         </div>
       </>
     );
