@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchSinglePlant } from '../store/singlePlant';
+import { addItemsToCart } from '../store/cart';
 
 class SinglePlant extends React.Component {
   constructor() {
@@ -31,6 +32,7 @@ class SinglePlant extends React.Component {
       plantId: this.props.plantId,
       quantity: this.state.purchaseQty,
     };
+    this.props.addItems(this.props.userId, items);
   }
 
   render() {
@@ -66,12 +68,14 @@ class SinglePlant extends React.Component {
 const mapState = (state) => {
   return {
     plant: state.plant,
+    userId: state.auth.id,
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
     getPlant: (plantId) => dispatch(fetchSinglePlant(plantId)),
+    addItems: (userId, items) => dispatch(addItemsToCart(userId, items)),
   };
 };
 

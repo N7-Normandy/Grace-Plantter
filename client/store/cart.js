@@ -1,17 +1,20 @@
+import Axios from 'axios';
+
 // ACTION TYPE
-const ADD_TO_CART = 'ADD_TO_CART';
+const ADD_ITEMS = 'ADD_ITEMS';
 
 // ACTION CREATOR
-const addToCart = () => {
+const addItems = () => {
   return {
     type: ADD_TO_CART,
   };
 };
 
 // THUNK CREATOR
-export const fetchItems = () => {
+export const addItemsToCart = (userId, items) => {
   return async (dispatch) => {
     try {
+      await Axios.put(`/api/users/${userId}/orders`, items);
     } catch (error) {
       console.log(error);
     }

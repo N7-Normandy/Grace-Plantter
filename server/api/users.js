@@ -11,7 +11,7 @@ router.get('/', async (req, res, next) => {
       // explicitly select only the id and username fields - even though
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
-      attributes: ['id', 'username'],
+      attributes: ['id', 'email'],
     });
     res.json(users);
   } catch (err) {
@@ -28,6 +28,7 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+// PUT api/users/:userId/orders
 router.put('/:userId/orders', async (req, res, next) => {
   try {
     let cart = await Order.findOne({

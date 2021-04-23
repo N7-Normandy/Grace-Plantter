@@ -22,6 +22,12 @@ class Routes extends Component {
         {isLoggedIn ? (
           <Switch>
             <Route path="/home" component={Home} />
+            <Route
+              path="/plants/:plantId"
+              render={(routeProps) => (
+                <SinglePlant plantId={routeProps.match.params.plantId} />
+              )}
+            />
             <Redirect to="/home" />
           </Switch>
         ) : (
