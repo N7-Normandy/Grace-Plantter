@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Order from './Order';
+import { fetchUserOrders } from '../store/orders';
 
 class AllOrders extends Component {
   componentDidMount() {
@@ -12,9 +13,10 @@ class AllOrders extends Component {
 
   render() {
     const { orders } = this.props;
+    console.log('I am rendering these orders: ', orders);
     return (
       <>
-        {orders.forEach((order, idx, arr) => (
+        {orders.map((order, idx, arr) => (
           <div key={order.id}>
             <h3>Order #{arr.length - idx}</h3>
             <Order order={order} />

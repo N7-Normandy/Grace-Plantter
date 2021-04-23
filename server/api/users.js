@@ -34,7 +34,7 @@ router.get('/:id/orders/filter', async (req, res, next) => {
   try {
     const { limit, order, status } = req.query;
     const { id } = req.params;
-    let limitNum = 1000; // Some ridiculous number because I need some high default
+    let limitNum = 1000; // Some ridiculous number because I need some default
     const orderStatement = [];
     const whereStatement = {
       userId: id,

@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link, Switch, Route, Redirect } from 'react-router-dom';
 import AccountInfo from './AccountInfo';
+import AllOrders from './AllOrders';
 
 const Account = ({ userName }) => (
   <div id="user-account">
@@ -16,7 +17,7 @@ const Account = ({ userName }) => (
     </div>
     <Switch>
       <Route path="/account/info" component={AccountInfo} />
-      <Route path="/account/past-orders" />
+      <Route path="/account/past-orders" component={AllOrders} />
       <Route path="/account/edit" />
       <Redirect to="/account/info" />
     </Switch>
