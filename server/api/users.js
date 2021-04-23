@@ -1,6 +1,8 @@
 const router = require('express').Router();
+const { Op } = require('sequelize');
+
 const {
-  models: { User },
+  models: { User, Order, Plant },
 } = require('../db');
 
 module.exports = router;
@@ -8,10 +10,10 @@ module.exports = router;
 router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll({
-      // explicitly select only the id and username fields - even though
+      // explicitly select only the id and email fields - even though
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
-      attributes: ['id', 'username'],
+      attributes: ['id', 'email'],
     });
     res.json(users);
   } catch (err) {
@@ -25,5 +27,43 @@ router.post('/', async (req, res, next) => {
     res.json(user);
   } catch (err) {
     next(err);
+  }
+});
+
+router.get('/:id/orders/filter', async (req, res, next) => {
+  try {
+    const { limit, order, status } = req.query;
+    const { id } = req.params;
+    let limitNum = 1000; // Some ridiculous number because I need some default
+    const orderStatement = [];
+    const whereStatement = {
+      userId: id,
+    };
+    if (limit) {
+      limitNum = limit;
+    }
+
+    if (order) {
+      orderStatement.push(order.split(' '));
+    }
+
+    if (status.not) {
+      whereStatement.status = {
+        [Op.ne]: status.not,
+      };
+    }
+
+    const userOrders = await Order.findAll({
+      limit: +limitNum,
+      order: orderStatement,
+      where: whereStatement,
+      include: {
+        model: Plant,
+      },
+    });
+
+    res.json(userOrders);
+  } catch (error) {
+    next(error);
   }
 });
