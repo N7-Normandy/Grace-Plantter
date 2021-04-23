@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { LOG_OUT } from './auth';
 
 // THUNK CREATOR
 export const addItemsToCart = (userId, items) => {
@@ -16,6 +17,8 @@ export const addItemsToCart = (userId, items) => {
  */
 export default function (state = [], action) {
   switch (action.type) {
+    case LOG_OUT:
+      return [];
     default:
       return state;
   }

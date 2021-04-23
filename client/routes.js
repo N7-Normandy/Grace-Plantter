@@ -1,9 +1,11 @@
+/* eslint-disable react/jsx-filename-extension */
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
 import Home from './components/home';
 import SinglePlant from './components/singlePlant';
+import Account from './components/Account';
 import { me } from './store';
 
 /**
@@ -28,6 +30,7 @@ class Routes extends Component {
                 <SinglePlant plantId={routeProps.match.params.plantId} />
               )}
             />
+            <Route path="/account" component={Account} />
             <Redirect to="/home" />
           </Switch>
         ) : (
