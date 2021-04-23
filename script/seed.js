@@ -9,6 +9,7 @@ async function orderSeeding() {
   const orders = await Promise.all([
     Order.create({}),
     Order.create({}),
+    Order.create({}),
     Order.create({
       status: 'shipped',
     }),

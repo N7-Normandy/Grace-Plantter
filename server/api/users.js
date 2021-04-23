@@ -61,8 +61,33 @@ router.get('/:id/orders/filter', async (req, res, next) => {
         model: Plant,
       },
     });
+        res.json(userOrders);
+      } catch (error) {
+    next(error);
+  }
+})
 
-    res.json(userOrders);
+    // ADD TO CART -- PUT api/users/:userId/orders
+router.put('/:userId/orders', async (req, res, next) => {
+  try {
+    let cart = await Order.findOne({
+      where: {
+        userId: req.params.userId,
+        status: 'cart',
+      }, include: {
+        model: Plant,
+      },
+    });
+    if (!cart) {
+      cart = await Order.create({ include: { model: Plant } });
+      const user = await User.findByPk(req.params.userId);
+      await user.setOrders(cart);
+    }
+    const plant = await Plant.findByPk(req.body.plantId);
+    await plant.setOrders(cart, { through: { quantity: req.body.quantity } });
+    await cart.update();
+    res.json(cart);
+
   } catch (error) {
     next(error);
   }

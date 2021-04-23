@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
 import Home from './components/home';
+import SinglePlant from './components/singlePlant';
 import Account from './components/Account';
 import { me } from './store';
 
@@ -23,6 +24,12 @@ class Routes extends Component {
         {isLoggedIn ? (
           <Switch>
             <Route path="/home" component={Home} />
+            <Route
+              path="/plants/:plantId"
+              render={(routeProps) => (
+                <SinglePlant plantId={routeProps.match.params.plantId} />
+              )}
+            />
             <Route path="/account" component={Account} />
             <Redirect to="/home" />
           </Switch>
@@ -32,6 +39,12 @@ class Routes extends Component {
             <Route path="/" exact component={Login} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
+            <Route
+              path="/plants/:plantId"
+              render={(routeProps) => (
+                <SinglePlant plantId={routeProps.match.params.plantId} />
+              )}
+            />
           </Switch>
         )}
       </div>
