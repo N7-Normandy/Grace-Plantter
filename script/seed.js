@@ -1,8 +1,8 @@
 'use strict';
 
 const {
-  db,
-  models: { Order, User, Plant },
+	db,
+	models: {Order, User, Plant},
 } = require('../server/db');
 
 async function orderSeeding() {
@@ -29,6 +29,7 @@ async function orderSeeding() {
  */
 
 async function seed() {
+
   await db.sync({ force: true }); // clears db and matches models to tables
   console.log('db synced!');
 
