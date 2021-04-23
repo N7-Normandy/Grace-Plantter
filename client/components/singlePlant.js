@@ -28,10 +28,9 @@ class SinglePlant extends React.Component {
   addToCart(event) {
     event.preventDefault();
     let items = {
-      plant: this.props.plant,
+      plantId: this.props.plantId,
       quantity: this.state.purchaseQty,
     };
-    console.log(JSON.stringify(items));
   }
 
   render() {

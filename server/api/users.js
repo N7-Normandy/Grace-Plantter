@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const {
-  models: { User },
+  models: { User, Order, Plant },
 } = require('../db');
 
 module.exports = router;
@@ -25,5 +25,30 @@ router.post('/', async (req, res, next) => {
     res.json(user);
   } catch (err) {
     next(err);
+  }
+});
+
+router.put('/:userId/orders', async (req, res, next) => {
+  try {
+    let cart = await Order.findOne({
+      where: {
+        userId: req.params.userId,
+        status: 'cart',
+      },
+      include: {
+        model: Plant,
+      },
+    });
+    if (!cart) {
+      cart = await Order.create({ include: { model: Plant } });
+      const user = await User.findByPk(req.params.userId);
+      await user.setOrders(cart);
+    }
+    const plant = await Plant.findByPk(req.body.plantId);
+    await plant.setOrders(cart, { through: { quantity: req.body.quantity } });
+    await cart.update();
+    res.json(cart);
+  } catch (error) {
+    next(error);
   }
 });
