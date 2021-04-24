@@ -2,38 +2,22 @@ const router = require('express').Router();
 const {
 	models: {User, Plant, Order},
 } = require('../db');
+
+module.exports = router;
+
 //get cart
-let myCart = [
-	{
-		plant: {
-			id: 1,
-			name: 'Orchid',
-			price: 120,
-			imageUrl:
-				'https://images.thdstatic.com/productImages/e154a248-ac84-46bf-a1a9-65724e122958/svn/endless-summer-bushes-14750-64_400.jpg',
-		},
-		quantity: 2,
-	},
-	{
-		plant: {
-			id: 2,
-			name: 'Peony',
-			price: 18.95,
-			imageUrl:
-				' https://images.thdstatic.com/productImages/b33f34d0-8f91-4e49-a1d8-2eaab0012500/svn/proven-winners-bushes-14766-64_100.jpg',
-		},
-		quantity: 12,
-	},
-];
-router.get('/', async (req, res, next) => {
+router.get('/:userId', async (req, res, next) => {
 	try {
-		// const user = await User.byToken(req.headers.authorization);
-		// const myCart = []
-		// user.cart.forEach(plant => {
-		// 	const plant = await Plant.findByPk(plant);
-		// 	myCart.push(plant)
-		// });
-		res.json(myCart);
+		let cart = await Order.findOne({
+			where: {
+				userId: req.params.userId,
+				status: 'cart',
+			},
+			include: {
+				model: Plant,
+			},
+		});
+		res.json(cart);
 	} catch (err) {
 		next(err);
 	}
@@ -90,15 +74,13 @@ router.post('/', async (req, res, next) => {
 
 router.put('/remove', async (req, res, next) => {
 	try {
-		const id = req.body.id
+		const id = req.body.id;
 		myCart = myCart.filter(item => {
 			return id !== item.plant.id;
-		})
-		console.log("sending response back", myCart)
+		});
+		console.log('sending response back', myCart);
 		res.json(myCart);
 	} catch (err) {
 		next(err);
 	}
 });
-
-module.exports = router;
