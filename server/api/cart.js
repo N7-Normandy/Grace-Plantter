@@ -23,15 +23,24 @@ router.get('/:userId', async (req, res, next) => {
 	}
 });
 //update cart
-// see empty
-//remove something from myCart
-router.put('/', async (req, res, next) => {
+router.put('/:userId', async (req, res, next) => {
 	try {
-		myCart = req.body;
-		res.json(myCart);
-		// const user = await User.byToken(req.headers.authorization);
-		// user = await user.update({cart: req.body});
-		// res.json(user.cart);
+		console.log(req.body.plant);
+		const oldPlant = await Plant.findByPk(req.body.plant.id);
+		const cart = await Order.findOne({
+			where: {
+				userId: req.params.userId,
+				status: 'cart',
+			},
+			include: {
+				model: Plant,
+			},
+		});
+		await cart.removePlant(oldPlant);
+		await cart.addPlant(oldPlant, {
+			through: {quantity: req.body.plant.orderProducts.quantity},
+		});
+		res.json(cart);
 	} catch (err) {
 		next(err);
 	}

@@ -21,7 +21,7 @@ export class Cart extends Component {
 		const {getCart, userId} = this.props;
 		await getCart(userId);
 		const total = this.props.cart.plants.reduce((acc, curr) => {
-			return acc + curr.price * curr.quantity;
+			return acc + curr.price * curr.orderProducts.quantity;
 		}, 0);
 		this.setState({
 			cart: this.props.cart.plants,
@@ -29,9 +29,10 @@ export class Cart extends Component {
 		});
 	}
 	async handleChange(e, index) {
-		this.state.cart[index].quantity = Number(e.target.value);
+		const {updateCart, userId} = this.props;
+		this.state.cart[index].orderProducts.quantity = Number(e.target.value);
 		this.setState({cart: this.state.cart});
-		await this.props.updateCart(this.state.cart);
+		await updateCart(userId, {plant: this.state.cart[index]});
 	}
 	handleCheckout(e) {
 		e.preventDefault();
@@ -45,18 +46,13 @@ export class Cart extends Component {
 		this.setState({
 			cart: this.props.cart,
 		});
-		//remove the index of plant from from our state
-		// call updateCart
-		// this.props.remove(plantId);
 	}
 	render() {
 		const {handleCheckout, handleChange, handleRemove} = this;
-		// console.log(this.state.cart);
 		return (
 			<div className="card-checkout" onSubmit={handleCheckout}>
 				{this.state.cart.length > 0 ? (
 					this.state.cart.map((item, index) => {
-						console.log('ITEM', item);
 						return (
 							<div className="card-body-checkout" key={item.id}>
 								<img className="checkoutImg" src={item.imageURL} />
@@ -67,7 +63,7 @@ export class Cart extends Component {
 										className="input-group-field"
 										type="number"
 										name="quantity"
-										value={this.state.cart[index].quantity || 0}
+										value={this.state.cart[index].orderProducts.quantity || 0}
 										onChange={e => handleChange(e, index)}
 									/>
 								</div>
@@ -109,7 +105,7 @@ const mapProps = state => ({
 const mapDispatch = dispatch => ({
 	getCart: userId => dispatch(fetchCart(userId)),
 	removeFromCart: plantId => dispatch(getRemoveFromCart(plantId)),
-	updateCart: cart => dispatch(getUpdateCart(cart)),
+	updateCart: (userId, plant) => dispatch(getUpdateCart(userId, plant)),
 	checkout: paymentInfo => dispatch(getCheckoutCart(paymentInfo)),
 });
 export default connect(mapProps, mapDispatch)(Cart);

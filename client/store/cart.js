@@ -27,22 +27,32 @@ const removeFromCart = cart => ({
 //Thunk creators
 export const fetchCart = userId => {
 	return async dispatch => {
-		// console.log(userId);
-		const {data: userCart} = await axios.get(`api/cart/${userId}`);
-		console.log('inside fetchCart', userCart);
-		dispatch(getCart(userCart));
+		try {
+			const {data: userCart} = await axios.get(`api/cart/${userId}`);
+			dispatch(getCart(userCart));
+		} catch (error) {
+			console.log(error);
+		}
 	};
 };
-export const getUpdateCart = cart => {
+export const getUpdateCart = (userId, plant) => {
 	return async dispatch => {
-		const {data: userCart} = await axios.put('/api/cart', cart);
-		dispatch(updateCart(userCart));
+		try {
+			const {data: userCart} = await axios.put(`api/cart/${userId}`, plant);
+			dispatch(updateCart(userCart));
+		} catch (error) {
+			console.log(error);
+		}
 	};
 };
-export const getCheckoutCart = cart => {
+export const getCheckoutCart = (userId, cart) => {
 	return async dispatch => {
-		const {data: order} = await axios.post('/api/cart', cart);
-		dispatch(checkoutCart(order));
+		try {
+			const {data: order} = await axios.post(`api/cart/${userId}`, cart);
+			dispatch(checkoutCart(order));
+		} catch (error) {
+			console.log(error);
+		}
 	};
 };
 
@@ -73,14 +83,10 @@ export default (state = [], action) => {
 		case GET_CART:
 			return action.cart;
 		case UPDATE_CART:
-			return state.map(cart => {
-				console.log(cart);
-				return cart.id === action.cart.id ? action.cart : cart;
-			});
+			return action.cart;
 		case CHECKOUT_CART:
 			return action.cart;
 		case REMOVE_FROM_CART:
-			console.log('inside REMOVE_FROM_CART reducer', action.cart);
 			return action.cart;
 		default:
 			return state;
