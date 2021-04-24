@@ -15,23 +15,25 @@ export class Cart extends Component {
 		this.handleChange = this.handleChange.bind(this);
 		this.handleCheckout = this.handleCheckout.bind(this);
 		this.handleRemove = this.handleRemove.bind(this);
+		this.calculateTotal = this.calculateTotal.bind(this);
 	}
-
+	calculateTotal() {
+		return this.props.cart.plants.reduce((acc, curr) => {
+			return acc + curr.price * curr.orderProducts.quantity;
+		}, 0);
+	}
 	async componentDidMount() {
 		const {getCart, userId} = this.props;
 		await getCart(userId);
-		const total = this.props.cart.plants.reduce((acc, curr) => {
-			return acc + curr.price * curr.orderProducts.quantity;
-		}, 0);
 		this.setState({
 			cart: this.props.cart.plants,
-			totalPrice: total,
+			totalPrice: this.calculateTotal(),
 		});
 	}
 	async handleChange(e, index) {
 		const {updateCart, userId} = this.props;
 		this.state.cart[index].orderProducts.quantity = Number(e.target.value);
-		this.setState({cart: this.state.cart});
+		this.setState({cart: this.state.cart, totalPrice: this.calculateTotal()});
 		await updateCart(userId, {plant: this.state.cart[index]});
 	}
 	handleCheckout(e) {
@@ -45,6 +47,7 @@ export class Cart extends Component {
 		await this.props.removeFromCart(plantId);
 		this.setState({
 			cart: this.props.cart,
+			totalPrice: this.calculateTotal(),
 		});
 	}
 	render() {
