@@ -45,6 +45,30 @@ router.put('/:userId', async (req, res, next) => {
 		next(err);
 	}
 });
+router.put('/:userId/remove', async (req, res, next) => {
+	console.log(req.body);
+	try {
+		// console.log(req.body);
+		const oldPlant = await Plant.findByPk(req.body.plantId);
+		console.log(oldPlant);
+		const cart = await Order.findOne({
+			where: {
+				userId: req.params.userId,
+				status: 'cart',
+			},
+			include: {
+				model: Plant,
+			},
+		});
+		// console.log(await cart.getPlants());
+		await cart.removePlant(oldPlant);
+		console.log(cart.__proto__);
+		// console.log(await cart.getPlants());
+		res.json(cart);
+	} catch (err) {
+		next(err);
+	}
+});
 //checkout
 router.post('/', async (req, res, next) => {
 	try {
@@ -76,19 +100,6 @@ router.post('/', async (req, res, next) => {
 				})
 			);
 		}
-	} catch (err) {
-		next(err);
-	}
-});
-
-router.put('/remove', async (req, res, next) => {
-	try {
-		const id = req.body.id;
-		myCart = myCart.filter(item => {
-			return id !== item.plant.id;
-		});
-		console.log('sending response back', myCart);
-		res.json(myCart);
 	} catch (err) {
 		next(err);
 	}

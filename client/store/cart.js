@@ -56,13 +56,18 @@ export const getCheckoutCart = (userId, cart) => {
 	};
 };
 
-export const getRemoveFromCart = id => async dispatch => {
-	try {
-		const userCart = await axios.put('/api/cart/remove', {id});
-		dispatch(removeFromCart(userCart.data));
-	} catch (error) {
-		console.log(error);
-	}
+export const getRemoveFromCart = (userId, plantId) => {
+	return async dispatch => {
+		try {
+			const {data: userCart} = await axios.put(
+				`api/cart/${userId}/remove`,
+				plantId
+			);
+			dispatch(removeFromCart(userCart));
+		} catch (error) {
+			console.log(error);
+		}
+	};
 };
 
 export const addItemsToCart = (userId, items) => {

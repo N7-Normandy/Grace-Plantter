@@ -36,18 +36,22 @@ export class Cart extends Component {
 		this.setState({cart: this.state.cart, totalPrice: this.calculateTotal()});
 		await updateCart(userId, {plant: this.state.cart[index]});
 	}
+
+	async handleRemove(e, plantId) {
+		const {removeFromCart, getCart, userId} = this.props;
+		console.log(userId, plantId);
+		e.preventDefault();
+		await removeFromCart(userId, {plantId: plantId});
+		await getCart(userId);
+		this.setState({
+			cart: this.props.cart,
+			totalPrice: this.calculateTotal(),
+		});
+	}
 	handleCheckout(e) {
 		e.preventDefault();
 		this.props.checkout(this.state.cart, {
 			totalPrice: this.state.totalPrice,
-		});
-	}
-	async handleRemove(e, plantId) {
-		e.preventDefault();
-		await this.props.removeFromCart(plantId);
-		this.setState({
-			cart: this.props.cart,
-			totalPrice: this.calculateTotal(),
 		});
 	}
 	render() {
@@ -107,7 +111,8 @@ const mapProps = state => ({
 });
 const mapDispatch = dispatch => ({
 	getCart: userId => dispatch(fetchCart(userId)),
-	removeFromCart: plantId => dispatch(getRemoveFromCart(plantId)),
+	removeFromCart: (userId, plantId) =>
+		dispatch(getRemoveFromCart(userId, plantId)),
 	updateCart: (userId, plant) => dispatch(getUpdateCart(userId, plant)),
 	checkout: paymentInfo => dispatch(getCheckoutCart(paymentInfo)),
 });
