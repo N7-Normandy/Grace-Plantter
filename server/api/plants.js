@@ -7,7 +7,11 @@ module.exports = router;
 // /API/PLANTS
 router.get('/', async (req, res, next) => {
   try {
-    const plants = await Plant.findAll();
+    const plants = await Plant.findAll({
+      where: {
+        active: true,
+      },
+    });
     res.json(plants);
   } catch (err) {
     next(err);
