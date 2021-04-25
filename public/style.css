@@ -118,6 +118,18 @@ header {
   border-style: double;
 }
 
+/* Form Styles */
+.full-form {
+  align-items: center;
+}
+
+.full-form > input {
+  min-width: 250px;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Single Plant Styles */
 .singleplantImage {
   height: 25rem;
   width: 25rem;

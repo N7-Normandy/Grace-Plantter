@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link, Switch, Route, Redirect } from 'react-router-dom';
 import AccountInfo from './AccountInfo';
 import AllOrders from './AllOrders';
+import EditAccount from './EditAccount';
 
 const Account = ({ userName, isAdmin }) => (
   <div id="user-account">
@@ -19,7 +20,7 @@ const Account = ({ userName, isAdmin }) => (
     <Switch>
       <Route path="/account/info" component={AccountInfo} />
       <Route path="/account/past-orders" component={AllOrders} />
-      <Route path="/account/edit" />
+      <Route path="/account/edit" component={EditAccount} />
       <Redirect to="/account/info" />
     </Switch>
   </div>
