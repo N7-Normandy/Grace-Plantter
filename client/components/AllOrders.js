@@ -14,7 +14,7 @@ class AllOrders extends Component {
 
   render() {
     const { orders } = this.props;
-    console.log('I am rendering these orders: ', orders);
+
     return (
       <>
         {orders.length ? (

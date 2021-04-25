@@ -5,6 +5,7 @@
 /* Boiler Plate Styling */
 
 body {
+  background-color: rgba(216, 170, 214, 0.486);
   font-family: sans-serif;
 }
 
@@ -24,6 +25,50 @@ nav a {
 form div {
   margin: 1em;
   display: inline-block;
+}
+.checkoutImg {
+  height: 15rem;
+  width: 15rem;
+  margin: 5rem;
+}
+.card-body-checkout {
+  display: flex;
+  flex-direction: row;
+  align-content: stretch;
+  justify-content: flex-start;
+  align-items: center;
+}
+.information {
+  display: flex;
+  flex-direction: column;
+}
+#checkout {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.plus-minus-input {
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.plus-minus-input .input-group-field {
+  text-align: center;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  padding: 1rem;
+}
+
+.plus-minus-input .input-group-field::-webkit-inner-spin-button,
+.plus-minus-input .input-group-field ::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.plus-minus-input .input-group-button .circle {
+  border-radius: 50%;
+  padding: 0.25em 0.8em;
 }
 
 .card {
@@ -65,4 +110,43 @@ header {
 
 .nav-wrapper {
   align-items: flex-end;
+}
+
+.title {
+  text-align: center;
+  border: black;
+  border-style: double;
+}
+
+.singleplantImage {
+  height: 25rem;
+  width: 25rem;
+}
+
+.description {
+  border: rgba(72, 71, 71, 0.755);
+  border-style: solid;
+  padding: 1rem;
+  padding-right: 1.5rem;
+  margin: 2rem;
+}
+
+.orderBox {
+  border: rgba(72, 71, 71, 0.755);
+  border-style: solid;
+  padding: 1rem;
+  padding-right: 1.5rem;
+  height: 25rem;
+}
+
+.content {
+  display: flex;
+  margin: 2rem;
+  justify-content: space-evenly;
+}
+
+.infoBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

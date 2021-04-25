@@ -1,12 +1,13 @@
 'use strict';
 
 const {
-  db,
-  models: { Order, User, Plant },
+	db,
+	models: {Order, User, Plant},
 } = require('../server/db');
 
 async function orderSeeding() {
   const orders = await Promise.all([
+    Order.create({}),
     Order.create({}),
     Order.create({}),
     Order.create({
@@ -28,6 +29,7 @@ async function orderSeeding() {
  */
 
 async function seed() {
+
   await db.sync({ force: true }); // clears db and matches models to tables
   console.log('db synced!');
 
