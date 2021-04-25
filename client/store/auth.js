@@ -8,11 +8,28 @@ const TOKEN = 'token';
  */
 const SET_AUTH = 'SET_AUTH';
 export const LOG_OUT = 'LOG_OUT';
+const UPDATE_USER = 'UPDATE_USER';
 
 /**
  * ACTION CREATORS
  */
 const setAuth = (auth) => ({ type: SET_AUTH, auth });
+
+export const logout = () => {
+  window.localStorage.removeItem(TOKEN);
+  history.push('/login');
+  return {
+    type: LOG_OUT,
+    auth: {},
+  };
+};
+
+const updateStore = (updatedUser) => {
+  return {
+    type: UPDATE_USER,
+    updatedUser,
+  };
+};
 
 /**
  * THUNK CREATORS
@@ -47,12 +64,25 @@ export const authenticate = (email, password, method, name) => async (
   }
 };
 
-export const logout = () => {
-  window.localStorage.removeItem(TOKEN);
-  history.push('/login');
-  return {
-    type: LOG_OUT,
-    auth: {},
+export const updateUser = (id, updatedUser) => {
+  return async (dispatch) => {
+    try {
+      const token = window.localStorage.getItem(TOKEN);
+      if (token) {
+        const { data } = await axios.put(`/api/users/${id}`, updatedUser, {
+          headers: {
+            authorization: token,
+          },
+        });
+
+        if (data === 'OK') {
+          dispatch(updateStore(updatedUser));
+          history.push('/account/info');
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 };
 
@@ -61,6 +91,8 @@ export const logout = () => {
  */
 export default function (state = {}, action) {
   switch (action.type) {
+    case UPDATE_USER:
+      return { ...state, ...action.updatedUser };
     case LOG_OUT:
       return action.auth;
     case SET_AUTH:

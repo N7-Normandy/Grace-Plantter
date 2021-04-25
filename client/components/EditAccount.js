@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-filename-extension */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { updateUser } from '../store/auth';
 
 export class EditAccount extends Component {
   constructor(props) {
@@ -34,6 +35,8 @@ export class EditAccount extends Component {
 
   handleSubmit = (evt) => {
     evt.preventDefault();
+    const { updateProfile, user } = this.props;
+    updateProfile(user.id, this.state);
   };
 
   render() {
@@ -46,6 +49,7 @@ export class EditAccount extends Component {
           id="email"
           value={this.state.email}
           onChange={this.handleChange}
+          required
         />
         <label htmlFor="name">Update Your Name?</label>
         <input
@@ -54,6 +58,7 @@ export class EditAccount extends Component {
           id="name"
           value={this.state.name}
           onChange={this.handleChange}
+          required
         />
         <label htmlFor="shippingAddress">Update Your Shipping Address?</label>
         <input
@@ -81,4 +86,8 @@ const mapState = (state) => ({
   user: state.auth,
 });
 
-export default connect(mapState)(EditAccount);
+const mapDispatch = (dispatch) => ({
+  updateProfile: (id, info) => dispatch(updateUser(id, info)),
+});
+
+export default connect(mapState, mapDispatch)(EditAccount);
