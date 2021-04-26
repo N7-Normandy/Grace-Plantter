@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {LOG_OUT} from './auth';
+import { LOG_OUT } from './auth';
 //Action types
 const GET_CART = 'GET_CART';
 const UPDATE_CART = 'UPDATE_CART';
@@ -30,49 +30,53 @@ const addItems = (cart) => ({
 });
 
 //Thunk creators
-export const fetchCart = userId => {
-	return async dispatch => {
-		try {
-			const {data: userCart} = await axios.get(`api/cart/${userId}`);
-			dispatch(getCart(userCart));
-		} catch (error) {
-			console.log(error);
-		}
-	};
+export const fetchCart = (userId) => {
+  return async (dispatch) => {
+    try {
+      const { data: userCart } = await axios.get(`api/cart/${userId}`);
+      if (!userCart) {
+        dispatch(getCart({}));
+      } else {
+        dispatch(getCart(userCart));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 };
 export const getUpdateCart = (userId, plant) => {
-	return async dispatch => {
-		try {
-			const {data: userCart} = await axios.put(`api/cart/${userId}`, plant);
-			dispatch(updateCart(userCart));
-		} catch (error) {
-			console.log(error);
-		}
-	};
+  return async (dispatch) => {
+    try {
+      const { data: userCart } = await axios.put(`api/cart/${userId}`, plant);
+      dispatch(updateCart(userCart));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 };
 export const getCheckoutCart = (userId, cart) => {
-	return async dispatch => {
-		try {
-			const {data: order} = await axios.post(`api/cart/${userId}`, cart);
-			dispatch(checkoutCart(order));
-		} catch (error) {
-			console.log(error);
-		}
-	};
+  return async (dispatch) => {
+    try {
+      const { data: order } = await axios.post(`api/cart/${userId}`, cart);
+      dispatch(checkoutCart(order));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 };
 
 export const getRemoveFromCart = (userId, plantId) => {
-	return async dispatch => {
-		try {
-			const {data: userCart} = await axios.put(
-				`api/cart/${userId}/remove`,
-				plantId
-			);
-			dispatch(removeFromCart(userCart));
-		} catch (error) {
-			console.log(error);
-		}
-	};
+  return async (dispatch) => {
+    try {
+      const { data: userCart } = await axios.put(
+        `api/cart/${userId}/remove`,
+        plantId
+      );
+      dispatch(removeFromCart(userCart));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 };
 
 export const addItemsToCart = (userId, items) => {
@@ -90,21 +94,21 @@ export const addItemsToCart = (userId, items) => {
 };
 
 // Reducer
-export default (state = [], action) => {
-	switch (action.type) {
-		case LOG_OUT:
-			return [];
-		case GET_CART:
-			return action.cart;
-		case UPDATE_CART:
-			return action.cart;
-		case CHECKOUT_CART:
-			return action.cart;
-		case REMOVE_FROM_CART:
-			return action.cart;
+export default (state = {}, action) => {
+  switch (action.type) {
+    case LOG_OUT:
+      return {};
+    case GET_CART:
+      return action.cart;
+    case UPDATE_CART:
+      return action.cart;
+    case CHECKOUT_CART:
+      return action.cart;
+    case REMOVE_FROM_CART:
+      return action.cart;
     case ADD_ITEMS:
       return action.cart;
-		default:
-			return state;
-	}
+    default:
+      return state;
+  }
 };
