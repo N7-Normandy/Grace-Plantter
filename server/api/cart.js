@@ -8,10 +8,6 @@ module.exports = router;
 // get cart
 router.get('/:userId', async (req, res, next) => {
   try {
-    if (!req.headers.authorization) {
-      req.session.cart.push({ plantId: testCount, quantity: 1 });
-      testCount += 1;
-    }
     let cart = await Order.findOne({
       where: {
         userId: req.params.userId,
@@ -19,6 +15,7 @@ router.get('/:userId', async (req, res, next) => {
       },
       include: {
         model: Plant,
+        order: [['plants.orderProducts.createdAt', 'ASC']],
       },
     });
     res.json(cart);
@@ -37,6 +34,7 @@ router.put('/:userId', async (req, res, next) => {
       },
       include: {
         model: Plant,
+        order: [['plants.orderProducts.createdAt', 'ASC']],
       },
     });
     await cart.addPlant(changedPlant, {
@@ -58,6 +56,7 @@ router.put('/:userId/remove', async (req, res, next) => {
       },
       include: {
         model: Plant,
+        order: [['plants.orderProducts.createdAt', 'ASC']],
       },
     });
     await cart.removePlant(oldPlant);
