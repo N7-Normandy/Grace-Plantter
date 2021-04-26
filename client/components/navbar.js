@@ -7,7 +7,9 @@ import {logout} from '../store';
 
 const Navbar = ({handleClick, isLoggedIn, cart}) => (
 	<header className="flex-row">
-		<h1>Grace Plantter</h1>
+		<Link to="/home">
+			<h1>Grace Plantter</h1>
+		</Link>
 		<div className="flex-column nav-wrapper">
 			<nav>
 				<Link to="/home">Home</Link>
