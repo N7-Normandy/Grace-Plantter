@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Op } = require('sequelize');
-const { requireToken, isAdmin } = require('./gatekeepingmiddleware')
+const { requireToken, isAdmin } = require('./gatekeepingmiddleware');
 
 const {
   models: { User, Order, Plant },
@@ -111,8 +111,10 @@ router.put('/:userId/orders', async (req, res, next) => {
       await user.setOrders(cart);
     }
     const plant = await Plant.findByPk(req.body.plantId);
-    await plant.setOrders(cart, { through: { quantity: req.body.quantity } });
-    await cart.update();
+    // await plant.setOrders(cart, { through: { quantity: req.body.quantity } });
+    await cart.addPlant(plant, { through: { quantity: req.body.quantity } });
+    // await cart.update();
+    await cart.reload();
     res.json(cart);
   } catch (error) {
     next(error);

@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
@@ -6,27 +8,28 @@ import { fetchSinglePlant } from '../store/singlePlant';
 import { addItemsToCart } from '../store/cart';
 
 class SinglePlant extends React.Component {
-	constructor() {
-		super();
-		this.state = {
-			purchaseQty: 1,
-		};
-		this.changeQuantity = this.changeQuantity.bind(this);
-		this.addToCart = this.addToCart.bind(this);
-	}
+  constructor() {
+    super();
+    this.state = {
+      purchaseQty: 1,
+    };
+    this.changeQuantity = this.changeQuantity.bind(this);
+    this.addToCart = this.addToCart.bind(this);
+  }
 
-	componentDidMount() {
-		try {
-			this.props.getPlant(this.props.plantId);
-		} catch (error) {
-			console.log(error);
-		}
-	}
-	changeQuantity(event) {
-		this.setState({
-			purchaseQty: event.target.value,
-		});
-	}
+  componentDidMount() {
+    try {
+      this.props.getPlant(this.props.plantId);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  changeQuantity(event) {
+    this.setState({
+      purchaseQty: event.target.value,
+    });
+  }
 
   addToCart(event) {
     event.preventDefault();
@@ -61,8 +64,15 @@ class SinglePlant extends React.Component {
   render() {
     console.log('state', this.state);
     console.log('props', this.props);
-    const plant = this.props.plant;
+    const { plant, cart } = this.props;
     const description = plant.description || '';
+
+    let isInCart = false;
+    if (cart.plants) {
+      isInCart = !!cart.plants.filter((cartPlant) => cartPlant.id === plant.id)
+        .length;
+    }
+
     return (
       <div className="singlePlant">
         <div className="title">
@@ -89,7 +99,9 @@ class SinglePlant extends React.Component {
                 value={this.state.purchaseQty}
               />
               <h3>Price: ${plant.price}</h3>
-              <button type="submit">Add to Cart</button>
+              <button type="submit">
+                {isInCart ? 'Update Cart Total' : 'Add to Cart'}
+              </button>
             </form>
           </div>
         </div>
@@ -109,18 +121,19 @@ class SinglePlant extends React.Component {
   }
 }
 
-const mapState = state => {
-	return {
-		plant: state.plant,
-		userId: state.auth.id,
-	};
+const mapState = (state) => {
+  return {
+    plant: state.plant,
+    userId: state.auth.id,
+    cart: state.cart,
+  };
 };
 
-const mapDispatch = dispatch => {
-	return {
-		getPlant: plantId => dispatch(fetchSinglePlant(plantId)),
-		addItems: (userId, items) => dispatch(addItemsToCart(userId, items)),
-	};
+const mapDispatch = (dispatch) => {
+  return {
+    getPlant: (plantId) => dispatch(fetchSinglePlant(plantId)),
+    addItems: (userId, items) => dispatch(addItemsToCart(userId, items)),
+  };
 };
 
 export default connect(mapState, mapDispatch)(SinglePlant);
