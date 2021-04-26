@@ -8,6 +8,8 @@ import {
 	getRemoveFromCart,
 } from '../store/cart';
 
+//
+
 export class Cart extends Component {
 	constructor(props) {
 		super(props);
@@ -30,10 +32,27 @@ export class Cart extends Component {
 			totalPrice: this.calculateTotal(),
 		});
 	}
+	componentDidUpdate(prevProps) {
+		if (this.props.cart !== prevProps.cart) {
+			this.setState({
+				cart: this.props.cart.plants,
+				totalPrice: this.calculateTotal(),
+			});
+		}
+	}
+	//handle 0 request
+	// remove item  from cart if quantity == 0
 	async handleChange(e, index) {
 		const {updateCart, userId} = this.props;
-		this.state.cart[index].orderProducts.quantity = Number(e.target.value);
-		this.setState({cart: this.state.cart, totalPrice: this.calculateTotal()});
+		if (Number(e.target.value) < 0) {
+			this.state.cart[index].orderProducts.quantity = 0;
+		} else {
+			this.state.cart[index].orderProducts.quantity = Number(e.target.value);
+		}
+		this.setState({
+			cart: this.state.cart.plants,
+			totalPrice: this.calculateTotal(),
+		});
 		await updateCart(userId, {plant: this.state.cart[index]});
 	}
 
@@ -42,11 +61,6 @@ export class Cart extends Component {
 		console.log(userId, plantId);
 		e.preventDefault();
 		await removeFromCart(userId, {plantId: plantId});
-		await getCart(userId);
-		this.setState({
-			cart: this.props.cart,
-			totalPrice: this.calculateTotal(),
-		});
 	}
 	handleCheckout(e) {
 		e.preventDefault();

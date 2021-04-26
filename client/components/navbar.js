@@ -11,7 +11,9 @@ const Navbar = ({handleClick, isLoggedIn, cart}) => (
 		<div className="flex-column nav-wrapper">
 			<nav>
 				<Link to="/home">Home</Link>
-				<Link to="/cart">Cart ({cart.length} items)</Link>
+				<Link to="/cart">
+					Cart ({cart.plants ? cart.plants.length : 0} items)
+				</Link>
 				{isLoggedIn ? (
 					<>
 						<Link to="/account">Account</Link>

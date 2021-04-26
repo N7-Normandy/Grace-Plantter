@@ -25,8 +25,7 @@ router.get('/:userId', async (req, res, next) => {
 //update cart
 router.put('/:userId', async (req, res, next) => {
 	try {
-		console.log(req.body.plant);
-		const oldPlant = await Plant.findByPk(req.body.plant.id);
+		const changedPlant = await Plant.findByPk(req.body.plant.id);
 		const cart = await Order.findOne({
 			where: {
 				userId: req.params.userId,
@@ -36,8 +35,8 @@ router.put('/:userId', async (req, res, next) => {
 				model: Plant,
 			},
 		});
-		await cart.removePlant(oldPlant);
-		await cart.addPlant(oldPlant, {
+		await cart.removePlant(changedPlant);
+		await cart.addPlant(changedPlant, {
 			through: {quantity: req.body.plant.orderProducts.quantity},
 		});
 		res.json(cart);
@@ -46,11 +45,8 @@ router.put('/:userId', async (req, res, next) => {
 	}
 });
 router.put('/:userId/remove', async (req, res, next) => {
-	console.log(req.body);
 	try {
-		// console.log(req.body);
 		const oldPlant = await Plant.findByPk(req.body.plantId);
-		console.log(oldPlant);
 		const cart = await Order.findOne({
 			where: {
 				userId: req.params.userId,
@@ -60,10 +56,8 @@ router.put('/:userId/remove', async (req, res, next) => {
 				model: Plant,
 			},
 		});
-		// console.log(await cart.getPlants());
 		await cart.removePlant(oldPlant);
-		console.log(cart.__proto__);
-		// console.log(await cart.getPlants());
+		await cart.reload();
 		res.json(cart);
 	} catch (err) {
 		next(err);
