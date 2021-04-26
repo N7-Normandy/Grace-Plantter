@@ -6,27 +6,27 @@ import { fetchSinglePlant } from '../store/singlePlant';
 import { addItemsToCart } from '../store/cart';
 
 class SinglePlant extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      purchaseQty: 1,
-    };
-    this.changeQuantity = this.changeQuantity.bind(this);
-    this.addToCart = this.addToCart.bind(this);
-  }
+	constructor() {
+		super();
+		this.state = {
+			purchaseQty: 1,
+		};
+		this.changeQuantity = this.changeQuantity.bind(this);
+		this.addToCart = this.addToCart.bind(this);
+	}
 
-  componentDidMount() {
-    try {
-      this.props.getPlant(this.props.plantId);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  changeQuantity(event) {
-    this.setState({
-      purchaseQty: event.target.value,
-    });
-  }
+	componentDidMount() {
+		try {
+			this.props.getPlant(this.props.plantId);
+		} catch (error) {
+			console.log(error);
+		}
+	}
+	changeQuantity(event) {
+		this.setState({
+			purchaseQty: event.target.value,
+		});
+	}
 
   addToCart(event) {
     event.preventDefault();
@@ -109,18 +109,18 @@ class SinglePlant extends React.Component {
   }
 }
 
-const mapState = (state) => {
-  return {
-    plant: state.plant,
-    userId: state.auth.id,
-  };
+const mapState = state => {
+	return {
+		plant: state.plant,
+		userId: state.auth.id,
+	};
 };
 
-const mapDispatch = (dispatch) => {
-  return {
-    getPlant: (plantId) => dispatch(fetchSinglePlant(plantId)),
-    addItems: (userId, items) => dispatch(addItemsToCart(userId, items)),
-  };
+const mapDispatch = dispatch => {
+	return {
+		getPlant: plantId => dispatch(fetchSinglePlant(plantId)),
+		addItems: (userId, items) => dispatch(addItemsToCart(userId, items)),
+	};
 };
 
 export default connect(mapState, mapDispatch)(SinglePlant);
