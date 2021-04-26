@@ -25,10 +25,14 @@ let myCart = [
     quantity: 12,
   },
 ];
+
+let testCount = 1;
+
 router.get('/', async (req, res, next) => {
   try {
     if (!req.headers.authorization) {
-      console.log(req.session.cart);
+      req.session.cart.push({ plantId: testCount, quantity: 1 });
+      testCount += 1;
     }
     // const user = await User.byToken(req.headers.authorization);
     // const myCart = []
