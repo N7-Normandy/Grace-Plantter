@@ -15,7 +15,7 @@ router.get('/:userId', async (req, res, next) => {
 			},
 			include: {
 				model: Plant,
-				order: [['plants.orderProducts.createdAt', 'ASC']],
+				order: [['plants.name', 'ASC']],
 			},
 		});
 		res.json(cart);
@@ -34,7 +34,7 @@ router.put('/:userId', async (req, res, next) => {
 			},
 			include: {
 				model: Plant,
-				order: [['plants.orderProducts.createdAt', 'ASC']],
+				order: [['plants.name', 'ASC']],
 			},
 		});
 		await cart.addPlant(changedPlant, {
@@ -56,7 +56,7 @@ router.put('/:userId/remove', async (req, res, next) => {
 			},
 			include: {
 				model: Plant,
-				order: [['plants.orderProducts.createdAt', 'ASC']],
+				order: [['plants.name', 'ASC']],
 			},
 		});
 		await cart.removePlant(oldPlant);
