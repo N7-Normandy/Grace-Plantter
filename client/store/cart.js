@@ -5,23 +5,28 @@ const GET_CART = 'GET_CART';
 const UPDATE_CART = 'UPDATE_CART';
 const CHECKOUT_CART = 'CHECKOUT_CART';
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
+const ADD_ITEMS = 'ADD_ITEMS';
 
 //Actions creators
-const getCart = cart => ({
-	type: GET_CART,
-	cart,
+const getCart = (cart) => ({
+  type: GET_CART,
+  cart,
 });
-const updateCart = cart => ({
-	type: UPDATE_CART,
-	cart,
+const updateCart = (cart) => ({
+  type: UPDATE_CART,
+  cart,
 });
-const checkoutCart = cart => ({
-	type: CHECKOUT_CART,
-	cart,
+const checkoutCart = (cart) => ({
+  type: CHECKOUT_CART,
+  cart,
 });
-const removeFromCart = cart => ({
-	type: REMOVE_FROM_CART,
-	cart,
+const removeFromCart = (cart) => ({
+  type: REMOVE_FROM_CART,
+  cart,
+});
+const addItems = (cart) => ({
+  type: ADD_ITEMS,
+  cart,
 });
 
 //Thunk creators
@@ -71,13 +76,17 @@ export const getRemoveFromCart = (userId, plantId) => {
 };
 
 export const addItemsToCart = (userId, items) => {
-	return async dispatch => {
-		try {
-			await axios.put(`/api/users/${userId}/orders`, items);
-		} catch (error) {
-			console.log(error);
-		}
-	};
+  return async (dispatch) => {
+    try {
+      const { data: cart } = await axios.put(
+        `/api/users/${userId}/orders`,
+        items
+      );
+      dispatch(addItems(cart));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 };
 
 // Reducer
@@ -93,6 +102,8 @@ export default (state = [], action) => {
 			return action.cart;
 		case REMOVE_FROM_CART:
 			return action.cart;
+    case ADD_ITEMS:
+      return action.cart;
 		default:
 			return state;
 	}

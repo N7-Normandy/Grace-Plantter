@@ -119,6 +119,18 @@ header {
 	border-style: double;
 }
 
+/* Form Styles */
+.full-form {
+  align-items: center;
+}
+
+.full-form > input {
+  min-width: 250px;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Other Styles */
 .singleplantImage {
 	height: 40vw;
 	width: 40vw;
@@ -150,4 +162,19 @@ header {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+}
+
+.orderBox input {
+  width: 2rem;
+  /* float: right;
+  margin-top: 1.2rem;
+  margin-left: 0.5rem; */
+}
+
+/* .quantity {
+  float: left;
+} */
+
+.orderBox button {
+  font-weight: bold;
 }

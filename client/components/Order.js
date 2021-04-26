@@ -3,8 +3,6 @@
 import React from 'react';
 
 export default function Order({ order }) {
-  if (!order.id) return <p>Start shopping!</p>;
-
   return (
     <div>
       <table>
