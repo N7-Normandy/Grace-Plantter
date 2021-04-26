@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Order from './Order';
 import { fetchUserOrders } from '../store/orders';
 
@@ -16,12 +17,19 @@ class AllOrders extends Component {
 
     return (
       <>
-        {orders.map((order, idx, arr) => (
-          <div key={order.id}>
-            <h3>Order #{arr.length - idx}</h3>
-            <Order order={order} />
-          </div>
-        ))}
+        {orders.length ? (
+          orders.map((order, idx, arr) => (
+            <div key={order.id}>
+              <h3>Order #{arr.length - idx}</h3>
+              <Order order={order} />
+            </div>
+          ))
+        ) : (
+          <>
+            <h3>You have no orders with us :(</h3>
+            <Link to="/home">Start shopping!</Link>
+          </>
+        )}
       </>
     );
   }
