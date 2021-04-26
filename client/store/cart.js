@@ -5,6 +5,7 @@ const GET_CART = 'GET_CART';
 const UPDATE_CART = 'UPDATE_CART';
 const CHECKOUT_CART = 'CHECKOUT_CART';
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
+const ADD_ITEMS = 'ADD_ITEMS';
 
 //Actions creators
 const getCart = (cart) => ({
@@ -21,6 +22,10 @@ const checkoutCart = (cart) => ({
 });
 const removeFromCart = (cart) => ({
   type: REMOVE_FROM_CART,
+  cart,
+});
+const addItems = (cart) => ({
+  type: ADD_ITEMS,
   cart,
 });
 
@@ -59,7 +64,11 @@ export const getRemoveFromCart = (id) => async (dispatch) => {
 export const addItemsToCart = (userId, items) => {
   return async (dispatch) => {
     try {
-      await axios.put(`/api/users/${userId}/orders`, items);
+      const { data: cart } = await axios.put(
+        `/api/users/${userId}/orders`,
+        items
+      );
+      dispatch(addItems(cart));
     } catch (error) {
       console.log(error);
     }
@@ -82,6 +91,8 @@ export default (state = [], action) => {
       return action.cart;
     case REMOVE_FROM_CART:
       console.log('inside REMOVE_FROM_CART reducer', action.cart);
+      return action.cart;
+    case ADD_ITEMS:
       return action.cart;
     default:
       return state;

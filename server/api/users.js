@@ -61,20 +61,21 @@ router.get('/:id/orders/filter', async (req, res, next) => {
         model: Plant,
       },
     });
-        res.json(userOrders);
-      } catch (error) {
+    res.json(userOrders);
+  } catch (error) {
     next(error);
   }
-})
+});
 
-    // ADD TO CART -- PUT api/users/:userId/orders
+// ADD TO CART -- PUT api/users/:userId/orders
 router.put('/:userId/orders', async (req, res, next) => {
   try {
     let cart = await Order.findOne({
       where: {
         userId: req.params.userId,
         status: 'cart',
-      }, include: {
+      },
+      include: {
         model: Plant,
       },
     });
@@ -87,7 +88,6 @@ router.put('/:userId/orders', async (req, res, next) => {
     await plant.setOrders(cart, { through: { quantity: req.body.quantity } });
     await cart.update();
     res.json(cart);
-
   } catch (error) {
     next(error);
   }
