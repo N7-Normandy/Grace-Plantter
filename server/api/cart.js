@@ -67,27 +67,48 @@ router.put('/:userId/remove', async (req, res, next) => {
   }
 });
 //checkout
-router.post('/', async (req, res, next) => {
+router.post('/:userId', async (req, res, next) => {
   try {
     let accepted = true;
     // const user = await User.byToken(req.headers.authorization);
     //check if quantity is available
-    let cart = myCart;
+    let cart = await Order.findOne({
+      where: {
+        userId: req.params.userId,
+        status: 'cart',
+      },
+      include: {
+        model: Plant,
+        order: [['plants.orderProducts.createdAt', 'ASC']],
+      },
+    });
+
+    let plants = [];
+
     for (let index = 0; index < cart.length; index++) {
-      //search through every plant
+      // search through every plant
       const plant = await Plant.findByPk(cart[index].plant.id);
-      //if cart has more than databse, accepted = false
+      // if cart has more than databse, accepted = false
       if (cart[index].plant.quantity > plant.quantity) {
         accepted = false;
         break;
       } else {
+        plants.push(plant);
         // reduce plant number in db
-        const newQuantity = plant.quantity - cart[index].plant.quantity;
-        await plant.update({ quantity: newQuantity });
+        // const newQuantity = plant.quantity - cart[index].plant.quantity;
+        // await plant.update({ quantity: newQuantity });
       }
     }
     // if everything is acccepted, empty cart and update paste orders
     if (accepted) {
+      Promise.all(
+        plants.map((pla, idx) => {
+          const newQuantity =
+            pla.quantity - cart.plants[idx].orderProducts.quantity;
+          return pla.update({ quantity: newQuantity });
+        })
+      );
+
       await user.update({ cart: [] });
       res.json(
         await Order.create({
