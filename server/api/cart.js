@@ -88,7 +88,7 @@ router.post('/', async (req, res, next) => {
 		}
 		// if everything is acccepted, empty cart and update paste orders
 		if (accepted) {
-			await user.update({cart: []});
+			await user.update({cart: []}); // delete
 			res.json(
 				await Order.create({
 					plantsBought: cart,
