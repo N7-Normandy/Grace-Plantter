@@ -60,11 +60,11 @@ export class Cart extends Component {
     } else {
       this.state.cart[index].orderProducts.quantity = Number(e.target.value);
     }
-    this.setState({
-      cart: this.state.cart.plants,
-      totalPrice: this.calculateTotal(),
-    });
     await updateCart(userId, { plant: this.state.cart[index] });
+    // this.setState({
+    //   cart: this.props.cart.plants,
+    //   totalPrice: this.calculateTotal(),
+    // });
   }
 
   async handleRemove(e, plantId) {
