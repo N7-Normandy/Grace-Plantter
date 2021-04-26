@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { fetchSinglePlant } from '../store/singlePlant';
 import { addItemsToCart } from '../store/cart';
 
@@ -28,11 +30,32 @@ class SinglePlant extends React.Component {
 
   addToCart(event) {
     event.preventDefault();
-    let items = {
-      plantId: this.props.plantId,
-      quantity: this.state.purchaseQty,
-    };
-    this.props.addItems(this.props.userId, items);
+    if (this.state.purchaseQty <= this.props.plant.quantity) {
+      let items = {
+        plantId: this.props.plantId,
+        quantity: this.state.purchaseQty,
+      };
+      this.props.addItems(this.props.userId, items);
+      toast.success('Added to cart!', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      toast.error(`Only ${this.props.plant.quantity} left in stock!`, {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   }
 
   render() {
@@ -59,19 +82,28 @@ class SinglePlant extends React.Component {
           </div>
           <div className="orderBox">
             <form id="add-to-cart-form" onSubmit={this.addToCart}>
-              <h3>Quantity: {plant.quantity} in stock</h3>
-              {/* <button type="button">-</button> */}
+              <h3 className="quantity">Quantity: </h3>
               <input
                 name="purchaseQty"
                 onChange={this.changeQuantity}
                 value={this.state.purchaseQty}
               />
-              {/* <button type="button">+</button> */}
               <h3>Price: ${plant.price}</h3>
               <button type="submit">Add to Cart</button>
             </form>
           </div>
         </div>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </div>
     );
   }
