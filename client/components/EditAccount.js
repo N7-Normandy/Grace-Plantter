@@ -16,7 +16,6 @@ export class EditAccount extends Component {
 
   componentDidUpdate(prevProps) {
     const { user } = this.props;
-    console.log(this.state);
     if (user && user !== prevProps.user) {
       this.setState({
         email: user.email,
