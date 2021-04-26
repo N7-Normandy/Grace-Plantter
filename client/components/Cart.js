@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-filename-extension */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -8,6 +9,8 @@ import {
   getRemoveFromCart,
 } from '../store/cart';
 
+//
+
 export class Cart extends Component {
   constructor(props) {
     super(props);
@@ -15,37 +18,68 @@ export class Cart extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleCheckout = this.handleCheckout.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
+    this.calculateTotal = this.calculateTotal.bind(this);
+  }
+
+  calculateTotal() {
+    if (!this.props.cart.plants) {
+      return 0;
+    }
+    return this.props.cart.plants.reduce((acc, curr) => {
+      return acc + curr.price * curr.orderProducts.quantity;
+    }, 0);
   }
 
   async componentDidMount() {
-    console.log('inside componentDidMount');
-    await this.props.fetchCart(); // how will they pass in user id?
+    const { getCart, userId } = this.props;
+    await getCart(userId);
+    let cart = this.props.cart.plants || [];
     this.setState({
-      cart: this.props.cart,
+      cart,
+      totalPrice: this.calculateTotal(),
     });
-    console.log('STATE-->', this.state);
   }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.cart !== prevProps.cart) {
+      if (this.props.cart.plants) {
+        this.setState({
+          cart: this.props.cart.plants,
+          totalPrice: this.calculateTotal(),
+        });
+      }
+    }
+  }
+
+  //handle 0 request
+  // remove item  from cart if quantity == 0
   async handleChange(e, index) {
-    this.state.cart[index].quantity = Number(e.target.value);
-    this.setState({ cart: this.state.cart });
-    await this.props.updateCart(this.state.cart);
+    const { updateCart, userId } = this.props;
+    if (Number(e.target.value) < 0) {
+      this.state.cart[index].orderProducts.quantity = 0;
+    } else {
+      this.state.cart[index].orderProducts.quantity = Number(e.target.value);
+    }
+    await updateCart(userId, { plant: this.state.cart[index] });
+    // this.setState({
+    //   cart: this.props.cart.plants,
+    //   totalPrice: this.calculateTotal(),
+    // });
   }
+
+  async handleRemove(e, plantId) {
+    const { removeFromCart, getCart, userId } = this.props;
+    e.preventDefault();
+    await removeFromCart(userId, { plantId: plantId });
+  }
+
   handleCheckout(e) {
     e.preventDefault();
     this.props.checkout(this.state.cart, {
       totalPrice: this.state.totalPrice,
     });
   }
-  async handleRemove(e, plantId) {
-    e.preventDefault();
-    await this.props.removeFromCart(plantId);
-    this.setState({
-      cart: this.props.cart,
-    });
-    //remove the index of plant from from our state
-    // call updateCart
-    // this.props.remove(plantId);
-  }
+
   render() {
     const { handleCheckout, handleChange, handleRemove } = this;
     return (
@@ -53,23 +87,23 @@ export class Cart extends Component {
         {this.state.cart.length > 0 ? (
           this.state.cart.map((item, index) => {
             return (
-              <div className="card-body-checkout" key={item.plant.id}>
-                <img className="checkoutImg" src={item.plant.imageUrl} />
+              <div className="card-body-checkout" key={item.id}>
+                <img className="checkoutImg" src={item.imageURL} />
                 <div className="information">
-                  <Link to={`/plants/${item.plant.id}`}>{item.plant.name}</Link>
-                  <h4>${item.plant.price}</h4>
+                  <Link to={`/plants/${item.id}`}>{item.name}</Link>
+                  <h4>${item.price}</h4>
                   <input
                     className="input-group-field"
                     type="number"
                     name="quantity"
-                    value={this.state.cart[index].quantity || 0}
+                    value={this.state.cart[index].orderProducts.quantity || 0}
                     onChange={(e) => handleChange(e, index)}
                   />
                 </div>
                 <div className="remove">
                   <button
                     type="button"
-                    onClick={(e) => handleRemove(e, item.plant.id)}
+                    onClick={(e) => handleRemove(e, item.id)}
                   >
                     Remove
                   </button>
@@ -100,13 +134,15 @@ export class Cart extends Component {
     );
   }
 }
-const mapProps = ({ cart }) => ({
-  cart,
+const mapProps = (state) => ({
+  cart: state.cart,
+  userId: state.auth.id,
 });
 const mapDispatch = (dispatch) => ({
-  fetchCart: () => dispatch(fetchCart()),
-  removeFromCart: (plantId) => dispatch(getRemoveFromCart(plantId)),
-  updateCart: (cart) => dispatch(getUpdateCart(cart)),
+  getCart: (userId) => dispatch(fetchCart(userId)),
+  removeFromCart: (userId, plantId) =>
+    dispatch(getRemoveFromCart(userId, plantId)),
+  updateCart: (userId, plant) => dispatch(getUpdateCart(userId, plant)),
   checkout: (paymentInfo) => dispatch(getCheckoutCart(paymentInfo)),
 });
 export default connect(mapProps, mapDispatch)(Cart);

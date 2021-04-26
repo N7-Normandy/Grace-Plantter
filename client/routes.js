@@ -1,14 +1,13 @@
 /* eslint-disable react/jsx-filename-extension */
-import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
-import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
-import { Login, Signup } from './components/AuthForm';
+import React, {Component, Fragment} from 'react';
+import {connect} from 'react-redux';
+import {withRouter, Route, Switch, Redirect} from 'react-router-dom';
+import {Login, Signup} from './components/AuthForm';
 import Home from './components/home';
 import SinglePlant from './components/singlePlant';
 import Account from './components/Account';
 import Cart from './components/Cart';
-import { me } from './store';
-
+import {me} from './store';
 
 /**
  * COMPONENT
@@ -21,52 +20,55 @@ class Routes extends Component {
 	render() {
 		const {isLoggedIn} = this.props;
 
-    return (
-      <div>
-        {isLoggedIn ? (
-          <Switch>
-            <Route path="/home" component={Home} />
-      			<Route path="/cart" component={Cart} />
-            <Route
-              path="/plants/:plantId"
-              render={(routeProps) => (
-                <SinglePlant plantId={routeProps.match.params.plantId} />
-              )}
-            />
-            <Route path="/account" component={Account} />
-            <Redirect to="/home" />
-          </Switch>
-        ) : (
-          <Switch>
-            <Route path="/home" component={Home} />
-            <Route path="/" exact component={Login} />
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
-          	<Route path="/cart" component={Cart} />
-            <Route
-              path="/plants/:plantId"
-              render={(routeProps) => (
-                <SinglePlant plantId={routeProps.match.params.plantId} />
-              )}
-            />
-          </Switch>
-        )}
-      </div>
-    );
-  }
+		return (
+			<div>
+				{isLoggedIn ? (
+					<Switch>
+						<Route path="/home" component={Home} />
+						<Route path="/cart" component={Cart} />
+						<Route
+							path="/plants/:plantId"
+							render={routeProps => (
+								<SinglePlant plantId={routeProps.match.params.plantId} />
+							)}
+						/>
+						<Route path="/account" component={Account} />
+						<Redirect to="/home" />
+					</Switch>
+				) : (
+					<Switch>
+						<Route path="/home" component={Home} />
+						<Route path="/" exact component={Login} />
+						<Route path="/login" component={Login} />
+						<Route path="/signup" component={Signup} />
+						<Route path="/cart" component={Cart} />
+						<Route
+							path="/plants/:plantId"
+							render={routeProps => (
+								<SinglePlant plantId={routeProps.match.params.plantId} />
+							)}
+						/>
+					</Switch>
+				)}
+			</div>
+		);
+	}
 }
 
 /**
  * CONTAINER
  */
+
 const mapState = state => {
 	return {
 		// Being 'logged in' for our purposes will be defined has having a state.auth that has a truthy id.
 		// Otherwise, state.auth will be an empty object, and state.auth.id will be falsey
 		isLoggedIn: !!state.auth.id,
+		cart: state.cart,
 	};
 };
 
+// fetch cart
 const mapDispatch = dispatch => {
 	return {
 		loadInitialData() {

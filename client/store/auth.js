@@ -1,5 +1,6 @@
 import axios from 'axios';
 import history from '../history';
+import { fetchCart } from '../store/cart';
 
 const TOKEN = 'token';
 
@@ -34,16 +35,35 @@ const updateStore = (updatedUser) => {
 /**
  * THUNK CREATORS
  */
-export const me = () => async (dispatch) => {
-  const token = window.localStorage.getItem(TOKEN);
-  if (token) {
-    const res = await axios.get('/auth/me', {
-      headers: {
-        authorization: token,
-      },
-    });
-    return dispatch(setAuth(res.data));
-  }
+// export const me = () => async dispatch => {
+// 	const token = window.localStorage.getItem(TOKEN);
+// 	if (token) {
+// 		const res = await axios.get('/auth/me', {
+// 			headers: {
+// 				authorization: token,
+// 			},
+// 		});
+// 		return dispatch(setAuth(res.data));
+// 	}
+// };
+export const me = () => {
+  return async (dispatch) => {
+    try {
+      const token = window.localStorage.getItem(TOKEN);
+      if (token) {
+        const res = await axios.get('/auth/me', {
+          headers: {
+            authorization: token,
+          },
+        });
+        dispatch(setAuth(res.data));
+        console.log(res.data.id);
+        dispatch(fetchCart(res.data.id));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 };
 
 export const authenticate = (email, password, method, name) => async (

@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
@@ -22,6 +24,7 @@ class SinglePlant extends React.Component {
       console.log(error);
     }
   }
+
   changeQuantity(event) {
     this.setState({
       purchaseQty: event.target.value,
@@ -61,8 +64,15 @@ class SinglePlant extends React.Component {
   render() {
     console.log('state', this.state);
     console.log('props', this.props);
-    const plant = this.props.plant;
+    const { plant, cart } = this.props;
     const description = plant.description || '';
+
+    let isInCart = false;
+    if (cart.plants) {
+      isInCart = !!cart.plants.filter((cartPlant) => cartPlant.id === plant.id)
+        .length;
+    }
+
     return (
       <div className="singlePlant">
         <div className="title">
@@ -89,7 +99,9 @@ class SinglePlant extends React.Component {
                 value={this.state.purchaseQty}
               />
               <h3>Price: ${plant.price}</h3>
-              <button type="submit">Add to Cart</button>
+              <button type="submit">
+                {isInCart ? 'Update Cart Total' : 'Add to Cart'}
+              </button>
             </form>
           </div>
         </div>
@@ -113,6 +125,7 @@ const mapState = (state) => {
   return {
     plant: state.plant,
     userId: state.auth.id,
+    cart: state.cart,
   };
 };
 
