@@ -3,7 +3,7 @@ const express = require('express');
 const morgan = require('morgan');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
-const db = require('./db');
+const db = require('./db/db');
 
 const app = express();
 module.exports = app;
@@ -24,7 +24,7 @@ app.use(
   })
 );
 
-sesStore.sync();
+// sesStore.sync();
 
 // logging middleware
 app.use(morgan('dev'));
@@ -37,9 +37,6 @@ app.use('/auth', require('./auth'));
 app.use('/api', require('./api'));
 
 app.get('/', (req, res) => {
-  if (!req.session.cart) {
-    req.session.cart = [];
-  }
   res.sendFile(path.join(__dirname, '..', 'public/index.html'));
 });
 
@@ -59,6 +56,9 @@ app.use((req, res, next) => {
 
 // sends index.html
 app.use('*', (req, res) => {
+  if (!req.session.cart) {
+    req.session.cart = [];
+  }
   res.sendFile(path.join(__dirname, '..', 'public/index.html'));
 });
 
