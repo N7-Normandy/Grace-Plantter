@@ -67,35 +67,55 @@ router.put('/:userId/remove', async (req, res, next) => {
 	}
 });
 //checkout
-router.post('/', async (req, res, next) => {
+router.post('/:userId/checkout', async (req, res, next) => {
 	try {
-		let accepted = true;
-		// const user = await User.byToken(req.headers.authorization);
+		//total payment
+
+		//
 		//check if quantity is available
-		let cart = myCart;
-		for (let index = 0; index < cart.length; index++) {
+		const cart = await Order.findOne({
+			where: {
+				userId: req.params.userId,
+				status: 'cart',
+			},
+			include: {
+				model: Plant,
+				order: [['plants.name', 'ASC']],
+			},
+		});
+
+		const total =
+			cart.plants.reduce((acc, curr) => {
+				return acc + curr.price * curr.orderProducts.quantity;
+			}, 0) / 100;
+
+		let inStock = true;
+		const plants = [];
+		for (let index = 0; index < cart.plants.length; index++) {
 			//search through every plant
-			const plant = await Plant.findByPk(cart[index].plant.id);
-			//if cart has more than databse, accepted = false
-			if (cart[index].plant.quantity > plant.quantity) {
-				accepted = false;
+			const plant = await Plant.findByPk(cart.plants[index].id);
+			//if cart has more than databse, inStock = false
+			if (cart.plants[index].orderProducts.quantity > plant.quantity) {
+				inStock = false;
 				break;
 			} else {
-				// reduce plant number in db
-				const newQuantity = plant.quantity - cart[index].plant.quantity;
-				await plant.update({quantity: newQuantity});
+				plants.push(plant);
 			}
 		}
+		console.log('inStock', inStock);
 		// if everything is acccepted, empty cart and update paste orders
-		if (accepted) {
-			await user.update({cart: []}); // delete
-			res.json(
-				await Order.create({
-					plantsBought: cart,
-					totalPrice: req.body.totalPrice,
-					paymentType: req.body.paymentType,
+		if (inStock) {
+			await Promise.all(
+				plants.map((pla, idx) => {
+					const newQuantity =
+						pla.quantity - cart.plants[idx].orderProducts.quantity;
+					return pla.update({quantity: newQuantity});
 				})
 			);
+			await cart.update({status: 'purchased', totalPrice: total});
+			res.sendStatus('200');
+		} else {
+			res.sendStatus('555');
 		}
 	} catch (err) {
 		next(err);

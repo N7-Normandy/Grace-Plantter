@@ -14,7 +14,11 @@ import {
 export class Cart extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {cart: [], totalPrice: 0, paymentType: 'card'};
+		this.state = {
+			cart: [],
+			totalPrice: 0,
+			paymentType: 'card',
+		};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleCheckout = this.handleCheckout.bind(this);
 		this.handleRemove = this.handleRemove.bind(this);
@@ -25,9 +29,11 @@ export class Cart extends Component {
 		if (!this.props.cart.plants) {
 			return 0;
 		}
-		return this.props.cart.plants.reduce((acc, curr) => {
-			return acc + curr.price * curr.orderProducts.quantity;
-		}, 0);
+		return (
+			this.props.cart.plants.reduce((acc, curr) => {
+				return acc + curr.price * curr.orderProducts.quantity;
+			}, 0) / 100
+		);
 	}
 
 	async componentDidMount() {
@@ -47,6 +53,11 @@ export class Cart extends Component {
 					cart: this.props.cart.plants,
 					totalPrice: this.calculateTotal(),
 				});
+			} else {
+				this.setState({
+					cart: [],
+					totalPrice: this.calculateTotal(),
+				});
 			}
 		}
 	}
@@ -61,21 +72,18 @@ export class Cart extends Component {
 			this.state.cart[index].orderProducts.quantity = Number(e.target.value);
 		}
 		await updateCart(userId, {plant: this.state.cart[index]});
-		// this.setState({
-		//   cart: this.props.cart.plants,
-		//   totalPrice: this.calculateTotal(),
-		// });
 	}
 
 	async handleRemove(e, plantId) {
-		const {removeFromCart, getCart, userId} = this.props;
+		const {removeFromCart, userId} = this.props;
 		e.preventDefault();
 		await removeFromCart(userId, {plantId: plantId});
 	}
 
 	handleCheckout(e) {
 		e.preventDefault();
-		this.props.checkout(this.state.cart, {
+		const {checkout, userId} = this.props;
+		checkout(userId, {
 			totalPrice: this.state.totalPrice,
 		});
 	}
@@ -93,7 +101,7 @@ export class Cart extends Component {
 									<img className="checkoutImg" src={item.imageURL} />
 									<div className="information">
 										<Link to={`/plants/${item.id}`}>{item.name}</Link>
-										<h4>${item.price}</h4>
+										<h4>${item.price / 100}</h4>
 										<input
 											className="input-group-field"
 											type="number"
@@ -145,7 +153,8 @@ const mapDispatch = dispatch => ({
 	removeFromCart: (userId, plantId) =>
 		dispatch(getRemoveFromCart(userId, plantId)),
 	updateCart: (userId, plant) => dispatch(getUpdateCart(userId, plant)),
-	checkout: paymentInfo => dispatch(getCheckoutCart(paymentInfo)),
+	checkout: (userId, paymentInfo) =>
+		dispatch(getCheckoutCart(userId, paymentInfo)),
 });
 export default connect(mapProps, mapDispatch)(Cart);
 
