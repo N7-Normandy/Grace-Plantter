@@ -36,8 +36,6 @@ class SinglePlant extends React.Component {
 	}
 
 	render() {
-		console.log('state', this.state);
-		console.log('props', this.props);
 		const plant = this.props.plant;
 		const description = plant.description || '';
 		return (

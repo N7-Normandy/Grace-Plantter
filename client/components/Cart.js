@@ -58,7 +58,6 @@ export class Cart extends Component {
 
 	async handleRemove(e, plantId) {
 		const {removeFromCart, getCart, userId} = this.props;
-		console.log(userId, plantId);
 		e.preventDefault();
 		await removeFromCart(userId, {plantId: plantId});
 	}

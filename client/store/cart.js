@@ -26,7 +26,6 @@ const removeFromCart = cart => ({
 
 //Thunk creators
 export const fetchCart = userId => {
-	console.log('here in fetch cart');
 	return async dispatch => {
 		try {
 			const {data: userCart} = await axios.get(`api/cart/${userId}`);

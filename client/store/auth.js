@@ -40,7 +40,6 @@ export const me = () => {
 					},
 				});
 				dispatch(setAuth(res.data));
-				// console.log(res.data.id);
 				dispatch(fetchCart(res.data.id));
 			}
 		} catch (error) {
