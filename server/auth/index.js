@@ -32,3 +32,18 @@ router.get('/me', async (req, res, next) => {
     next(ex);
   }
 });
+
+router.get('/guest', async (req, res, next) => {
+  try {
+    console.log('THE SESSION: ', req.session);
+    console.log('The session id: ', req.session.id);
+    const user = await User.findOne({
+      where: {
+        sid: req.session.id,
+      },
+    });
+    res.send(user);
+  } catch (error) {
+    next(error);
+  }
+});

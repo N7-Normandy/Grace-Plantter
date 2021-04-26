@@ -31,6 +31,15 @@ const User = db.define('user', {
   billingAddress: {
     type: Sequelize.STRING,
   },
+  sid: {
+    type: Sequelize.STRING,
+  },
+  data: {
+    type: Sequelize.STRING,
+  },
+  expires: {
+    type: Sequelize.DATE,
+  },
 });
 
 module.exports = User;
