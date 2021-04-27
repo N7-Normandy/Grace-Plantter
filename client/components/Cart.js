@@ -2,6 +2,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {
 	fetchCart,
 	getUpdateCart,
@@ -36,9 +38,9 @@ export class Cart extends Component {
 		);
 	}
 
-	async componentDidMount() {
+	componentDidMount() {
 		const {getCart, userId} = this.props;
-		await getCart(userId);
+		getCart(userId);
 		let cart = this.props.cart.plants || [];
 		this.setState({
 			cart,
@@ -62,30 +64,65 @@ export class Cart extends Component {
 		}
 	}
 
-	//handle 0 request
-	// remove item  from cart if quantity == 0
-	async handleChange(e, index) {
+	handleChange(e, plant) {
 		const {updateCart, userId} = this.props;
-		if (Number(e.target.value) < 0) {
-			this.state.cart[index].orderProducts.quantity = 0;
+		if (Number(e.target.value) < 1) {
+			plant.orderProducts.quantity = 1;
 		} else {
-			this.state.cart[index].orderProducts.quantity = Number(e.target.value);
+			plant.orderProducts.quantity = Number(e.target.value);
 		}
-		await updateCart(userId, {plant: this.state.cart[index]});
+		const updatedPlant = plant.id;
+		const quantity = plant.orderProducts.quantity;
+		updateCart(userId, updatedPlant, quantity);
 	}
 
-	async handleRemove(e, plantId) {
+	handleRemove(e, plantId) {
 		const {removeFromCart, userId} = this.props;
-		e.preventDefault();
-		await removeFromCart(userId, {plantId: plantId});
+		removeFromCart(userId, plantId);
 	}
 
 	handleCheckout(e) {
 		e.preventDefault();
 		const {checkout, userId} = this.props;
-		checkout(userId, {
-			totalPrice: this.state.totalPrice,
-		});
+
+		let inStock = true;
+		let isMoreThanStock = {};
+		for (let index = 0; index < this.state.cart.length; index++) {
+			this.state.cart[index];
+			if (
+				this.state.cart[index].orderProducts.quantity >
+				this.state.cart[index].quantity
+			) {
+				isMoreThanStock = this.state.cart[index];
+				inStock = false;
+				break;
+			}
+		}
+		if (inStock) {
+			checkout(userId);
+			toast.success('Checkout Successful', {
+				position: 'top-right',
+				autoClose: 5000,
+				hideProgressBar: true,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
+		} else {
+			toast.error(
+				`Only ${isMoreThanStock.quantity} left in stock of ${isMoreThanStock.name}!`,
+				{
+					position: 'top-right',
+					autoClose: 5000,
+					hideProgressBar: true,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				}
+			);
+		}
 	}
 
 	render() {
@@ -95,25 +132,25 @@ export class Cart extends Component {
 				{this.state.cart.length > 0 ? (
 					this.state.cart
 						.sort((a, b) => a.id - b.id)
-						.map((item, index) => {
+						.map(plant => {
 							return (
-								<div className="card-body-checkout" key={item.id}>
-									<img className="checkoutImg" src={item.imageURL} />
+								<div className="card-body-checkout" key={plant.id}>
+									<img className="checkoutImg" src={plant.imageURL} />
 									<div className="information">
-										<Link to={`/plants/${item.id}`}>{item.name}</Link>
-										<h4>${item.price / 100}</h4>
+										<Link to={`/plants/${plant.id}`}>{plant.name}</Link>
+										<h4>${plant.price / 100}</h4>
 										<input
 											className="input-group-field"
 											type="number"
 											name="quantity"
-											value={this.state.cart[index].orderProducts.quantity || 0}
-											onChange={e => handleChange(e, index)}
+											value={plant.orderProducts.quantity || 0}
+											onChange={e => handleChange(e, plant)}
 										/>
 									</div>
 									<div className="remove">
 										<button
 											type="button"
-											onClick={e => handleRemove(e, item.id)}
+											onClick={e => handleRemove(e, plant.id)}
 										>
 											Remove
 										</button>
@@ -140,6 +177,17 @@ export class Cart extends Component {
 						</button>
 					</div>
 				)}
+				<ToastContainer
+					position="top-right"
+					autoClose={5000}
+					hideProgressBar
+					newestOnTop={false}
+					closeOnClick
+					rtl={false}
+					pauseOnFocusLoss
+					draggable
+					pauseOnHover
+				/>
 			</div>
 		);
 	}
@@ -152,58 +200,8 @@ const mapDispatch = dispatch => ({
 	getCart: userId => dispatch(fetchCart(userId)),
 	removeFromCart: (userId, plantId) =>
 		dispatch(getRemoveFromCart(userId, plantId)),
-	updateCart: (userId, plant) => dispatch(getUpdateCart(userId, plant)),
-	checkout: (userId, paymentInfo) =>
-		dispatch(getCheckoutCart(userId, paymentInfo)),
+	updateCart: (userId, plant, quantity) =>
+		dispatch(getUpdateCart(userId, plant, quantity)),
+	checkout: userId => dispatch(getCheckoutCart(userId)),
 });
 export default connect(mapProps, mapDispatch)(Cart);
-
-{
-	// handleMinus(e, index)
-	// console.log(e.target.value);
-	// console.log(this.state.cart[index].quantity);
-	// if (e.target.value - 1 < 0) this.state.cart[index].quantity = 0;
-	// else {
-	// 	this.state.cart[index].quantity = Number(e.target.value) - 1;
-	// }
-	// this.setState({cart: this.state.cart});
-	// console.log(this.state.cart[index].quantity);
-	// this.updateCart(this.state.cart);
-}
-{
-	// handlePlus(e, index)
-	// console.log(e.target.value, 'AND INDEX', index);
-	// this.state.cart[index].quantity = Number(e.target.value) + 1;
-	// console.log(this.state.cart);
-	// console.log(this.state.cart[index]);
-	// this.setState({cart: this.state.cart});
-	// this.updateCart(this.state.cart);
-}
-
-{
-	/* <div className="input-group-button">
-<button
-	type="button"
-	className="button hollow circle"
-	name="quantity"
-	value={this.state.cart[index].quantity || 0}
-	onClick={e => handlePlus(e, index)}
->
-	<i className="fa fa-plus" aria-hidden="true"></i>
-</button>
-</div> */
-}
-{
-	/* <div className="input-group plus-minus-input">
-<div className="input-group-button">
-	<button
-		type="button"
-		className="button hollow circle"
-		name="quantity"
-		value={this.state.cart[index].quantity || 0}
-		onClick={e => handleMinus(e, index)}
-	>
-		<i className="fa fa-minus" aria-hidden="true"></i>
-	</button>
-</div> */
-}
