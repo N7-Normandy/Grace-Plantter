@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateUser } from '../store/auth';
+import Account from './Account';
 
 export class EditAccount extends Component {
   constructor(props) {
@@ -40,6 +41,8 @@ export class EditAccount extends Component {
 
   render() {
     return (
+      <>
+      <Account />
       <form className="flex-column full-form" onSubmit={this.handleSubmit}>
         <label htmlFor="email">Update Your Email?</label>
         <input
@@ -77,6 +80,7 @@ export class EditAccount extends Component {
         />
         <button type="submit">Update My Information</button>
       </form>
+      </>
     );
   }
 }

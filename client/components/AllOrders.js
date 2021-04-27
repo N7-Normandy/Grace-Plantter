@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Order from './Order';
 import { fetchUserOrders } from '../store/orders';
+import Account from './Account';
 
 class AllOrders extends Component {
   componentDidMount() {
@@ -17,6 +18,7 @@ class AllOrders extends Component {
 
     return (
       <>
+      <Account />
         {orders.length ? (
           orders.map((order, idx, arr) => (
             <div key={order.id}>

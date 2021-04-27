@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Order from './Order';
 import { fetchRecentOrder } from '../store/recentOrder';
+import Account from './Account';
 
 class AccountInfo extends React.Component {
   componentDidMount() {
@@ -17,6 +18,8 @@ class AccountInfo extends React.Component {
 
     return (
       <>
+      <Account />
+
         <div id="info">
           <table>
             <tbody>

@@ -8,51 +8,55 @@ import SinglePlant from './components/singlePlant';
 import Account from './components/Account';
 import Cart from './components/Cart';
 import {me} from './store';
+import AllOrders from './components/AllOrders';
+import AccountInfo from './components/AccountInfo';
+import EditAccount from './components/EditAccount';
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
-	componentDidMount() {
-		this.props.loadInitialData();
-	}
+  componentDidMount () {
+    this.props.loadInitialData ();
+  }
 
-	render() {
-		const {isLoggedIn} = this.props;
+  render () {
+    const {isLoggedIn} = this.props;
 
-		return (
-			<div>
-				{isLoggedIn ? (
-					<Switch>
-						<Route path="/home" component={Home} />
-						<Route path="/cart" component={Cart} />
-						<Route
-							path="/plants/:plantId"
-							render={routeProps => (
-								<SinglePlant plantId={routeProps.match.params.plantId} />
-							)}
-						/>
-						<Route path="/account" component={Account} />
-						<Redirect to="/home" />
-					</Switch>
-				) : (
-					<Switch>
-						<Route path="/home" component={Home} />
-						<Route path="/" exact component={Login} />
-						<Route path="/login" component={Login} />
-						<Route path="/signup" component={Signup} />
-						<Route path="/cart" component={Cart} />
-						<Route
-							path="/plants/:plantId"
-							render={routeProps => (
-								<SinglePlant plantId={routeProps.match.params.plantId} />
-							)}
-						/>
-					</Switch>
-				)}
-			</div>
-		);
-	}
+    return (
+      <div>
+        {isLoggedIn
+          ? <Switch>
+              <Route path="/home" component={Home} />
+              <Route path="/cart" component={Cart} />
+              <Route
+                path="/plants/:plantId"
+                render={routeProps => (
+                  <SinglePlant plantId={routeProps.match.params.plantId} />
+                )}
+              />
+              {/* <Route exact path="/account" component={Account} /> */}
+              <Route exact path="/account/info" component={AccountInfo} />
+							<Route exact path="/account/past-orders" component={AllOrders} />
+							<Route exact path="/account/edit" component={EditAccount} />
+              <Redirect to="/home" />
+            </Switch>
+          : <Switch>
+              <Route path="/home" component={Home} />
+              <Route path="/" exact component={Login} />
+              <Route path="/login" component={Login} />
+              <Route path="/signup" component={Signup} />
+              <Route path="/cart" component={Cart} />
+              <Route
+                path="/plants/:plantId"
+                render={routeProps => (
+                  <SinglePlant plantId={routeProps.match.params.plantId} />
+                )}
+              />
+            </Switch>}
+      </div>
+    );
+  }
 }
 
 /**
@@ -60,23 +64,23 @@ class Routes extends Component {
  */
 
 const mapState = state => {
-	return {
-		// Being 'logged in' for our purposes will be defined has having a state.auth that has a truthy id.
-		// Otherwise, state.auth will be an empty object, and state.auth.id will be falsey
-		isLoggedIn: !!state.auth.id,
-		cart: state.cart,
-	};
+  return {
+    // Being 'logged in' for our purposes will be defined has having a state.auth that has a truthy id.
+    // Otherwise, state.auth will be an empty object, and state.auth.id will be falsey
+    isLoggedIn: !!state.auth.id,
+    cart: state.cart,
+  };
 };
 
 // fetch cart
 const mapDispatch = dispatch => {
-	return {
-		loadInitialData() {
-			dispatch(me());
-		},
-	};
+  return {
+    loadInitialData () {
+      dispatch (me ());
+    },
+  };
 };
 
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
-export default withRouter(connect(mapState, mapDispatch)(Routes));
+export default withRouter (connect (mapState, mapDispatch) (Routes));
