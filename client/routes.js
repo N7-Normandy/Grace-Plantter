@@ -5,7 +5,7 @@ import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
 import Home from './components/Home';
 import SinglePlant from './components/SinglePlant';
-import Account from './components/Account';
+import OrderConfirmation from './components/OrderConfirmation';
 import Cart from './components/Cart';
 import { me } from './store';
 import AllOrders from './components/AllOrders';
@@ -39,6 +39,7 @@ class Routes extends Component {
             <Route exact path="/account/info" component={AccountInfo} />
             <Route exact path="/account/past-orders" component={AllOrders} />
             <Route exact path="/account/edit" component={EditAccount} />
+            <Route path="/order-confirmation" component={OrderConfirmation} />
             <Redirect to="/home" />
           </Switch>
         ) : (
@@ -54,6 +55,7 @@ class Routes extends Component {
                 <SinglePlant plantId={routeProps.match.params.plantId} />
               )}
             />
+            <Route path="/order-confirmation" component={OrderConfirmation} />
           </Switch>
         )}
       </div>
