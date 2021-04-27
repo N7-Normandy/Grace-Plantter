@@ -71,8 +71,6 @@ router.put('/:id', async (req, res, next) => {
     if (!created) await newPlant.update({ active: true });
 
     res.json(newPlant);
-    // const updated = await Plant.update(req.body, {where: {id: req.body.id}});
-    // res.json(updated);
   } catch (err) {
     next(err);
   }
