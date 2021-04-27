@@ -62,7 +62,7 @@ class Navbar extends React.Component {
           <form onSubmit={this.handleSubmit}>
             <input
               type="text"
-              placeholder="Search..."
+              placeholder="Search.."
               value={search}
               name="search"
               id="search"
