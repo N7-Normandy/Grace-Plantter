@@ -24,10 +24,9 @@ router.get('/:userId', async (req, res, next) => {
 	}
 });
 // update cart
-router.put('/:userId', async (req, res, next) => {
+router.put('/:userId/update', async (req, res, next) => {
 	try {
-		console.log('QUERY', req.query);
-		const {plant, quantity} = req.query.plant;
+		const {plant, quantity} = req.query;
 		const changedPlant = await Plant.findByPk(plant);
 		const cart = await Order.findOne({
 			where: {
@@ -50,7 +49,7 @@ router.put('/:userId', async (req, res, next) => {
 });
 router.put('/:userId/remove', async (req, res, next) => {
 	try {
-		const oldPlant = await Plant.findByPk(req.body.plantId);
+		const oldPlant = await Plant.findByPk(req.query.plantId);
 		const cart = await Order.findOne({
 			where: {
 				userId: req.params.userId,
@@ -82,19 +81,20 @@ router.post('/:userId/checkout', async (req, res, next) => {
 				order: [['plants.name', 'ASC']],
 			},
 		});
-
+		const plantsInCart = cart.plants;
 		const total =
-			cart.plants.reduce((acc, curr) => {
+			plantsInCart.reduce((acc, curr) => {
 				return acc + curr.price * curr.orderProducts.quantity;
 			}, 0) / 100;
 
 		let inStock = true;
 		const plants = [];
-		for (let index = 0; index < cart.plants.length; index++) {
+
+		for (let index = 0; index < plantsInCart.length; index++) {
 			//search through every plant
-			const plant = await Plant.findByPk(cart.plants[index].id);
+			const plant = await Plant.findByPk(plantsInCart[index].id);
 			//if cart has more than databse, inStock = false
-			if (cart.plants[index].orderProducts.quantity > plant.quantity) {
+			if (plantsInCart[index].orderProducts.quantity > plant.quantity) {
 				inStock = false;
 				break;
 			} else {
@@ -107,7 +107,7 @@ router.post('/:userId/checkout', async (req, res, next) => {
 			await Promise.all(
 				plants.map((pla, idx) => {
 					const newQuantity =
-						pla.quantity - cart.plants[idx].orderProducts.quantity;
+						pla.quantity - plantsInCart[idx].orderProducts.quantity;
 					return pla.update({quantity: newQuantity});
 				})
 			);
