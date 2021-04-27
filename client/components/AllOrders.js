@@ -29,7 +29,7 @@ class AllOrders extends Component {
         ) : (
           <>
             <h3>You have no orders with us :(</h3>
-            <Link to="/home">Start shopping!</Link>
+            <Link to="/plants">Start shopping!</Link>
           </>
         )}
       </>

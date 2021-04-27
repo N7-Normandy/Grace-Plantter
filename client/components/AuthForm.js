@@ -10,7 +10,12 @@ const AuthForm = (props) => {
   const { name, displayName, handleSubmit, error } = props;
 
   return (
-    <div>
+    <div className="flex-column al-center">
+      {name === 'login' ? (
+        <h3>Welcome back!</h3>
+      ) : (
+        <h3>Sign up to store your previous orders</h3>
+      )}
       <form onSubmit={handleSubmit} name={name}>
         <div>
           <label htmlFor="email">

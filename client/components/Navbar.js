@@ -37,6 +37,7 @@ class Navbar extends React.Component {
       <header className="flex-row">
         <Link to="/home">
           <h1>Grace Plantter</h1>
+
         </Link>
         <div className="flex-column nav-wrapper">
           <nav>

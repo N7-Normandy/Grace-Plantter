@@ -11,6 +11,7 @@ import { me } from './store';
 import AllOrders from './components/AllOrders';
 import AccountInfo from './components/AccountInfo';
 import EditAccount from './components/EditAccount';
+import LandingPage from './components/LandingPage';
 import SearchResults from './components/SearchResults';
 
 /**
@@ -28,7 +29,9 @@ class Routes extends Component {
       <div>
         {isLoggedIn ? (
           <Switch>
-            <Route path="/home" component={Home} />
+            <Route exact path="/" component={LandingPage} />
+            <Route path="/home" component={LandingPage} />
+            <Route path="/plants" component={Home} />
             <Route path="/cart" component={Cart} />
             <Route
               path="/plants/:plantId"
@@ -43,13 +46,15 @@ class Routes extends Component {
             <Route path="/searchResults" component={SearchResults} />
             <Route path="/order-confirmation" component={OrderConfirmation} />
             <Redirect to="/home" />
+
           </Switch>
         ) : (
           <Switch>
-            <Route path="/home" component={Home} />
-            <Route path="/" exact component={Login} />
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
+            <Route path="/plants" component={Home} />
+            <Route exact path="/" component={LandingPage} />
+            <Route path="/home" component={LandingPage} />
+            <Route path="/login" component={LandingPage} />
+            <Route path="/signup" component={LandingPage} />
             <Route path="/cart" component={Cart} />
             <Route
               path="/plants/:plantId"
