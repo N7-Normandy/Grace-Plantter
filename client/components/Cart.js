@@ -36,9 +36,9 @@ export class Cart extends Component {
 		);
 	}
 
-	async componentDidMount() {
+	componentDidMount() {
 		const {getCart, userId} = this.props;
-		await getCart(userId);
+		getCart(userId);
 		let cart = this.props.cart.plants || [];
 		this.setState({
 			cart,
@@ -64,20 +64,20 @@ export class Cart extends Component {
 
 	//handle 0 request
 	// remove item  from cart if quantity == 0
-	async handleChange(e, index) {
+	handleChange(e, index) {
 		const {updateCart, userId} = this.props;
-		if (Number(e.target.value) < 0) {
-			this.state.cart[index].orderProducts.quantity = 0;
+		if (Number(e.target.value) < 1) {
+			this.state.cart[index].orderProducts.quantity = 1;
 		} else {
 			this.state.cart[index].orderProducts.quantity = Number(e.target.value);
 		}
-		await updateCart(userId, {plant: this.state.cart[index]});
+		updateCart(userId, {plant: this.state.cart[index]});
 	}
 
-	async handleRemove(e, plantId) {
+	handleRemove(e, plantId) {
 		const {removeFromCart, userId} = this.props;
 		e.preventDefault();
-		await removeFromCart(userId, {plantId: plantId});
+		removeFromCart(userId, {plantId: plantId});
 	}
 
 	handleCheckout(e) {
