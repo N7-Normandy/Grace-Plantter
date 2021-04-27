@@ -28,6 +28,7 @@ class Routes extends Component {
         {isLoggedIn ? (
           <Switch>
             <Route exact path="/" component={LandingPage} />
+            <Route path="/home" component={LandingPage} />
             <Route path="/plants" component={Home} />
             <Route path="/cart" component={Cart} />
             <Route
@@ -46,6 +47,7 @@ class Routes extends Component {
           <Switch>
             <Route path="/plants" component={Home} />
             <Route exact path="/" component={LandingPage} />
+            <Route path="/home" component={LandingPage} />
             <Route path="/login" component={LandingPage} />
             <Route path="/signup" component={LandingPage} />
             <Route path="/cart" component={Cart} />
