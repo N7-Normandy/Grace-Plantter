@@ -39,7 +39,7 @@ class AccountInfo extends React.Component {
           {recentOrder.id ? (
             <Order order={recentOrder} />
           ) : (
-            <Link to="/home">Start shopping!</Link>
+            <Link to="/plants">Start shopping!</Link>
           )}
         </div>
       </>

@@ -5,12 +5,12 @@ import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
 import Home from './components/Home';
 import SinglePlant from './components/SinglePlant';
-import Account from './components/Account';
 import Cart from './components/Cart';
 import { me } from './store';
 import AllOrders from './components/AllOrders';
 import AccountInfo from './components/AccountInfo';
 import EditAccount from './components/EditAccount';
+import LandingPage from './components/LandingPage';
 
 /**
  * COMPONENT
@@ -27,7 +27,8 @@ class Routes extends Component {
       <div>
         {isLoggedIn ? (
           <Switch>
-            <Route path="/home" component={Home} />
+            <Route exact path="/" component={LandingPage} />
+            <Route path="/plants" component={Home} />
             <Route path="/cart" component={Cart} />
             <Route
               path="/plants/:plantId"
@@ -39,14 +40,14 @@ class Routes extends Component {
             <Route exact path="/account/info" component={AccountInfo} />
             <Route exact path="/account/past-orders" component={AllOrders} />
             <Route exact path="/account/edit" component={EditAccount} />
-            <Redirect to="/home" />
+            <Redirect to="/" />
           </Switch>
         ) : (
           <Switch>
-            <Route path="/home" component={Home} />
-            <Route path="/" exact component={Login} />
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
+            <Route path="/plants" component={Home} />
+            <Route exact path="/" component={LandingPage} />
+            <Route path="/login" component={LandingPage} />
+            <Route path="/signup" component={LandingPage} />
             <Route path="/cart" component={Cart} />
             <Route
               path="/plants/:plantId"
