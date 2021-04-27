@@ -4,19 +4,33 @@ import axios from 'axios';
 const GET_PLANTS = 'GET_PLANTS';
 
 // ACTION CREATORS
-const getPlants = plants => ({
+const getPlants = (plants) => ({
   type: GET_PLANTS,
   plants,
 });
 
 // THUNK MIDDLEWARE
 export const fetchPlants = () => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
-      const {data} = await axios.get ('/api/plants');
-      dispatch (getPlants (data));
+      const { data } = await axios.get('/api/plants');
+      dispatch(getPlants(data));
     } catch (error) {
-      console.log ('Failed to get plants', error);
+      console.log('Failed to get plants', error);
+    }
+  };
+};
+
+export const filterPlants = (query) => {
+  return async (dispatch) => {
+    try {
+      const { data: plants } = await axios.get(
+        `/api/plants/search?like=${query}`
+      );
+      dispatch(getPlants(plants));
+      history.pushState('/searchResults');
+    } catch (error) {
+      console.error(error);
     }
   };
 };
