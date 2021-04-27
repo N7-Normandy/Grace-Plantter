@@ -118,16 +118,22 @@ header {
 	border: black;
 	border-style: double;
 }
+.adminPlantHeader {
+	text-align: center;
+}
 
 /* Form Styles */
 .full-form {
-  align-items: center;
+	align-items: center;
 }
 
 .full-form > input {
-  min-width: 250px;
-  margin-top: 0.25rem;
-  margin-bottom: 0.5rem;
+	min-width: 250px;
+	margin-top: 0.25rem;
+	margin-bottom: 0.5rem;
+}
+.saveChanges {
+	text-align: end;
 }
 
 /* Other Styles */
@@ -165,8 +171,8 @@ header {
 }
 
 .orderBox input {
-  width: 2rem;
-  /* float: right;
+	width: 2rem;
+	/* float: right;
   margin-top: 1.2rem;
   margin-left: 0.5rem; */
 }
@@ -176,12 +182,12 @@ header {
 } */
 
 .orderBox button {
-  font-weight: bold;
+	font-weight: bold;
 }
 
 .orderBox input {
-  width: 2rem;
-  /* float: right;
+	width: 2rem;
+	/* float: right;
   margin-top: 1.2rem;
   margin-left: 0.5rem; */
 }
@@ -191,5 +197,5 @@ header {
 } */
 
 .orderBox button {
-  font-weight: bold;
+	font-weight: bold;
 }

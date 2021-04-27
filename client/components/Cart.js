@@ -11,9 +11,7 @@ import {
 	getRemoveFromCart,
 } from '../store/cart';
 
-//
-
-export class Cart extends Component {
+class Cart extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {

@@ -111,9 +111,7 @@ router.put('/:userId/orders', async (req, res, next) => {
 			await user.addOrder(cart);
 		}
 		const plant = await Plant.findByPk(req.body.plantId);
-		// await plant.setOrders(cart, { through: { quantity: req.body.quantity } });
 		await cart.addPlant(plant, {through: {quantity: req.body.quantity}});
-		// await cart.update();
 		await cart.reload();
 		res.json(cart);
 	} catch (error) {
