@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import { connect } from 'react-redux';
+import Plant from './Plant';
 
 function SearchResults({ plants }) {
   return (

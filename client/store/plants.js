@@ -1,4 +1,5 @@
 import axios from 'axios';
+import history from '../history';
 
 // ACTION TYPES
 const GET_PLANTS = 'GET_PLANTS';
@@ -28,7 +29,7 @@ export const filterPlants = (query) => {
         `/api/plants/search?like=${query}`
       );
       dispatch(getPlants(plants));
-      history.pushState('/searchResults');
+      history.push('/searchResults');
     } catch (error) {
       console.error(error);
     }
