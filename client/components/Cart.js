@@ -173,7 +173,7 @@ export class Cart extends Component {
 				) : (
 					<div className="emptyCart">
 						<button type="button">
-							<Link to="/">Home </Link>
+							<Link to="/home">Home </Link>
 						</button>
 					</div>
 				)}
