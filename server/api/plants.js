@@ -66,12 +66,48 @@ router.post('/', requireToken, isAdmin, async (req, res, next) => {
   }
 });
 
+<<<<<<< HEAD
 router.put('/', requireToken, isAdmin, async (req, res, next) => {
   try {
     const updated = await Plant.update(req.body, {
       where: { id: req.body.id },
     });
     res.json(updated);
+=======
+// requireToken, isAdmin,
+router.put('/:id', async (req, res, next) => {
+  try {
+    const oldPlant = await Plant.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+    if (!oldPlant.active) {
+      throw new Error('Please update an active listing.');
+    }
+
+    const { name, species, price, imageURL, description, quantity } = oldPlant;
+    const whereStatement = {
+      name,
+      species,
+      price,
+      imageURL,
+      description,
+      quantity,
+      ...req.body,
+    };
+
+    const [old, [newPlant, created]] = await Promise.all([
+      oldPlant.update({ active: false }),
+      Plant.findOrCreate({
+        where: whereStatement,
+      }),
+    ]);
+
+    if (!created) await newPlant.update({ active: true });
+
+    res.json(newPlant);
+>>>>>>> main
   } catch (err) {
     next(err);
   }

@@ -16,20 +16,20 @@ const AuthForm = (props) => {
           <label htmlFor="email">
             <small>Email</small>
           </label>
-          <input name="email" type="text" id="email" />
+          <input name="email" type="text" id="email" required />
         </div>
         <div>
           <label htmlFor="password">
             <small>Password</small>
           </label>
-          <input name="password" type="password" id="password" />
+          <input name="password" type="password" id="password" required />
         </div>
         {name === 'signup' ? (
           <div>
             <label htmlFor="userName">
               <small>Name</small>
             </label>
-            <input name="userName" type="text" id="userName" />
+            <input name="userName" type="text" id="userName" required />
           </div>
         ) : (
           ''

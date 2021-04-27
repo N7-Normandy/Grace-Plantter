@@ -44,26 +44,22 @@ export const fetchCart = userId => {
 		}
 	};
 };
-export const getUpdateCart = (userId, plant) => {
+export const getUpdateCart = (userId, plant, quantity) => {
 	return async dispatch => {
 		try {
-			const {data: userCart} = await axios.put(`api/cart/${userId}`, plant);
-			// ?plant=${plant}
-			//req.query. plant ,. convert to number
-			//reppeat for all other thunks
+			const {data: userCart} = await axios.put(
+				`api/cart/${userId}/update?plant=${plant}&quantity=${quantity}`
+			);
 			dispatch(updateCart(userCart));
 		} catch (error) {
 			console.log(error);
 		}
 	};
 };
-export const getCheckoutCart = (userId, paymentInfo) => {
+export const getCheckoutCart = userId => {
 	return async dispatch => {
 		try {
-			const {data: order} = await axios.post(
-				`api/cart/${userId}/checkout`,
-				paymentInfo
-			);
+			const {data: order} = await axios.post(`api/cart/${userId}/checkout`);
 			dispatch(checkoutCart(order));
 		} catch (error) {
 			console.log(error);
@@ -75,8 +71,7 @@ export const getRemoveFromCart = (userId, plantId) => {
 	return async dispatch => {
 		try {
 			const {data: userCart} = await axios.put(
-				`api/cart/${userId}/remove`,
-				plantId
+				`api/cart/${userId}/remove?plantId=${plantId}`
 			);
 			dispatch(removeFromCart(userCart));
 		} catch (error) {
