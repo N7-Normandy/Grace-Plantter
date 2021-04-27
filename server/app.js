@@ -10,18 +10,9 @@ const app = express();
 module.exports = app;
 
 // session middleware
-function extendDefaultFields(defaults, sess) {
-  return {
-    data: defaults.data,
-    expires: defaults.expires,
-    // sessId: defaults.sid,
-  };
-}
-
 const sesStore = new SequelizeStore({
   db,
   table: 'user',
-  // extendDefaultFields,
 });
 
 app.use(
@@ -29,7 +20,7 @@ app.use(
     secret: process.env.JWT,
     store: sesStore,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 31, // a month
     },
