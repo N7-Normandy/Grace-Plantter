@@ -16,21 +16,14 @@ const UPDATE_USER = 'UPDATE_USER';
  */
 const setAuth = (auth) => ({ type: SET_AUTH, auth });
 
-export const logout = () => {
-  window.localStorage.removeItem(TOKEN);
-  history.push('/login');
-  return {
-    type: LOG_OUT,
-    auth: {},
-  };
-};
-
 const updateStore = (updatedUser) => {
   return {
     type: UPDATE_USER,
     updatedUser,
   };
 };
+
+const setLogOut = (auth) => ({ type: LOG_OUT, auth });
 
 /**
  * THUNK CREATORS
@@ -103,6 +96,20 @@ export const updateUser = (id, updatedUser) => {
           history.push('/account/info');
         }
       }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const logout = () => {
+  return async (dispatch) => {
+    try {
+      window.localStorage.removeItem(TOKEN);
+      const { data: session } = await axios.get('/auth/guest');
+      dispatch(setLogOut(session));
+      dispatch(fetchCart(session.id));
+      history.push('/login');
     } catch (error) {
       console.error(error);
     }
