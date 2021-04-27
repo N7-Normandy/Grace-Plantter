@@ -76,7 +76,6 @@ export class Cart extends Component {
 
 	handleRemove(e, plantId) {
 		const {removeFromCart, userId} = this.props;
-		e.preventDefault();
 		removeFromCart(userId, plantId);
 	}
 
