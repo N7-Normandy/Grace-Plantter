@@ -46,11 +46,11 @@ export const fetchCart = userId => {
 };
 export const getUpdateCart = (userId, plant) => {
 	return async dispatch => {
+		console.log('THUNKK', plant);
 		try {
-			const {data: userCart} = await axios.put(`api/cart/${userId}`, plant);
-			// ?plant=${plant}
-			//req.query. plant ,. convert to number
-			//reppeat for all other thunks
+			const {data: userCart} = await axios.put(
+				`api/cart/${userId}?plant=${plant.id}&quantity?=${plant.orderProducts.quantity}`
+			);
 			dispatch(updateCart(userCart));
 		} catch (error) {
 			console.log(error);

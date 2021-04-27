@@ -26,7 +26,9 @@ router.get('/:userId', async (req, res, next) => {
 // update cart
 router.put('/:userId', async (req, res, next) => {
 	try {
-		const changedPlant = await Plant.findByPk(req.body.plant.id);
+		console.log('QUERY', req.query);
+		const {plant, quantity} = req.query.plant;
+		const changedPlant = await Plant.findByPk(plant);
 		const cart = await Order.findOne({
 			where: {
 				userId: req.params.userId,
@@ -38,7 +40,7 @@ router.put('/:userId', async (req, res, next) => {
 			},
 		});
 		await cart.addPlant(changedPlant, {
-			through: {quantity: req.body.plant.orderProducts.quantity},
+			through: {quantity: quantity},
 		});
 		await cart.reload();
 		res.json(cart);
@@ -69,9 +71,6 @@ router.put('/:userId/remove', async (req, res, next) => {
 //checkout
 router.post('/:userId/checkout', async (req, res, next) => {
 	try {
-		//total payment
-
-		//
 		//check if quantity is available
 		const cart = await Order.findOne({
 			where: {

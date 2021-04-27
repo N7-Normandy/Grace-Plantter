@@ -71,7 +71,9 @@ export class Cart extends Component {
 		} else {
 			this.state.cart[index].orderProducts.quantity = Number(e.target.value);
 		}
-		updateCart(userId, {plant: this.state.cart[index]});
+		console.log(this.state.cart[index].orderProducts.quantity);
+		updateCart(userId, this.state.cart[index]);
+		console.log(this.state.cart[index].orderProducts.quantity);
 	}
 
 	handleRemove(e, plantId) {
