@@ -5,12 +5,14 @@ import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
 import Home from './components/Home';
 import SinglePlant from './components/SinglePlant';
+import OrderConfirmation from './components/OrderConfirmation';
 import Cart from './components/Cart';
 import { me } from './store';
 import AllOrders from './components/AllOrders';
 import AccountInfo from './components/AccountInfo';
 import EditAccount from './components/EditAccount';
 import LandingPage from './components/LandingPage';
+import SearchResults from './components/SearchResults';
 
 /**
  * COMPONENT
@@ -41,7 +43,10 @@ class Routes extends Component {
             <Route exact path="/account/info" component={AccountInfo} />
             <Route exact path="/account/past-orders" component={AllOrders} />
             <Route exact path="/account/edit" component={EditAccount} />
-            <Redirect to="/" />
+            <Route path="/searchResults" component={SearchResults} />
+            <Route path="/order-confirmation" component={OrderConfirmation} />
+            <Redirect to="/home" />
+
           </Switch>
         ) : (
           <Switch>
@@ -57,6 +62,8 @@ class Routes extends Component {
                 <SinglePlant plantId={routeProps.match.params.plantId} />
               )}
             />
+            <Route path="/searchResults" component={SearchResults} />
+            <Route path="/order-confirmation" component={OrderConfirmation} />
           </Switch>
         )}
       </div>
