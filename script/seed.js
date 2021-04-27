@@ -1,8 +1,8 @@
 'use strict';
 
 const {
-	db,
-	models: {Order, User, Plant},
+  db,
+  models: { Order, User, Plant },
 } = require('../server/db');
 
 async function orderSeeding() {
@@ -29,7 +29,6 @@ async function orderSeeding() {
  */
 
 async function seed() {
-
   await db.sync({ force: true }); // clears db and matches models to tables
   console.log('db synced!');
 
@@ -171,7 +170,7 @@ async function seed() {
       imageURL:
         'https://images.thdstatic.com/productImages/cf96e081-66ad-410b-8b20-82190ff62aa5/svn/brussel-s-bonsai-bonsai-trees-dt-3066az-64_100.jpg',
       description:
-        'Satsuki Azalea 5-year old plant of the dwarf chinzan variety /n Produces gorgeous pink blossoms in the middle of May /n Comes with deco rock, 8 in. humidity tray and care brochure',
+        'Satsuki Azalea 5-year old plant of the dwarf chinzan variety /n /n Produces gorgeous pink blossoms in the middle of May /n Comes with deco rock, 8 in. humidity tray and care brochure',
       quantity: 12,
     }),
     await Plant.create({
