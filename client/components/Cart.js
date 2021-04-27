@@ -2,6 +2,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {
 	fetchCart,
 	getUpdateCart,
@@ -82,7 +84,45 @@ export class Cart extends Component {
 	handleCheckout(e) {
 		e.preventDefault();
 		const {checkout, userId} = this.props;
-		checkout(userId);
+
+		let inStock = true;
+		let isMoreThanStock = {};
+		for (let index = 0; index < this.state.cart.length; index++) {
+			this.state.cart[index];
+			if (
+				this.state.cart[index].orderProducts.quantity >
+				this.state.cart[index].quantity
+			) {
+				isMoreThanStock = this.state.cart[index];
+				inStock = false;
+				break;
+			}
+		}
+		if (inStock) {
+			checkout(userId);
+			toast.success('Checkout Successful', {
+				position: 'top-right',
+				autoClose: 5000,
+				hideProgressBar: true,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
+		} else {
+			toast.error(
+				`Only ${isMoreThanStock.quantity} left in stock of ${isMoreThanStock.name}!`,
+				{
+					position: 'top-right',
+					autoClose: 5000,
+					hideProgressBar: true,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				}
+			);
+		}
 	}
 
 	render() {
@@ -137,6 +177,17 @@ export class Cart extends Component {
 						</button>
 					</div>
 				)}
+				<ToastContainer
+					position="top-right"
+					autoClose={5000}
+					hideProgressBar
+					newestOnTop={false}
+					closeOnClick
+					rtl={false}
+					pauseOnFocusLoss
+					draggable
+					pauseOnHover
+				/>
 			</div>
 		);
 	}
