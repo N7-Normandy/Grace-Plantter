@@ -30,12 +30,12 @@ router.get('/search', async (req, res, next) => {
         [Op.or]: [
           {
             name: {
-              [Op.substring]: like,
+              [Op.iLike]: `%${like}%`,
             },
           },
           {
             description: {
-              [Op.substring]: like,
+              [Op.iLike]: `%${like}%`,
             },
           },
         ],

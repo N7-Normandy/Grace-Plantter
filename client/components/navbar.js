@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from '../store';
-import { filterPlants } from '../store/plants';
+import { filterPlants } from '../store/searchResults';
 
 class Navbar extends React.Component {
   constructor(props) {
