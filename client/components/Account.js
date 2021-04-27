@@ -1,10 +1,7 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, Switch, Route, Redirect } from 'react-router-dom';
-import AccountInfo from './AccountInfo';
-import AllOrders from './AllOrders';
-import EditAccount from './EditAccount';
+import { Link } from 'react-router-dom';
 
 const Account = ({ userName, isAdmin }) => (
   <div id="user-account">
@@ -17,12 +14,11 @@ const Account = ({ userName, isAdmin }) => (
         {isAdmin ? <Link to="/account/admin">Admin Dashboard</Link> : ''}
       </nav>
     </div>
-    <Switch>
+    {/* <Switch>
       <Route path="/account/info" component={AccountInfo} />
-      <Route path="/account/past-orders" component={AllOrders} />
       <Route path="/account/edit" component={EditAccount} />
       <Redirect to="/account/info" />
-    </Switch>
+    </Switch> */}
   </div>
 );
 
