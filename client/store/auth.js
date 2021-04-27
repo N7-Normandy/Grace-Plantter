@@ -57,7 +57,10 @@ export const me = () => {
           },
         });
         dispatch(setAuth(res.data));
-        console.log(res.data.id);
+        dispatch(fetchCart(res.data.id));
+      } else {
+        const res = await axios.get('/auth/guest');
+        dispatch(setAuth(res.data));
         dispatch(fetchCart(res.data.id));
       }
     } catch (error) {

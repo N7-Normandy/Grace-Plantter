@@ -178,3 +178,18 @@ header {
 .orderBox button {
   font-weight: bold;
 }
+
+.orderBox input {
+  width: 2rem;
+  /* float: right;
+  margin-top: 1.2rem;
+  margin-left: 0.5rem; */
+}
+
+/* .quantity {
+  float: left;
+} */
+
+.orderBox button {
+  font-weight: bold;
+}
