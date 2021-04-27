@@ -66,14 +66,6 @@ router.post('/', requireToken, isAdmin, async (req, res, next) => {
   }
 });
 
-<<<<<<< HEAD
-router.put('/', requireToken, isAdmin, async (req, res, next) => {
-  try {
-    const updated = await Plant.update(req.body, {
-      where: { id: req.body.id },
-    });
-    res.json(updated);
-=======
 // requireToken, isAdmin,
 router.put('/:id', async (req, res, next) => {
   try {
@@ -107,7 +99,6 @@ router.put('/:id', async (req, res, next) => {
     if (!created) await newPlant.update({ active: true });
 
     res.json(newPlant);
->>>>>>> main
   } catch (err) {
     next(err);
   }
