@@ -4,6 +4,11 @@
 
 /* Boiler Plate Styling */
 
+image {
+  max-width: 600px;
+  max-height: 600px;
+}
+
 body {
   background-color: rgba(216, 170, 214, 0.486);
   font-family: sans-serif;
@@ -103,7 +108,7 @@ form div {
 }
 
 .al-center {
-	align-items: center;
+  align-items: center;
 }
 
 /* Landing Page Styles*/
@@ -112,7 +117,7 @@ form div {
 } */
 
 .landing-info {
-	align-items: center;
+  align-items: center;
 }
 
 .carousel-cell {
@@ -142,6 +147,8 @@ header {
   text-align: center;
   border: black;
   border-style: double;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 /* Form Styles */
@@ -159,6 +166,8 @@ header {
 .singleplantImage {
   height: 40vw;
   width: 40vw;
+  max-width: 500px;
+  max-height: 500px;
 }
 
 .description {
@@ -166,7 +175,7 @@ header {
   border-style: solid;
   padding: 1rem;
   padding-right: 1.5rem;
-  margin: 2rem;
+  margin-top: 2rem;
 }
 
 .orderBox {
@@ -174,7 +183,9 @@ header {
   border-style: solid;
   padding: 1rem;
   padding-right: 1.5rem;
-  height: 25rem;
+  max-height: 40vh;
+  min-width: 15vw;
+  max-width: 200px;
 }
 
 .content {
@@ -187,34 +198,33 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: min-content;
 }
 
 .orderBox input {
   width: 2rem;
-  /* float: right;
-  margin-top: 1.2rem;
-  margin-left: 0.5rem; */
 }
 
-/* .quantity {
-  float: left;
-} */
+.orderBox input {
+  width: 2rem;
+}
 
 .orderBox button {
   font-weight: bold;
 }
 
-.orderBox input {
-  width: 2rem;
-  /* float: right;
-  margin-top: 1.2rem;
-  margin-left: 0.5rem; */
+.orderImg {
+  width: 15rem;
 }
 
-/* .quantity {
-  float: left;
-} */
+.orders-list,
+.recent-order,
+.confirmationContent {
+  margin-left: 4rem;
+  margin-top: 1rem;
+}
 
-.orderBox button {
-  font-weight: bold;
+.singlePlantBody {
+  max-width: 1500px;
+  margin: auto;
 }

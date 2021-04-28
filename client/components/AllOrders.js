@@ -18,10 +18,10 @@ class AllOrders extends Component {
 
     return (
       <>
-      <Account />
+        <Account />
         {orders.length ? (
           orders.map((order, idx, arr) => (
-            <div key={order.id}>
+            <div className="orders-list" key={order.id}>
               <h3>Order #{arr.length - idx}</h3>
               <Order order={order} />
             </div>
