@@ -37,8 +37,6 @@ class DashBoard extends Component {
 		this.props.updatePlants({plantsList: plantsList});
 	};
 	render() {
-		console.log('PROPs', this.props.plants);
-		console.log('STATE', this.state.plants);
 		return (
 			<div className="dashboard">
 				{this.props.isAdmin ? (
@@ -56,7 +54,6 @@ class DashBoard extends Component {
 											<th>Species</th>
 											<th>Active</th>
 											<th>Image URL</th>
-											<th>Remove</th>
 										</tr>
 									</thead>
 									<tbody>

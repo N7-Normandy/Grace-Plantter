@@ -120,9 +120,6 @@ class AllPlants extends Component {
 						onChange={handleChange}
 					/>
 				</td>
-				<td className="admin">
-					<button type="button">Remove</button>
-				</td>
 			</tr>
 		);
 	}

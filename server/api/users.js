@@ -109,6 +109,7 @@ router.put('/:userId/orders', async (req, res, next) => {
 			cart = await Order.create({include: {model: Plant}});
 			const user = await User.findByPk(req.params.userId);
 			await user.addOrder(cart);
+			await user.reload();
 		}
 		const plant = await Plant.findByPk(req.body.plantId);
 		await cart.addPlant(plant, {through: {quantity: req.body.quantity}});
