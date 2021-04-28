@@ -2,7 +2,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
-import { Login, Signup } from './components/AuthForm';
 import Home from './components/Home';
 import SinglePlant from './components/SinglePlant';
 import OrderConfirmation from './components/OrderConfirmation';
@@ -31,7 +30,7 @@ class Routes extends Component {
           <Switch>
             <Route exact path="/" component={LandingPage} />
             <Route path="/home" component={LandingPage} />
-            <Route path="/plants" component={Home} />
+            <Route exact path="/plants" component={Home} />
             <Route path="/cart" component={Cart} />
             <Route
               path="/plants/:plantId"
@@ -39,22 +38,20 @@ class Routes extends Component {
                 <SinglePlant plantId={routeProps.match.params.plantId} />
               )}
             />
-            {/* <Route exact path="/account" component={Account} /> */}
             <Route exact path="/account/info" component={AccountInfo} />
             <Route exact path="/account/past-orders" component={AllOrders} />
             <Route exact path="/account/edit" component={EditAccount} />
             <Route path="/searchResults" component={SearchResults} />
             <Route path="/order-confirmation" component={OrderConfirmation} />
             <Redirect to="/home" />
-
           </Switch>
         ) : (
           <Switch>
-            <Route path="/plants" component={Home} />
             <Route exact path="/" component={LandingPage} />
             <Route path="/home" component={LandingPage} />
             <Route path="/login" component={LandingPage} />
             <Route path="/signup" component={LandingPage} />
+            <Route exact path="/plants" component={Home} />
             <Route path="/cart" component={Cart} />
             <Route
               path="/plants/:plantId"
@@ -64,6 +61,7 @@ class Routes extends Component {
             />
             <Route path="/searchResults" component={SearchResults} />
             <Route path="/order-confirmation" component={OrderConfirmation} />
+            <Redirect to="/login" />
           </Switch>
         )}
       </div>
