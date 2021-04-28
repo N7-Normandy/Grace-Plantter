@@ -12,7 +12,6 @@ class Home extends React.Component {
 		const {plants} = this.props;
 		return (
 			<div className="plants-container">
-				{/* <h3>Welcome, {username}</h3> */}
 				{plants.map(plant => (
 					<Plant key={plant.id} plant={plant} />
 				))}

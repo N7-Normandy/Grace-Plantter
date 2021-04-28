@@ -11,21 +11,19 @@ import {
   getRemoveFromCart,
 } from '../store/cart';
 
-//
-
-export class Cart extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      cart: [],
-      totalPrice: 0,
-      paymentType: 'card',
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleCheckout = this.handleCheckout.bind(this);
-    this.handleRemove = this.handleRemove.bind(this);
-    this.calculateTotal = this.calculateTotal.bind(this);
-  }
+class Cart extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			cart: [],
+			totalPrice: 0,
+			paymentType: 'card',
+		};
+		this.handleChange = this.handleChange.bind(this);
+		this.handleCheckout = this.handleCheckout.bind(this);
+		this.handleRemove = this.handleRemove.bind(this);
+		this.calculateTotal = this.calculateTotal.bind(this);
+	}
 
   calculateTotal() {
     if (!this.props.cart.plants) {

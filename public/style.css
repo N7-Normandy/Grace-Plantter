@@ -150,16 +150,22 @@ header {
   margin-left: 1rem;
   margin-right: 1rem;
 }
+.adminPlantHeader {
+	text-align: center;
+}
 
 /* Form Styles */
 .full-form {
-  align-items: center;
+	align-items: center;
 }
 
 .full-form > input {
-  min-width: 250px;
-  margin-top: 0.25rem;
-  margin-bottom: 0.5rem;
+	min-width: 250px;
+	margin-top: 0.25rem;
+	margin-bottom: 0.5rem;
+}
+.saveChanges {
+	margin-top: 25px;
 }
 
 /* Other Styles */
@@ -200,30 +206,30 @@ header {
   align-items: center;
   max-width: min-content;
 }
-
 .orderBox input {
   width: 2rem;
 }
-
-.orderBox input {
-  width: 2rem;
-}
-
 .orderBox button {
-  font-weight: bold;
+	font-weight: bold;
+}
+.myTable {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
+.admin {
+	padding-bottom: 10px;
+}
 .orderImg {
   width: 15rem;
 }
-
 .orders-list,
 .recent-order,
 .confirmationContent {
   margin-left: 4rem;
   margin-top: 1rem;
 }
-
 .singlePlantBody {
   max-width: 1500px;
   margin: auto;
