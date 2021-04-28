@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from '../store';
-import { filterPlants } from '../store/searchResults';
+import history from '../history';
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -25,8 +25,7 @@ class Navbar extends React.Component {
     this.setState({
       search: '',
     });
-    const { handleSearch } = this.props;
-    handleSearch(evt.target.search.value);
+    history.push(`/search?query=${evt.target.search.value}`);
   };
 
   render() {
@@ -91,9 +90,6 @@ const mapDispatch = (dispatch) => {
   return {
     handleClick() {
       dispatch(logout());
-    },
-    handleSearch(query) {
-      dispatch(filterPlants(query));
     },
   };
 };
