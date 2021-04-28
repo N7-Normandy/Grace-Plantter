@@ -21,10 +21,15 @@ class AllPlants extends Component {
 			imageURL: imageURL || '',
 			description: description || '',
 			active: active || false,
-			price: price || 0,
+			price: price / 100 || 0,
 			quantity: quantity || 0,
 			species: species || '',
 		};
+	}
+	componentDidUpdate(prevProps) {
+		if (this.props.plant !== prevProps.plant) {
+			this.setState({...this.props.plant, price: this.props.plant.price / 100});
+		}
 	}
 	handleChange = e => {
 		e.preventDefault();
@@ -59,10 +64,10 @@ class AllPlants extends Component {
 				</td>
 				<td className="admin">
 					<input
-						type="text"
+						type="number"
 						name="price"
 						id={id}
-						value={price / 100}
+						value={price}
 						onChange={handleChange}
 						required
 					/>

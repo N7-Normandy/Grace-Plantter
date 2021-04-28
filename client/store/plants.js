@@ -4,6 +4,7 @@ import axios from 'axios';
 const GET_PLANTS = 'GET_PLANTS';
 const GET_ALL_PLANTS = 'GET_ALL_PLANTS';
 const UPDATE_ALL_PLANTS = 'UPDATE_ALL_PLANTS';
+const CREATE_PLANT = 'CREATE_PLANT';
 
 // ACTION CREATORS
 const getPlants = plants => ({
@@ -17,6 +18,10 @@ const getAllPlants = plants => ({
 const updateAllPlants = plants => ({
 	type: UPDATE_ALL_PLANTS,
 	plants,
+});
+const createAPlant = plant => ({
+	type: CREATE_PLANT,
+	plant,
 });
 
 // THUNK MIDDLEWARE
@@ -45,6 +50,16 @@ export const getUpdatedPlants = plants => {
 		try {
 			const {data: allPlants} = await axios.post(`/api/plants/update`, plants);
 			dispatch(updateAllPlants(allPlants));
+		} catch (error) {
+			console.log('Failed to get plants', error);
+		}
+	};
+};
+export const createPlant = plant => {
+	return async dispatch => {
+		try {
+			const {data: newPlant} = await axios.post(`/api/plants/`, plant);
+			dispatch(createAPlant(newPlant));
 		} catch (error) {
 			console.log('Failed to get plants', error);
 		}

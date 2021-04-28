@@ -15,7 +15,7 @@ class DashBoard extends Component {
 		this.setState({plants: this.props.plants});
 	}
 	componentDidUpdate(prevProps) {
-		if (this.props.plants != prevProps.plants) {
+		if (this.props.plants !== prevProps.plants) {
 			this.setState({plants: this.props.plants});
 		}
 	}
@@ -27,7 +27,7 @@ class DashBoard extends Component {
 				id: plant.id,
 				name: e.target.name[index].value,
 				species: e.target.species[index].value,
-				price: e.target.price[index].value,
+				price: +e.target.price[index].value,
 				imageURL: e.target.imageURL[index].value,
 				description: e.target.description[index].value,
 				quantity: e.target.quantity[index].value,
@@ -37,6 +37,8 @@ class DashBoard extends Component {
 		this.props.updatePlants({plantsList: plantsList});
 	};
 	render() {
+		console.log('PROPs', this.props.plants);
+		console.log('STATE', this.state.plants);
 		return (
 			<div className="dashboard">
 				{this.props.isAdmin ? (
@@ -59,7 +61,7 @@ class DashBoard extends Component {
 									</thead>
 									<tbody>
 										{this.state.plants
-											.sort((a, b) => a.id - b.id)
+											.sort((a, b) => a.name - b.name)
 											.map(plant => {
 												return (
 													<AllPlantsInDataBase plant={plant} key={plant.id} />

@@ -27,15 +27,55 @@ router.get('/all', async (req, res, next) => {
 		next(err);
 	}
 });
+/*
+Goal: If plant price is changed, then deactivate plant and create a new instance,
+else update plant information
+This will make our database have a plant history
+*/
 router.post('/update', async (req, res, next) => {
 	try {
 		const {plantsList} = req.body;
+		//list for plants with changed price
+		const changedPricePlants = [];
+		//list for plants with changed information excluding price
+		const changedPlants = [];
+		for (let i = 0; i < plantsList.length; i++) {
+			const plant = await Plant.findByPk(plantsList[i].id);
+			if (plant.price === plantsList[i].price * 100)
+				changedPlants.push(plantsList[i]);
+			else {
+				changedPricePlants.push(plantsList[i]);
+			}
+		}
+		//set plants with changed price to deactivate
+		const changing = await Promise.all(
+			changedPricePlants.map(plant => {
+				return Plant.update({active: false}, {where: {id: plant.id}});
+			})
+		);
+		console.log(changing);
+		//creates new plant instance for new priced plants
 		await Promise.all(
-			plantsList.map(plant => {
+			changedPricePlants.map(plant => {
+				return Plant.create({
+					name: plant.name,
+					species: plant.species,
+					price: plant.price,
+					imageURL: plant.imageURL,
+					description: plant.description,
+					quantity: plant.quantity,
+				});
+			})
+		);
+		//updates a plants information that didnt need a price change
+		await Promise.all(
+			changedPlants.map(plant => {
 				return Plant.update(plant, {where: {id: plant.id}});
 			})
 		);
+
 		const plants = await Plant.findAll();
+		// await plants.reload();
 		res.json(plants);
 	} catch (err) {
 		next(err);
