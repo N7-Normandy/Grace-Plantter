@@ -3,6 +3,7 @@ import axios from 'axios';
 // ACTION TYPES
 const GET_PLANTS = 'GET_PLANTS';
 const GET_ALL_PLANTS = 'GET_ALL_PLANTS';
+const UPDATE_ALL_PLANTS = 'UPDATE_ALL_PLANTS';
 
 // ACTION CREATORS
 const getPlants = plants => ({
@@ -11,6 +12,10 @@ const getPlants = plants => ({
 });
 const getAllPlants = plants => ({
 	type: GET_ALL_PLANTS,
+	plants,
+});
+const updateAllPlants = plants => ({
+	type: UPDATE_ALL_PLANTS,
 	plants,
 });
 
@@ -35,7 +40,16 @@ export const fetchAllPlants = () => {
 		}
 	};
 };
-
+export const getUpdatedPlants = plants => {
+	return async dispatch => {
+		try {
+			const {data: allPlants} = await axios.post(`/api/plants/update`, plants);
+			dispatch(updateAllPlants(allPlants));
+		} catch (error) {
+			console.log('Failed to get plants', error);
+		}
+	};
+};
 // REDUCER
 const initialState = [];
 const plantsReducer = (state = initialState, action) => {
@@ -43,6 +57,8 @@ const plantsReducer = (state = initialState, action) => {
 		case GET_PLANTS:
 			return action.plants;
 		case GET_ALL_PLANTS:
+			return action.plants;
+		case UPDATE_ALL_PLANTS:
 			return action.plants;
 		default:
 			return state;

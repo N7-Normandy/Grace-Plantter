@@ -18,7 +18,7 @@ router.get('/', async (req, res, next) => {
 		next(err);
 	}
 });
-
+// for alll plants on admin dashboard
 router.get('/all', async (req, res, next) => {
 	try {
 		const plants = await Plant.findAll();
@@ -27,6 +27,21 @@ router.get('/all', async (req, res, next) => {
 		next(err);
 	}
 });
+router.post('/update', async (req, res, next) => {
+	try {
+		const {plantsList} = req.body;
+		await Promise.all(
+			plantsList.map(plant => {
+				return Plant.update(plant, {where: {id: plant.id}});
+			})
+		);
+		const plants = await Plant.findAll();
+		res.json(plants);
+	} catch (err) {
+		next(err);
+	}
+});
+
 // GET /api/plants/:plantId
 router.get('/:plantId', async (req, res, next) => {
 	try {

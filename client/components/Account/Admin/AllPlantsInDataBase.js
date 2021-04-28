@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {fetchAllPlants} from '../../../store/plants';
-
+import {getUpdatedPlants} from '../../../store/plants';
 class AllPlants extends Component {
 	constructor(props) {
 		super(props);
@@ -28,11 +27,7 @@ class AllPlants extends Component {
 		};
 	}
 	handleChange = e => {
-		this.setState({
-			[e.target.name]: e.target.value,
-		});
-	};
-	handleSubmit = e => {
+		e.preventDefault();
 		this.setState({
 			[e.target.name]: e.target.value,
 		});
@@ -48,27 +43,27 @@ class AllPlants extends Component {
 			quantity,
 			species,
 		} = this.state;
+
+		const {handleChange} = this;
 		return (
 			<tr>
 				<td className="admin">
-					<Link to={`/plants/${id}`}>
-						<input
-							type="text"
-							name="name"
-							id="name"
-							value={name}
-							onChange={this.handleChange}
-							required
-						/>{' '}
-					</Link>
+					<input
+						type="text"
+						name="name"
+						id={id}
+						value={name}
+						onChange={handleChange}
+						required
+					/>
 				</td>
 				<td className="admin">
 					<input
 						type="text"
 						name="price"
-						id="price"
+						id={id}
 						value={price / 100}
-						onChange={this.handleChange}
+						onChange={handleChange}
 						required
 					/>
 				</td>
@@ -78,7 +73,7 @@ class AllPlants extends Component {
 						name="quantity"
 						id="quantity"
 						value={quantity}
-						onChange={this.handleChange}
+						onChange={handleChange}
 						required
 					/>
 				</td>
@@ -88,7 +83,7 @@ class AllPlants extends Component {
 						name="description"
 						id="description"
 						value={description}
-						onChange={this.handleChange}
+						onChange={handleChange}
 					/>
 				</td>
 				<td className="admin">
@@ -97,17 +92,19 @@ class AllPlants extends Component {
 						name="species"
 						id="species"
 						value={species}
-						onChange={this.handleChange}
+						onChange={handleChange}
 					/>
 				</td>
 				<td className="admin">
-					<input
-						type="text"
+					<select
+						onChange={handleChange}
 						name="active"
 						id="active"
 						value={active}
-						onChange={this.handleChange}
-					/>
+					>
+						<option value={true}>True</option>
+						<option value={false}>False</option>
+					</select>
 				</td>
 				<td className="admin">
 					<input
@@ -115,7 +112,7 @@ class AllPlants extends Component {
 						name="imageURL"
 						id="imageURL"
 						value={imageURL}
-						onChange={this.handleChange}
+						onChange={handleChange}
 					/>
 				</td>
 				<td className="admin">
