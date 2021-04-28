@@ -43,7 +43,7 @@ class DashBoard extends Component {
 					this.state.plants.length > 0 ? (
 						<div>
 							<h1 className="adminPlantHeader">Your Plants</h1>
-							<form onSubmit={this.handleSubmit}>
+							<form className="myTable" onSubmit={this.handleSubmit}>
 								<table>
 									<thead>
 										<tr>
@@ -58,7 +58,15 @@ class DashBoard extends Component {
 									</thead>
 									<tbody>
 										{this.state.plants
-											.sort((a, b) => a.name - b.name)
+											.sort((a, b) => {
+												if (a.name < b.name) {
+													return -1;
+												}
+												if (a.name < b.name) {
+													return 1;
+												}
+												return 0;
+											})
 											.map(plant => {
 												return (
 													<AllPlantsInDataBase plant={plant} key={plant.id} />

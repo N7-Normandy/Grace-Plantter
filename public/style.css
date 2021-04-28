@@ -133,7 +133,7 @@ header {
 	margin-bottom: 0.5rem;
 }
 .saveChanges {
-	text-align: end;
+	margin-top: 25px;
 }
 
 /* Other Styles */
@@ -172,14 +172,7 @@ header {
 
 .orderBox input {
 	width: 2rem;
-	/* float: right;
-  margin-top: 1.2rem;
-  margin-left: 0.5rem; */
 }
-
-/* .quantity {
-  float: left;
-} */
 
 .orderBox button {
 	font-weight: bold;
@@ -187,15 +180,18 @@ header {
 
 .orderBox input {
 	width: 2rem;
-	/* float: right;
-  margin-top: 1.2rem;
-  margin-left: 0.5rem; */
 }
-
-/* .quantity {
-  float: left;
-} */
 
 .orderBox button {
 	font-weight: bold;
+}
+
+.myTable {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.admin {
+	padding-bottom: 10px;
 }
