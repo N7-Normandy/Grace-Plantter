@@ -8,8 +8,17 @@ import plants from './plants';
 import plant from './singlePlant';
 import recentOrder from './recentOrder';
 import orders from './orders';
+import searchResults from './searchResults';
 
-const reducer = combineReducers({ auth, cart, plants, recentOrder, orders, plant });
+const reducer = combineReducers({
+  auth,
+  cart,
+  plants,
+  recentOrder,
+  orders,
+  plant,
+  searchResults,
+});
 
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))

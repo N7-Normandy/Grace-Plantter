@@ -1,5 +1,6 @@
 const {response} = require('express');
 const express = require('express');
+const { Op } = require('sequelize');
 const router = express.Router();
 const Plant = require('../db/models/plant');
 const {requireToken, isAdmin} = require('./gatekeepingmiddleware');
@@ -80,6 +81,33 @@ router.post('/update', async (req, res, next) => {
 	} catch (err) {
 		next(err);
 	}
+});
+
+// GET filtered plants
+router.get('/search', async (req, res, next) => {
+  try {
+    const { like } = req.query;
+    const plants = await Plant.findAll({
+      where: {
+        active: true,
+        [Op.or]: [
+          {
+            name: {
+              [Op.iLike]: `%${like}%`,
+            },
+          },
+          {
+            description: {
+              [Op.iLike]: `%${like}%`,
+            },
+          },
+        ],
+      },
+    });
+    res.json(plants);
+  } catch (err) {
+    next(err);
+  }
 });
 
 // GET /api/plants/:plantId

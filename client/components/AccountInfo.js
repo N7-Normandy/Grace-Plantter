@@ -18,9 +18,9 @@ class AccountInfo extends React.Component {
 
     return (
       <>
-      <Account />
+        <Account />
 
-        <div id="info">
+        <div className="info" id="info">
           <table>
             <tbody>
               <tr>
@@ -34,12 +34,12 @@ class AccountInfo extends React.Component {
             </tbody>
           </table>
         </div>
-        <div>
+        <div className="recent-order">
           <h3>Your Most Recent Order</h3>
           {recentOrder.id ? (
             <Order order={recentOrder} />
           ) : (
-            <Link to="/home">Start shopping!</Link>
+            <Link to="/plants">Start shopping!</Link>
           )}
         </div>
       </>

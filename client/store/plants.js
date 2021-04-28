@@ -1,4 +1,5 @@
 import axios from 'axios';
+import history from '../history';
 
 // ACTION TYPES
 const GET_PLANTS = 'GET_PLANTS';
@@ -22,6 +23,7 @@ const updateAllPlants = plants => ({
 const createAPlant = plant => ({
 	type: CREATE_PLANT,
 	plant,
+
 });
 
 // THUNK MIDDLEWARE
