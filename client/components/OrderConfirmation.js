@@ -17,10 +17,10 @@ class OrderConfirmation extends React.Component {
 
     return (
       <>
-        <div>
-          <div className="title">
-            <h2>Order Confirmation</h2>
-          </div>
+        <div className="title">
+          <h2>Order Confirmation</h2>
+        </div>
+        <div className="confirmationContent">
           {recentOrder.id ? (
             <Order order={recentOrder} />
           ) : (

@@ -40,7 +40,7 @@ class SinglePlant extends React.Component {
       };
       this.props.addItems(this.props.userId, items);
       toast.success('Added to cart!', {
-        position: 'top-right',
+        position: 'top-center',
         autoClose: 5000,
         hideProgressBar: true,
         closeOnClick: true,
@@ -50,7 +50,7 @@ class SinglePlant extends React.Component {
       });
     } else {
       toast.error(`Only ${this.props.plant.quantity} left in stock!`, {
-        position: 'top-right',
+        position: 'top-center',
         autoClose: 5000,
         hideProgressBar: true,
         closeOnClick: true,
@@ -76,38 +76,42 @@ class SinglePlant extends React.Component {
         <div className="title">
           <h2>{plant.name}</h2>
         </div>
-        <div className="content">
-          <div className="infoBox">
-            <img className="singleplantImage" src={plant.imageURL} />
-            <div className="description">
-              <h3>DESCRIPTION</h3>
-              <ul>
-                {description.split('/n').map((line, idx) => {
-                  if (idx === 0) {
-                    return <p key={line}>{line}</p>;
-                  }
-                  if (line.length > 1) {
-                    return <li key={line}>{line}</li>;
-                  } else {
-                    return <p key={line}></p>;
-                  }
-                })}
-              </ul>
+        <div className="singlePlantBody">
+          <div className="content">
+            <div className="infoBox">
+              <img className="singleplantImage" src={plant.imageURL} />
+              <div className="description">
+                <h3>DESCRIPTION</h3>
+                <ul>
+                  {description.split('/n').map((line, idx) => {
+                    if (idx === 0) {
+                      return <p key={line}>{line}</p>;
+                    }
+                    if (line.length > 1) {
+                      return <li key={line}>{line}</li>;
+                    } else {
+                      return <p key={line}></p>;
+                    }
+                  })}
+                </ul>
+              </div>
             </div>
-          </div>
-          <div className="orderBox">
-            <form id="add-to-cart-form" onSubmit={this.addToCart}>
-              <h3 className="quantity">Quantity: </h3>
-              <input
-                name="purchaseQty"
-                onChange={this.changeQuantity}
-                value={this.state.purchaseQty}
-              />
-              <h3>Price: ${plant.price / 100}</h3>
-              <button type="submit">
-                {isInCart ? 'Update Cart Total' : 'Add to Cart'}
-              </button>
-            </form>
+            <div className="orderBox">
+              <form id="add-to-cart-form" onSubmit={this.addToCart}>
+                <h3 className="quantity">Quantity: </h3>
+                <input
+                  name="purchaseQty"
+                  onChange={this.changeQuantity}
+                  value={this.state.purchaseQty}
+                />
+                <h3>Price: ${plant.price / 100}</h3>
+                <div className="addButton">
+                  <button type="submit">
+                    {isInCart ? 'Update Cart Quantity' : 'Add to Cart'}
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
         <ToastContainer
