@@ -14,11 +14,9 @@ const gotPlants = (plants) => ({
 export const filterPlants = (query) => {
   return async (dispatch) => {
     try {
-      const { data: plants } = await axios.get(
-        `/api/plants/search?like=${query}`
-      );
+      const { data: plants } = await axios.get(`/api/plants/search${query}`);
       dispatch(gotPlants(plants));
-      history.push('/searchResults');
+      // history.push('/searchResults');
     } catch (error) {
       console.error(error);
     }

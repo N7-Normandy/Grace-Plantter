@@ -48,13 +48,13 @@ router.post('/update', requireToken, isAdmin, async (req, res, next) => {
         changedPricePlants.push(plantsList[i]);
       }
     }
+
     // set plants with changed price to deactivate
     const changing = await Promise.all(
       changedPricePlants.map((plant) => {
         return Plant.update({ active: false }, { where: { id: plant.id } });
       })
     );
-
     // creates new plant instance for new priced plants
     await Promise.all(
       changedPricePlants.map((plant) => {
@@ -86,19 +86,19 @@ router.post('/update', requireToken, isAdmin, async (req, res, next) => {
 // GET filtered plants
 router.get('/search', async (req, res, next) => {
   try {
-    const { like } = req.query;
+    const { query } = req.query;
     const plants = await Plant.findAll({
       where: {
         active: true,
         [Op.or]: [
           {
             name: {
-              [Op.iLike]: `%${like}%`,
+              [Op.iLike]: `%${query}%`,
             },
           },
           {
             description: {
-              [Op.iLike]: `%${like}%`,
+              [Op.iLike]: `%${query}%`,
             },
           },
         ],
