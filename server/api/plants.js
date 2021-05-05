@@ -20,7 +20,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 // for alll plants on admin dashboard
-router.get('/all', async (req, res, next) => {
+router.get('/all', requireToken, isAdmin, async (req, res, next) => {
   try {
     const plants = await Plant.findAll();
     res.json(plants);
@@ -33,12 +33,12 @@ Goal: If plant price is changed, then deactivate plant and create a new instance
 else update plant information
 This will make our database have a plant history
 */
-router.post('/update', async (req, res, next) => {
+router.post('/update', requireToken, isAdmin, async (req, res, next) => {
   try {
     const { plantsList } = req.body;
-    //list for plants with changed price
+    // list for plants with changed price
     const changedPricePlants = [];
-    //list for plants with changed information excluding price
+    // list for plants with changed information excluding price
     const changedPlants = [];
     for (let i = 0; i < plantsList.length; i++) {
       const plant = await Plant.findByPk(plantsList[i].id);
@@ -48,14 +48,14 @@ router.post('/update', async (req, res, next) => {
         changedPricePlants.push(plantsList[i]);
       }
     }
-    //set plants with changed price to deactivate
+
+    // set plants with changed price to deactivate
     const changing = await Promise.all(
       changedPricePlants.map((plant) => {
         return Plant.update({ active: false }, { where: { id: plant.id } });
       })
     );
-    console.log(changing);
-    //creates new plant instance for new priced plants
+    // creates new plant instance for new priced plants
     await Promise.all(
       changedPricePlants.map((plant) => {
         return Plant.create({
@@ -68,7 +68,7 @@ router.post('/update', async (req, res, next) => {
         });
       })
     );
-    //updates a plants information that didnt need a price change
+    // updates a plants information that didnt need a price change
     await Promise.all(
       changedPlants.map((plant) => {
         return Plant.update(plant, { where: { id: plant.id } });
@@ -130,7 +130,7 @@ router.post('/', requireToken, isAdmin, async (req, res, next) => {
 });
 
 // requireToken, isAdmin,
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', requireToken, isAdmin, async (req, res, next) => {
   try {
     const oldPlant = await Plant.findOne({
       where: {
@@ -170,7 +170,7 @@ router.put('/:id', async (req, res, next) => {
 router.delete('/:id', requireToken, isAdmin, async (req, res, next) => {
   try {
     const deleted = await Plant.destroy({ where: { id: req.params.id } });
-    //check if breaks but send status only
+    // check if breaks but send status only
     // res.status(204).json(deleted);
     res.sendStatus(204);
   } catch (err) {
